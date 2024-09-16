@@ -1,6 +1,3 @@
-import { Checkbox } from "@/components/ui/checkbox";
-import { DatePicker } from "@/components/ui/datePicker";
-
 const HomePage = () => {
   return (
     <>
