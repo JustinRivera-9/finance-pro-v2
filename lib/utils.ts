@@ -13,3 +13,5 @@ export const fixedDateArray = () => {
 
   return arr;
 };
+
+export const parseStringify = (value: any) => JSON.parse(JSON.stringify(value));
