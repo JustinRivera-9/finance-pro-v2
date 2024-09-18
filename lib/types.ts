@@ -14,3 +14,9 @@ export type CategoryFormData = {
   type: string;
   fixedDate: string;
 };
+
+// PLAID TYPES
+export type ExchangePublicTokenProps = {
+  publicToken: string;
+  user: any;
+};
