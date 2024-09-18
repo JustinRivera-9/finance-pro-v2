@@ -3,6 +3,7 @@ import Link from "next/link";
 import SpaceDashboardIcon from "@mui/icons-material/SpaceDashboard";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import PaidIcon from "@mui/icons-material/Paid";
+import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import { usePathname } from "next/navigation";
 
 const MobileNavigation = () => {
@@ -33,6 +34,16 @@ const MobileNavigation = () => {
             className={path.startsWith("/spent") ? "text-accent" : ""}
           >
             <PaidIcon fontSize="large" />
+          </Link>
+        </li>
+        <li>
+          <Link
+            href="/connected-accounts"
+            className={
+              path.startsWith("/connected-accounts") ? "text-accent" : ""
+            }
+          >
+            <AccountBalanceIcon fontSize="large" />
           </Link>
         </li>
       </ul>
