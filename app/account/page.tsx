@@ -4,6 +4,7 @@ import DeleteAccount from "@/components/pages/account/DeleteAccount";
 import PasswordSection from "@/components/pages/account/PasswordSection";
 import PersonalSection from "@/components/pages/account/PersonalSection";
 import UpgradeAccount from "@/components/pages/account/Upgrade/UpgradeAccount";
+import LogoutButton from "@/components/pages/account/LogoutButton";
 
 const AccountPage = () => {
   return (
@@ -13,6 +14,7 @@ const AccountPage = () => {
       <AccountSection />
       <ContactForm />
       <UpgradeAccount />
+      <LogoutButton />
       <DeleteAccount />
     </div>
   );
