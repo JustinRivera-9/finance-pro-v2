@@ -20,8 +20,8 @@ const PlanSection = ({ title, price, content, current }: PlanSectionProps) => {
         </h2>
         <p>{price}</p>
       </div>
-      {content.map((item) => (
-        <p className="text-lg flex gap-1">
+      {content.map((item, i) => (
+        <p key={i} className="text-lg flex gap-1">
           <KeyboardArrowRightIcon />
           {item}
         </p>
