@@ -13,8 +13,11 @@ import { Switch } from "@/components/ui/switch";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { AccountPreferencesSchema } from "@/schema";
+import { useUser } from "@/context/UserContext";
 
 const AccountSection = () => {
+  const user = useUser();
+
   // SET DEFAULT VALUES TO USER OBJECT
   // if (form field !== user object) => show update button --> means user has updated information
 

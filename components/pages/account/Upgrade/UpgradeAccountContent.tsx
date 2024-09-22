@@ -3,6 +3,7 @@
 import { PRO_PRICE } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
 import PlanSection from "./PlanSection";
+import { useUser } from "@/context/UserContext";
 
 const basicPlan = [
   "Institution level security",
@@ -18,6 +19,8 @@ const proPlan = [
 ];
 
 const UpgradeAccountContent = () => {
+  const user = useUser();
+
   return (
     <div className="flex flex-col gap-4 px-4">
       <PlanSection

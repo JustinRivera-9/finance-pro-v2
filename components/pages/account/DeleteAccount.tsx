@@ -1,8 +1,11 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import DrawerCard from "@/components/ui/DrawerCard";
+import { useUser } from "@/context/UserContext";
 
 const DeleteAccount = () => {
+  const user = useUser();
+
   return (
     <DrawerCard
       title="This action cannot be undone"

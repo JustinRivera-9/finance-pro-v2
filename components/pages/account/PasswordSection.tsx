@@ -16,8 +16,11 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
+import { useUser } from "@/context/UserContext";
 
 const PasswordSection = () => {
+  const user = useUser();
+
   // SET DEFAULT VALUES TO USER OBJECT
   // if (form field !== user object) => show update button --> means user has updated information
   const form = useForm<z.infer<typeof PasswordFormSchema>>({
