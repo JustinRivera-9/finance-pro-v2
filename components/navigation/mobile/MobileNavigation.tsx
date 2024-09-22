@@ -14,33 +14,33 @@ const MobileNavigation = () => {
       <ul className="flex justify-around">
         <li>
           <Link
-            href="/dashboard"
-            className={path.startsWith("/dashboard") ? "text-accent" : ""}
+            href="/app/dashboard"
+            className={path === "/app/dashboard" ? "text-accent" : ""}
           >
             <SpaceDashboardIcon fontSize="large" />
           </Link>
         </li>
         <li>
           <Link
-            href="/planned"
-            className={path.startsWith("/planned") ? "text-accent" : ""}
+            href="/app/planned"
+            className={path.startsWith("/app/planned") ? "text-accent" : ""}
           >
             <AppRegistrationIcon fontSize="large" />
           </Link>
         </li>
         <li>
           <Link
-            href="/spent"
-            className={path.startsWith("/spent") ? "text-accent" : ""}
+            href="/app/spent"
+            className={path.startsWith("/app/spent") ? "text-accent" : ""}
           >
             <PaidIcon fontSize="large" />
           </Link>
         </li>
         <li>
           <Link
-            href="/connected-accounts"
+            href="/app/connected-accounts"
             className={
-              path.startsWith("/connected-accounts") ? "text-accent" : ""
+              path.startsWith("/app/connected-accounts") ? "text-accent" : ""
             }
           >
             <AccountBalanceIcon fontSize="large" />

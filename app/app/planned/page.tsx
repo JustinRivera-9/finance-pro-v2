@@ -1,6 +1,6 @@
-import Summary from "../../components/pages/plannedPage/Summary";
-import CategorySection from "../../components/pages/plannedPage/CategorySection";
-import AddCategoryForm from "../../components/pages/plannedPage/addCategory/AddCategoryForm";
+import Summary from "../../../components/pages/plannedPage/Summary";
+import CategorySection from "../../../components/pages/plannedPage/CategorySection";
+import AddCategoryForm from "../../../components/pages/plannedPage/addCategory/AddCategoryForm";
 
 ///// TEMP DATA
 const planned = {
