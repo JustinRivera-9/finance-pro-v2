@@ -1,16 +1,15 @@
-// components/LogoutButton.tsx
-"use client"; // Ensure this is at the top to mark it as a client component
+"use client";
 
+import { logoutUser } from "@/app/app/account/actions";
 import { Button } from "@/components/ui/button";
-import { logoutUser } from "@/lib/supabase/utils";
-import { useRouter } from "next/navigation"; // Import useRouter
+import { useRouter } from "next/navigation";
 
 const LogoutButton = () => {
-  const router = useRouter(); // Initialize the router
+  const router = useRouter();
 
   const handleLogout = async () => {
-    await logoutUser(); // Perform the logout
-    router.push("/auth/login"); // Redirect to the login page
+    await logoutUser();
+    router.push("/"); // Redirect to the landing page
   };
 
   return (
