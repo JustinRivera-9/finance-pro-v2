@@ -7,10 +7,7 @@ import {
   type PlaidLinkOptions,
 } from "react-plaid-link";
 import { useRouter } from "next/navigation";
-import {
-  createLinkToken,
-  exchangePublicToken,
-} from "@/lib/actions/userActions";
+import { createLinkToken, exchangePublicToken } from "@/lib/plaid/userActions";
 
 const PlaidLink = () => {
   const router = useRouter();

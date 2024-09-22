@@ -1,5 +1,5 @@
 import { CountryCode, type Products } from "plaid";
-import { plaidClient } from "../plaid";
+import { plaidClient } from "./plaid";
 import { parseStringify } from "../utils";
 import { ExchangePublicTokenProps } from "../types";
 
