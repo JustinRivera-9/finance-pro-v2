@@ -1,5 +1,5 @@
 "use client";
-import PlaidLink from "@/components/auth/PlaidLink";
+import PlaidLink from "@/components/plaid/PlaidLink";
 
 const ConnectedAccountsPage = () => {
   return (
