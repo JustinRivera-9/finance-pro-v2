@@ -5,6 +5,7 @@ export type PlannedCategories = {
   type: string;
   isFixed?: boolean;
   date?: string;
+  user_id: string;
 };
 
 export type CategoryFormData = {
