@@ -6,7 +6,7 @@ import type { PlannedCategories } from "@/lib/types";
 
 const PlannedPage = async () => {
   // const { categories } = planned;
-  const categories: PlannedCategories[] = await getCategories();
+  const categories: any = await getCategories();
 
   return (
     <div className="flex flex-col gap-4">
