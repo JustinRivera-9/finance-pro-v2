@@ -24,6 +24,7 @@ import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { CategorySchema } from "@/schema";
 import { CategoryFormData } from "@/lib/types";
+import { addCategoryAction } from "@/app/app/planned/actions";
 
 const CategoryForm = () => {
   const form = useForm<z.infer<typeof CategorySchema>>({
@@ -33,31 +34,16 @@ const CategoryForm = () => {
       category: "",
       amount: "",
       isFixed: false,
-      fixedDate: "",
+      date: "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof CategorySchema>) {
-    const { amount, category, isFixed, type, fixedDate } = values;
-    let cleanData: CategoryFormData;
-
-    // Need to figure out issue if user makes it fixed expense why it's not removing the field value
-    if (type === "income" || !isFixed) {
-      cleanData = {
-        ...values,
-        fixedDate: "",
-        isFixed: false,
-      };
-    } else {
-      cleanData = { ...values };
-    }
-
-    console.log(cleanData);
-  }
+  const type = form.watch("type");
+  const isFixed = form.watch("isFixed");
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 px-8">
+      <form action={addCategoryAction} className="space-y-4 px-8">
         <div className="flex justify-between">
           {/* CATEGORY TYPE SLEECT */}
           <FormField
@@ -70,6 +56,7 @@ const CategoryForm = () => {
                   required
                   onValueChange={field.onChange}
                   defaultValue={field.value}
+                  name="type"
                 >
                   <FormControl>
                     <SelectTrigger>
@@ -121,7 +108,7 @@ const CategoryForm = () => {
 
         <div className="flex justify-around">
           {/* IS FIXED CHECKBOX */}
-          {form.getValues().type === "expense" && (
+          {type === "expense" && (
             <FormField
               control={form.control}
               name="isFixed"
@@ -131,6 +118,7 @@ const CategoryForm = () => {
                     <Checkbox
                       checked={field.value}
                       onCheckedChange={field.onChange}
+                      name="isFixed"
                     />
                   </FormControl>
                   <FormLabel className="items-center">Fixed Expense?</FormLabel>
@@ -140,10 +128,10 @@ const CategoryForm = () => {
           )}
 
           {/* FIXED DATE SLEECT */}
-          {form.getValues().type === "expense" && form.getValues().isFixed && (
+          {type === "expense" && isFixed && (
             <FormField
               control={form.control}
-              name="fixedDate"
+              name="date"
               render={({ field }) => (
                 <FormItem className="w-2/5">
                   {/* <FormLabel>Date of Fixed Expense</FormLabel> */}
@@ -151,6 +139,7 @@ const CategoryForm = () => {
                     required
                     onValueChange={field.onChange}
                     defaultValue={field.value}
+                    name="date"
                   >
                     <FormControl>
                       <SelectTrigger>
