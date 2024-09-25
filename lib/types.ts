@@ -1,10 +1,12 @@
+import { UUID } from "crypto";
+
 export type PlannedCategories = {
   id: number;
   category: string;
   amount: number;
   type: string;
-  isFixed?: boolean;
-  date?: string;
+  isFixed: boolean;
+  date: string;
   user_id: string;
 };
 
@@ -13,7 +15,9 @@ export type CategoryFormData = {
   category: string;
   isFixed: boolean;
   type: string;
-  fixedDate: string;
+  date: string;
+  id: string;
+  user_id: string;
 };
 
 // PLAID TYPES
