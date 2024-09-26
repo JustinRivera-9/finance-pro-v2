@@ -32,12 +32,12 @@ export const addCategoryAction = async (formData: FormData) => {
       ...formFields,
       date: "",
       isFixed: false,
-    };
+    } as CategoryFormData;
   } else {
     cleanData = {
       ...formFields,
       isFixed: true,
-    };
+    } as CategoryFormData;
   }
 
   const { error } = await supabase
