@@ -25,8 +25,11 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { CategorySchema } from "@/schema";
 import { CategoryFormData } from "@/lib/types";
 import { addCategoryAction } from "@/app/app/planned/actions";
+import { useToast } from "@/hooks/use-toast";
 
 const CategoryForm = () => {
+  const { toast } = useToast();
+
   const form = useForm<z.infer<typeof CategorySchema>>({
     resolver: zodResolver(CategorySchema),
     defaultValues: {
@@ -40,6 +43,7 @@ const CategoryForm = () => {
 
   const type = form.watch("type");
   const isFixed = form.watch("isFixed");
+  const category = form.watch("category");
 
   return (
     <Form {...form}>
@@ -165,7 +169,16 @@ const CategoryForm = () => {
           )}
         </div>
 
-        <Button type="submit" className="bg-accent text-dark">
+        <Button
+          type="submit"
+          className="bg-accent text-dark"
+          onClick={() => {
+            // Need to figure out how to handle error case
+            toast({
+              title: `Successfully added the ${category} category.`,
+            });
+          }}
+        >
           Add Category
         </Button>
       </form>
