@@ -5,7 +5,6 @@ import { getCategories } from "./actions";
 import type { PlannedCategories } from "@/lib/types";
 
 const PlannedPage = async () => {
-  // const { categories } = planned;
   const categories: any = await getCategories();
 
   return (
