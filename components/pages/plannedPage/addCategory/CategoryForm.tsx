@@ -34,7 +34,7 @@ const CategoryForm = () => {
       category: "",
       amount: "",
       isFixed: false,
-      date: "",
+      date: null,
     },
   });
 
@@ -138,7 +138,7 @@ const CategoryForm = () => {
                   <Select
                     required
                     onValueChange={field.onChange}
-                    defaultValue={field.value}
+                    defaultValue={field.value ?? undefined}
                     name="date"
                   >
                     <FormControl>

@@ -20,6 +20,11 @@ export type CategoryFormData = {
   user_id: string;
 };
 
+export type ToastActionResults = {
+  success: boolean;
+  message: string;
+};
+
 // PLAID TYPES
 export type ExchangePublicTokenProps = {
   publicToken: string;

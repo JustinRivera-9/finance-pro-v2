@@ -1,6 +1,7 @@
 import { type PlannedCategories } from "@/lib/types";
 import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
+import DeleteButton from "./DeleteButton";
+import { deleteCategoryAction } from "@/app/app/planned/actions";
 
 type CategoryCardProps = {
   categoryData: PlannedCategories;
@@ -22,7 +23,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ categoryData }) => {
       </div>
       <div className="flex gap-2">
         <EditIcon />
-        <DeleteIcon />
+        <DeleteButton category={category} id={`${id}`} />
       </div>
     </div>
   ) : (
@@ -38,7 +39,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ categoryData }) => {
       </div>
       <div className="flex gap-2">
         <EditIcon />
-        <DeleteIcon />
+        <DeleteButton category={category} id={`${id}`} />
       </div>
     </div>
   );

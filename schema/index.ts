@@ -10,7 +10,12 @@ export const CategorySchema = z
       message: "Amount must be a number greater than 0",
     }),
     isFixed: z.boolean(),
-    date: z.string(), // Make the date optional initially
+    date: z.union([
+      z.string().min(1, {
+        message: "Must select a date for fixed expense.",
+      }),
+      z.null(),
+    ]),
   })
   .refine((data) => !data.isFixed || data.date, {
     message: "Fixed expenses must have a date",

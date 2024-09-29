@@ -22,7 +22,6 @@ export const getCategories = async () => {
 export const addCategoryAction = async (formData: FormData) => {
   const user_id = await getUser();
   const formFields = Object.fromEntries(formData);
-  // console.log(formFields);
 
   const { isFixed, type } = formFields;
   let cleanData: CategoryFormData;
@@ -40,28 +39,43 @@ export const addCategoryAction = async (formData: FormData) => {
     } as CategoryFormData;
   }
 
-  const { error } = await supabase
-    .from("categories")
-    .insert([
-      {
-        type: cleanData.type,
-        category: cleanData.category,
-        amount: cleanData.amount,
-        date: cleanData.date,
-        isFixed: cleanData.isFixed,
-        id: uuid(),
-        user_id,
-      },
-    ])
-    .eq("user_id", user_id);
+  try {
+    const { error } = await supabase
+      .from("categories")
+      .insert([
+        {
+          type: cleanData.type,
+          category: cleanData.category,
+          amount: cleanData.amount,
+          date: cleanData.date,
+          isFixed: cleanData.isFixed,
+          id: uuid(),
+          user_id,
+        },
+      ])
+      .eq("user_id", user_id);
 
-  if (error) {
-    console.log(error);
+    if (error) throw error;
+
+    revalidatePath("app/planned");
+    return { success: true, message: "Category added successfully!" };
+  } catch (error) {
+    const err = error as Error;
+    return { success: false, message: err.message };
   }
+};
 
-  revalidatePath("app/planned");
+export const deleteCategoryAction = async (id: string) => {
+  try {
+    const { error } = await supabase.from("categories").delete().eq("id", id);
+    if (error) throw error;
+
+    revalidatePath("app/planned");
+    return { success: true, message: "Category added successfully!" };
+  } catch (error) {
+    const err = error as Error;
+    return { success: false, message: err.message };
+  }
 };
 
 export const updateCategory = async () => {};
-
-export const deleteCategory = async () => {};
