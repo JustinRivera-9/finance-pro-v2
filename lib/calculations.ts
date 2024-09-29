@@ -4,15 +4,17 @@ import { type PlannedCategories } from "./types";
 export const calcTotalPlanned = (
   categories: PlannedCategories[],
   type: string
-): number => {
+): number | undefined => {
   if (!Array.isArray(categories)) {
     throw new TypeError("categories is not an array");
   }
 
-  const totalExpenses = categories
+  const totalExpensesArr = categories
     .filter((category) => category.type === type)
-    .map((category) => category.amount)
-    .reduce((acc, cur) => acc + cur);
+    .map((category) => category.amount);
+
+  if (!totalExpensesArr.length) return;
+  const totalExpenses = totalExpensesArr.reduce((acc, cur) => acc + cur);
 
   return totalExpenses;
 };
