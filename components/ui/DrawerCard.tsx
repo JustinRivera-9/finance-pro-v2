@@ -24,8 +24,8 @@ const DrawerCard = ({
 }: DrawerCardProps) => {
   return (
     <Drawer>
-      <DrawerTrigger className="pb-2">
-        <div className="text-accent text-md">{triggerLabel}</div>
+      <DrawerTrigger className="pb-2" asChild>
+        <button className="text-accent text-md">{triggerLabel}</button>
       </DrawerTrigger>
       <DrawerContent className="border-dark py-2 pb-6">
         <DrawerHeader className="text-light mx-auto">
