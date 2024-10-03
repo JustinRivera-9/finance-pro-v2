@@ -28,6 +28,8 @@ const AccountSection = () => {
     },
   });
 
+  const { formState } = form;
+
   const onSubmit = (values: z.infer<typeof AccountPreferencesSchema>) => {
     console.log(values);
   };
@@ -88,10 +90,11 @@ const AccountSection = () => {
             )}
           />
 
-          {/* MAKE UPDATE BUTTON CONDITIONAL BASED ON DIRTY/MODIFIED FIELD */}
-          <Button type="submit" className="bg-accent text-dark w-1/3 mt-2">
-            Update
-          </Button>
+          {formState.isDirty && (
+            <Button type="submit" className="bg-accent text-dark w-1/3 mt-2">
+              Update
+            </Button>
+          )}
         </form>
       </Form>
     </FormCard>
