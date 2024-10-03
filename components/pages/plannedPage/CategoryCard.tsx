@@ -1,4 +1,4 @@
-import { type PlannedCategories } from "@/lib/types";
+import { type PlannedCategories } from "@/types/types";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteButton from "./DeleteButton";
 import { deleteCategoryAction } from "@/app/app/planned/actions";

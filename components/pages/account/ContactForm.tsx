@@ -17,15 +17,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { useUser } from "@/context/UserContext";
 import { ContactFormSchema } from "@/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const ContactForm = () => {
-  const user = useUser();
-
   const form = useForm<z.infer<typeof ContactFormSchema>>({
     resolver: zodResolver(ContactFormSchema),
     defaultValues: {
@@ -101,7 +98,7 @@ const ContactForm = () => {
 
           {/* MAKE UPDATE BUTTON CONDITIONAL BASED ON DIRTY/MODIFIED FIELD */}
           <Button type="submit" className="bg-accent text-dark w-1/3">
-            Update
+            Submit
           </Button>
         </form>
       </Form>

@@ -4,7 +4,7 @@ import { v4 as uuid } from "uuid";
 import { getUser } from "@/lib/supabase/actions";
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
-import { CategoryFormData } from "@/lib/types";
+import { CategoryFormData } from "@/types/types";
 const supabase = createClient();
 
 export const getCategories = async () => {

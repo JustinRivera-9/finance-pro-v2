@@ -1,4 +1,4 @@
-import { PlannedCategories } from "@/lib/types";
+import { PlannedCategories } from "@/types/types";
 import CategoryColumn from "./CategoryColumn";
 
 ////////// Look into refactoring - DRY

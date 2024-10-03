@@ -1,5 +1,5 @@
 import { calcTotalPlanned } from "@/lib/calculations";
-import { PlannedCategories } from "@/lib/types";
+import { PlannedCategories } from "@/types/types";
 
 type SummaryProps = { categories: PlannedCategories[] };
 

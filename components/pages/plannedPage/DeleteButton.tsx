@@ -2,7 +2,7 @@
 import { deleteCategoryAction } from "@/app/app/planned/actions";
 import { useToast } from "@/hooks/use-toast";
 import DeleteIcon from "@mui/icons-material/Delete";
-import type { ToastActionResults } from "@/lib/types";
+import type { ToastActionResults } from "@/types/types";
 
 type DeleteButtonProps = {
   id: string;

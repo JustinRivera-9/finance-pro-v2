@@ -2,7 +2,7 @@ import Summary from "../../../components/pages/plannedPage/Summary";
 import CategorySection from "../../../components/pages/plannedPage/CategorySection";
 import AddCategoryForm from "../../../components/pages/plannedPage/addCategory/AddCategoryForm";
 import { getCategories } from "./actions";
-import type { PlannedCategories } from "@/lib/types";
+import type { PlannedCategories } from "@/types/types";
 import EmptyMessage from "@/components/ui/EmptyMessage";
 
 const PlannedPage = async () => {

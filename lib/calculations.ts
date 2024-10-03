@@ -1,4 +1,4 @@
-import { type PlannedCategories } from "./types";
+import { type PlannedCategories } from "../types/types";
 
 ////////// calcTotalPlannedExpenses
 export const calcTotalPlanned = (

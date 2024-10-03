@@ -23,7 +23,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { CategorySchema } from "@/schema";
-import { CategoryFormData } from "@/lib/types";
+import { CategoryFormData } from "@/types/types";
 import { addCategoryAction } from "@/app/app/planned/actions";
 import { useToast } from "@/hooks/use-toast";
 

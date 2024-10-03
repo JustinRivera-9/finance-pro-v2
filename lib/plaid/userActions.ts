@@ -1,7 +1,7 @@
 import { CountryCode, type Products } from "plaid";
 import { plaidClient } from "./plaid";
 import { parseStringify } from "../utils";
-import { ExchangePublicTokenProps } from "../types";
+import { ExchangePublicTokenProps } from "../../types/types";
 
 export const createLinkToken = async (user: any) => {
   try {

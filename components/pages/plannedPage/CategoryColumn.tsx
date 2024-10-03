@@ -1,4 +1,4 @@
-import { type PlannedCategories } from "@/lib/types";
+import { type PlannedCategories } from "@/types/types";
 import CategoryCard from "./CategoryCard";
 import EmptyMessage from "@/components/ui/EmptyMessage";
 
