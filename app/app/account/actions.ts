@@ -1,9 +1,17 @@
 "use server";
 
+import { getUser } from "@/lib/supabase/actions";
 import { createClient } from "@/lib/supabase/server";
+import type {
+  ContactForm,
+  PasswordForm,
+  PreferencesForm,
+  PersonalInfoForm,
+} from "@/types/accountFormActions";
+const supabase = createClient();
 
-export const updatePersonalInfo = async ({ email }: { email: string }) => {
-  const supabase = createClient();
+export const updatePersonalInfo = async ({ email }: PersonalInfoForm) => {
+  const user_id = await getUser();
 
   const { data, error } = await supabase.auth.updateUser({
     email: email,
@@ -11,8 +19,8 @@ export const updatePersonalInfo = async ({ email }: { email: string }) => {
   });
 };
 
-export const updatePassword = async ({ password }: { password: string }) => {
-  const supabase = createClient();
+export const updatePassword = async ({ password }: PasswordForm) => {
+  const user_id = await getUser();
 
   const { data, error } = await supabase.auth.updateUser({
     password: password,
@@ -21,6 +29,27 @@ export const updatePassword = async ({ password }: { password: string }) => {
 };
 
 export const logoutUser = async () => {
-  const supabase = createClient();
   let { error } = await supabase.auth.signOut();
+};
+
+export const submitContactFormAction = async (formData: FormData) => {
+  const user_id = await getUser();
+  const formFields = Object.fromEntries(formData);
+  const { type, message } = formFields;
+
+  try {
+    const { error } = await supabase
+      .from("contact_us")
+      .insert([{ type, message, user_id }]);
+
+    if (error) throw error;
+
+    return {
+      success: true,
+      message: "Thank you for the message. We will review as soon as possible!",
+    };
+  } catch (error) {
+    const err = error as Error;
+    return { success: false, message: err.message };
+  }
 };
