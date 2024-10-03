@@ -1,4 +1,5 @@
 "use client";
+import { submitContactFormAction } from "@/app/app/account/actions";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -17,12 +18,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/hooks/use-toast";
 import { ContactFormSchema } from "@/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const ContactForm = () => {
+  const { toast } = useToast();
+
   const form = useForm<z.infer<typeof ContactFormSchema>>({
     resolver: zodResolver(ContactFormSchema),
     defaultValues: {
@@ -43,10 +47,7 @@ const ContactForm = () => {
       description="Get in touch with us by filling out the form below, and we'll respond as soon as possible."
     >
       <Form {...form}>
-        <form
-          className="flex flex-col gap-4"
-          onSubmit={form.handleSubmit(onSubmit)}
-        >
+        <form className="flex flex-col gap-4" action={submitContactFormAction}>
           {/* TYPE SELECT */}
           <FormField
             control={form.control}
@@ -57,6 +58,7 @@ const ContactForm = () => {
                   required
                   onValueChange={field.onChange}
                   defaultValue={field.value}
+                  name="type"
                 >
                   <FormControl>
                     <SelectTrigger>
@@ -97,7 +99,17 @@ const ContactForm = () => {
           />
 
           {/* MAKE UPDATE BUTTON CONDITIONAL BASED ON DIRTY/MODIFIED FIELD */}
-          <Button type="submit" className="bg-accent text-dark w-1/3">
+          <Button
+            type="submit"
+            className="bg-accent text-dark w-1/3"
+            onClick={() => {
+              // Need to figure out how to handle error case
+              toast({
+                title:
+                  "Thank you for the message. We will review as soon as possible!",
+              });
+            }}
+          >
             Submit
           </Button>
         </form>
