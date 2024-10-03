@@ -23,9 +23,9 @@ const CategorySection: React.FC<CategorySectionProps> = ({ categories }) => {
 
   return (
     <div className="flex flex-col items-center text-center gap-6">
-      <CategoryColumn category={expenseCategory} title="EXPENSES" />
-      <CategoryColumn category={incomeCategory} title="INCOME" />
-      <CategoryColumn category={fixedExpenseCategory} title="FIXED EXPENSES" />
+      <CategoryColumn category={expenseCategory} title="Expenses" />
+      <CategoryColumn category={incomeCategory} title="Income" />
+      <CategoryColumn category={fixedExpenseCategory} title="Fixed Expenses" />
     </div>
   );
 };
