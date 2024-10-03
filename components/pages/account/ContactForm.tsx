@@ -35,11 +35,7 @@ const ContactForm = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof ContactFormSchema>) {
-    const { type, message } = values;
-
-    console.log(values);
-  }
+  const { formState } = form;
 
   return (
     <FormCard
@@ -98,20 +94,22 @@ const ContactForm = () => {
             )}
           />
 
-          {/* MAKE UPDATE BUTTON CONDITIONAL BASED ON DIRTY/MODIFIED FIELD */}
-          <Button
-            type="submit"
-            className="bg-accent text-dark w-1/3"
-            onClick={() => {
-              // Need to figure out how to handle error case
-              toast({
-                title:
-                  "Thank you for the message. We will review as soon as possible!",
-              });
-            }}
-          >
-            Submit
-          </Button>
+          {/* Only shows submit button if message input has something */}
+          {formState.dirtyFields.message && (
+            <Button
+              type="submit"
+              className="bg-accent text-dark w-1/3"
+              onClick={() => {
+                // Need to figure out how to handle error case
+                toast({
+                  title:
+                    "Thank you for the message. We will review as soon as possible!",
+                });
+              }}
+            >
+              Submit
+            </Button>
+          )}
         </form>
       </Form>
     </FormCard>
