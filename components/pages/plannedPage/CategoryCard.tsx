@@ -1,10 +1,9 @@
-import { type PlannedCategories } from "@/types/types";
-import EditIcon from "@mui/icons-material/Edit";
+import type { CategoryData } from "@/types/types";
 import DeleteButton from "./DeleteButton";
-import { deleteCategoryAction } from "@/app/app/planned/actions";
+import EditButton from "./EditButton";
 
 type CategoryCardProps = {
-  categoryData: PlannedCategories;
+  categoryData: CategoryData;
 };
 
 const CategoryCard: React.FC<CategoryCardProps> = ({ categoryData }) => {
@@ -22,7 +21,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ categoryData }) => {
         </div>
       </div>
       <div className="flex gap-2">
-        <EditIcon />
+        <EditButton categoryData={categoryData} />
         <DeleteButton category={category} id={`${id}`} />
       </div>
     </div>
@@ -38,7 +37,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ categoryData }) => {
         <p>${amount}</p>
       </div>
       <div className="flex gap-2">
-        <EditIcon />
+        <EditButton categoryData={categoryData} />
         <DeleteButton category={category} id={`${id}`} />
       </div>
     </div>
