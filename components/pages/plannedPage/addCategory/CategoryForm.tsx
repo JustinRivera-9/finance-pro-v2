@@ -23,31 +23,45 @@ import {
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { CategorySchema } from "@/schema";
-import { CategoryFormData } from "@/types/types";
-import { addCategoryAction } from "@/app/app/planned/actions";
+import {
+  addCategoryAction,
+  updateCategoryAction,
+} from "@/app/app/planned/actions";
 import { useToast } from "@/hooks/use-toast";
+import { CategoryData } from "@/types/types";
 
-const CategoryForm = () => {
+type CategoryFormProps = {
+  categoryData?: CategoryData;
+};
+
+const CategoryForm = ({ categoryData }: CategoryFormProps) => {
+  const { category, amount, type, isFixed, date } = categoryData || {};
+  const isEdit = categoryData?.id ? true : false;
+  console.log(isEdit);
+
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof CategorySchema>>({
     resolver: zodResolver(CategorySchema),
     defaultValues: {
-      type: "expense",
-      category: "",
-      amount: "",
-      isFixed: false,
-      date: null,
+      type: type || "expense",
+      category: category || "",
+      amount: amount?.toString() || "",
+      isFixed: isFixed || false,
+      date: date || null,
     },
   });
 
-  const type = form.watch("type");
-  const isFixed = form.watch("isFixed");
-  const category = form.watch("category");
+  const typeWatch = form.watch("type");
+  const isFixedWatch = form.watch("isFixed");
+  const categoryWatch = form.watch("category");
 
   return (
     <Form {...form}>
-      <form action={addCategoryAction} className="space-y-4 px-8">
+      <form
+        action={isEdit ? updateCategoryAction : addCategoryAction}
+        className="space-y-4 px-8"
+      >
         <div className="flex justify-between">
           {/* CATEGORY TYPE SLEECT */}
           <FormField
@@ -112,7 +126,7 @@ const CategoryForm = () => {
 
         <div className="flex justify-around">
           {/* IS FIXED CHECKBOX */}
-          {type === "expense" && (
+          {typeWatch === "expense" && (
             <FormField
               control={form.control}
               name="isFixed"
@@ -132,7 +146,7 @@ const CategoryForm = () => {
           )}
 
           {/* FIXED DATE SLEECT */}
-          {type === "expense" && isFixed && (
+          {typeWatch === "expense" && isFixedWatch && (
             <FormField
               control={form.control}
               name="date"
@@ -169,17 +183,22 @@ const CategoryForm = () => {
           )}
         </div>
 
+        {/* HIDDEN ID INPUT FOR EDITING */}
+        {isEdit && <input type="hidden" name="id" value={categoryData?.id} />}
+
         <Button
           type="submit"
           className="bg-accent text-dark"
           onClick={() => {
             // Need to figure out how to handle error case
             toast({
-              title: `Successfully added the ${category} category.`,
+              title: isEdit
+                ? `Successfully updated the ${categoryWatch} category`
+                : `Successfully added the ${categoryWatch} category`,
             });
           }}
         >
-          Add Category
+          {isEdit ? "Update" : "Add Category"}
         </Button>
       </form>
     </Form>
