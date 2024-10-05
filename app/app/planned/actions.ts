@@ -78,4 +78,43 @@ export const deleteCategoryAction = async (id: string) => {
   }
 };
 
-export const updateCategory = async () => {};
+export const updateCategoryAction = async (formData: FormData) => {
+  const formFields = Object.fromEntries(formData);
+
+  const { isFixed, type } = formFields;
+  let cleanData: CategoryFormData;
+
+  if (type === "income" || !isFixed) {
+    cleanData = {
+      ...formFields,
+      date: "",
+      isFixed: false,
+    } as CategoryFormData;
+  } else {
+    cleanData = {
+      ...formFields,
+      isFixed: true,
+    } as CategoryFormData;
+  }
+
+  try {
+    const { error } = await supabase
+      .from("categories")
+      .update({
+        type: cleanData.type,
+        category: cleanData.category,
+        amount: cleanData.amount,
+        date: cleanData.date,
+        isFixed: cleanData.isFixed,
+      })
+      .eq("id", cleanData.id)
+      .select();
+
+    revalidatePath("app/planned");
+
+    return { success: true, message: "Category successfully updated!" };
+  } catch (error) {
+    const err = error as Error;
+    return { success: false, message: err.message };
+  }
+};
