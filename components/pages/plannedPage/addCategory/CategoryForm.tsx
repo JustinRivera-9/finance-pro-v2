@@ -37,7 +37,6 @@ type CategoryFormProps = {
 const CategoryForm = ({ categoryData }: CategoryFormProps) => {
   const { category, amount, type, isFixed, date } = categoryData || {};
   const isEdit = categoryData?.id ? true : false;
-  console.log(isEdit);
 
   const { toast } = useToast();
 
@@ -64,14 +63,14 @@ const CategoryForm = ({ categoryData }: CategoryFormProps) => {
         action={isEdit ? updateCategoryAction : addCategoryAction}
         className="space-y-4 px-8"
       >
-        <div className="flex justify-between">
+        <div className="flex gap-2 *:justify-between">
           {/* CATEGORY TYPE SLEECT */}
           <FormField
             control={form.control}
             name="type"
             render={({ field }) => (
-              <FormItem className="w-1/3">
-                <FormLabel>Category Type</FormLabel>
+              <FormItem className="w-fit">
+                <FormLabel>Type</FormLabel>
                 <Select
                   required
                   onValueChange={field.onChange}
@@ -100,7 +99,7 @@ const CategoryForm = ({ categoryData }: CategoryFormProps) => {
             control={form.control}
             name="category"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="">
                 <FormLabel>Category Name</FormLabel>
                 <FormControl>
                   <Input placeholder="Category name" type="text" {...field} />
