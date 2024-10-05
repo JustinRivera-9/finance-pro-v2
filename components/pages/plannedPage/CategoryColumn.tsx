@@ -1,9 +1,9 @@
-import { type PlannedCategories } from "@/types/types";
+import type { CategoryData } from "@/types/types";
 import CategoryCard from "./CategoryCard";
 import EmptyMessage from "@/components/ui/EmptyMessage";
 
 type CategoryColumnProps = {
-  category: PlannedCategories[];
+  category: CategoryData[];
   title: string;
 };
 
