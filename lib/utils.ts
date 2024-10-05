@@ -15,3 +15,20 @@ export const fixedDateArray = () => {
 };
 
 export const parseStringify = (value: any) => JSON.parse(JSON.stringify(value));
+
+export const formatCurrency = (value: number, rounded?: boolean) => {
+  if (rounded) {
+    const number = Math.round(+value);
+
+    return new Intl.NumberFormat("en", {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: 0,
+    }).format(number);
+  } else {
+    return new Intl.NumberFormat("en", {
+      style: "currency",
+      currency: "USD",
+    }).format(value);
+  }
+};
