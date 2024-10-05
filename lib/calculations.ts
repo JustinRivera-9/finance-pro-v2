@@ -1,8 +1,8 @@
-import { type PlannedCategories } from "../types/types";
+import type { CategoryData } from "../types/types";
 
 ////////// calcTotalPlannedExpenses
 export const calcTotalPlanned = (
-  categories: PlannedCategories[],
+  categories: CategoryData[],
   type: string
 ): number => {
   if (!Array.isArray(categories)) {
