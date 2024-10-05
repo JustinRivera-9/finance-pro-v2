@@ -1,6 +1,7 @@
 import type { CategoryData } from "@/types/types";
 import DeleteButton from "./DeleteButton";
 import EditButton from "./EditButton";
+import { formatCurrency } from "@/lib/utils";
 
 type CategoryCardProps = {
   categoryData: CategoryData;
@@ -17,7 +18,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ categoryData }) => {
         <p className="text-3xl text-secondary">{date}</p>
         <div className="flex flex-col text-xl text-left">
           <p className="font-semibold">{category}</p>
-          <p>${amount}</p>
+          <p>{formatCurrency(amount, true)}</p>
         </div>
       </div>
       <div className="flex gap-2">
@@ -34,7 +35,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ categoryData }) => {
     >
       <div className="flex gap-4 text-xl">
         <p className="font-semibold">{category}</p>
-        <p>${amount}</p>
+        <p>{formatCurrency(amount, true)}</p>
       </div>
       <div className="flex gap-2">
         <EditButton categoryData={categoryData} />
