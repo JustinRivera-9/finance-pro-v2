@@ -14,11 +14,11 @@ const Summary: React.FC<SummaryProps> = ({ categories }) => {
       <div className="flex font-semibold gap-6 text-accent justify-center">
         <div className="bg-card px-2 py-2 rounded-lg text-left w-2/5">
           <p className="text-lg text-light">Income</p>
-          <p className="text-3xl">${Math.abs(totalIncome)}</p>
+          <p className="text-3xl">${totalIncome ? totalIncome : 0}</p>
         </div>
         <div className="bg-card px-4 py-2 rounded-lg text-left w-2/5">
           <p className="text-lg text-light">Expenses</p>
-          <p className="text-3xl">${totalExpenses}</p>
+          <p className="text-3xl">${totalExpenses ? totalExpenses : 0}</p>
         </div>
       </div>
       <p className="text-md w-4/5 text-center border-card border-2 mx-auto px-2 py-2 rounded-md">
