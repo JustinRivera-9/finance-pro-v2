@@ -14,7 +14,7 @@ const DeleteButton = ({ id, category }: DeleteButtonProps) => {
 
   const handleClick = async () => {
     const result = await deleteCategoryAction(id);
-    console.log(category);
+
     if (result.success) {
       toast({
         title: `Successfully deleted the ${category} category.`,
