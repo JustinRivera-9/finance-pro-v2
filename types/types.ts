@@ -1,6 +1,4 @@
-import { UUID } from "crypto";
-
-export type PlannedCategories = {
+export type CategoryData = {
   id: number;
   category: string;
   amount: number;
