@@ -11,9 +11,10 @@ import { Separator } from "@/components/ui/separator";
 
 type DrawerCardProps = {
   children: ReactNode;
-  title: string;
-  description: string;
+  title?: string;
+  description?: string;
   triggerLabel: string | ReactNode;
+  color: string;
 };
 
 const DrawerCard = ({
@@ -21,11 +22,12 @@ const DrawerCard = ({
   title,
   description,
   triggerLabel,
+  color,
 }: DrawerCardProps) => {
   return (
     <Drawer>
-      <DrawerTrigger className="pb-2" asChild>
-        <button className="text-accent text-md">{triggerLabel}</button>
+      <DrawerTrigger className="" asChild>
+        <button className={`text-${color} text-md`}>{triggerLabel}</button>
       </DrawerTrigger>
       <DrawerContent className="border-dark py-2 pb-6">
         <DrawerHeader className="text-light mx-auto">
