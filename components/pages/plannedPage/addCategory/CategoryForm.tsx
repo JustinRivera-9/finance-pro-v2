@@ -52,6 +52,8 @@ const CategoryForm = ({ categoryData }: CategoryFormProps) => {
     },
   });
 
+  const { formState } = form;
+
   const typeWatch = form.watch("type");
   const isFixedWatch = form.watch("isFixed");
   const categoryWatch = form.watch("category");
@@ -186,9 +188,11 @@ const CategoryForm = ({ categoryData }: CategoryFormProps) => {
         {/* HIDDEN ID INPUT FOR EDITING */}
         {isEdit && <input type="hidden" name="id" value={categoryData?.id} />}
 
+        {/* DISABLE BUTTON OPTION */}
         <Button
           type="submit"
           className="bg-accent text-dark"
+          disabled={!formState.isDirty}
           onClick={() => {
             // Need to figure out how to handle error case
             toast({
@@ -200,6 +204,25 @@ const CategoryForm = ({ categoryData }: CategoryFormProps) => {
         >
           {isEdit ? "Update" : "Add Category"}
         </Button>
+
+        {/* HIDE BUTTON OPTION */}
+        {/* {formState.isDirty && (
+          <Button
+            type="submit"
+            className="bg-accent text-dark"
+            disabled={!formState.isDirty}
+            onClick={() => {
+              // Need to figure out how to handle error case
+              toast({
+                title: isEdit
+                  ? `Successfully updated the ${categoryWatch} category`
+                  : `Successfully added the ${categoryWatch} category`,
+              });
+            }}
+          >
+            {isEdit ? "Update" : "Add Category"}
+          </Button>
+        )} */}
       </form>
     </Form>
   );
