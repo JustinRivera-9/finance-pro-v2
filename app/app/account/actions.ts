@@ -10,7 +10,11 @@ import type {
 } from "@/types/accountFormActions";
 const supabase = createClient();
 
-export const updatePersonalInfo = async ({ email }: PersonalInfoForm) => {
+export const getAccountSettings = async () => {
+  // Use promise method to do multiple fetches and wait until they all resolve
+};
+
+export const updatePersonalInfoAction = async ({ email }: PersonalInfoForm) => {
   const user_id = await getUser();
 
   const { data, error } = await supabase.auth.updateUser({
@@ -28,8 +32,11 @@ export const updatePassword = async ({ password }: PasswordForm) => {
   });
 };
 
-export const logoutUser = async () => {
-  let { error } = await supabase.auth.signOut();
+export const updatePreferencesAction = async (formData: FormData) => {
+  const user_id = getUser();
+  const formFields = Object.fromEntries(formData);
+  const { darkMode, emailNotifications } = formFields;
+  console.log(!!darkMode, !!emailNotifications);
 };
 
 export const submitContactFormAction = async (formData: FormData) => {
@@ -52,4 +59,8 @@ export const submitContactFormAction = async (formData: FormData) => {
     const err = error as Error;
     return { success: false, message: err.message };
   }
+};
+
+export const logoutUser = async () => {
+  let { error } = await supabase.auth.signOut();
 };
