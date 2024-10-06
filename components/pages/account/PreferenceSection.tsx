@@ -15,7 +15,7 @@ import { z } from "zod";
 import { AccountPreferencesSchema } from "@/schema";
 import { useUser } from "@/context/UserContext";
 
-const AccountSection = () => {
+const PreferenceSection = () => {
   const user = useUser();
 
   // SET DEFAULT VALUES TO USER OBJECT
@@ -101,4 +101,4 @@ const AccountSection = () => {
   );
 };
 
-export default AccountSection;
+export default PreferenceSection;
