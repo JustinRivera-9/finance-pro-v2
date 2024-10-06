@@ -14,6 +14,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { AccountPreferencesSchema } from "@/schema";
 import { useUser } from "@/context/UserContext";
+import { updatePreferencesAction } from "@/app/app/account/actions";
 
 const PreferenceSection = () => {
   const user = useUser();
@@ -27,12 +28,7 @@ const PreferenceSection = () => {
       darkMode: false,
     },
   });
-
   const { formState } = form;
-
-  const onSubmit = (values: z.infer<typeof AccountPreferencesSchema>) => {
-    console.log(values);
-  };
 
   return (
     <FormCard
@@ -40,10 +36,7 @@ const PreferenceSection = () => {
       description="Manage your account preferences."
     >
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="flex flex-col gap-4"
-        >
+        <form action={updatePreferencesAction} className="flex flex-col gap-4">
           {/* EMAIL NOTIFICATIONS SWITCH */}
           <FormField
             control={form.control}
@@ -60,6 +53,7 @@ const PreferenceSection = () => {
                 </div>
                 <FormControl>
                   <Switch
+                    name="emailNotifications"
                     checked={field.value}
                     onCheckedChange={field.onChange}
                   />
@@ -82,6 +76,7 @@ const PreferenceSection = () => {
                 </div>
                 <FormControl>
                   <Switch
+                    name="darkMode"
                     checked={field.value}
                     onCheckedChange={field.onChange}
                   />
