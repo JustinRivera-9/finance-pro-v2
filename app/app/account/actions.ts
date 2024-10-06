@@ -35,8 +35,11 @@ export const updatePassword = async ({ password }: PasswordForm) => {
 export const updatePreferencesAction = async (formData: FormData) => {
   const user_id = getUser();
   const formFields = Object.fromEntries(formData);
-  const { darkMode, emailNotifications } = formFields;
-  console.log(!!darkMode, !!emailNotifications);
+  const data = {
+    darkMode: Boolean(formFields.darkMode),
+    emailNotifications: Boolean(formFields.emailNotifications),
+  };
+  console.log(data);
 };
 
 export const submitContactFormAction = async (formData: FormData) => {
