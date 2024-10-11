@@ -23,6 +23,19 @@ export type ToastActionResults = {
   message: string;
 };
 
+export type Expense = {
+  id: string;
+  user_id: string;
+  category: string;
+  amount: number;
+  description: string | null;
+  date: string;
+};
+
+export type ExpenseSectionProps = {
+  expenses: Expense[];
+};
+
 // PLAID TYPES
 export type ExchangePublicTokenProps = {
   publicToken: string;
