@@ -1,3 +1,5 @@
+import { PostgrestError, PostgrestResponse } from "@supabase/supabase-js";
+
 export type CategoryData = {
   id: number;
   category: string;
@@ -34,6 +36,11 @@ export type Expense = {
 
 export type ExpenseSectionProps = {
   expenses: Expense[];
+};
+
+export type GetExpensesResponse = {
+  expenses: Expense[] | null;
+  error: PostgrestError | string | null;
 };
 
 // PLAID TYPES
