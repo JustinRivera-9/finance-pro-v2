@@ -43,6 +43,13 @@ export type GetExpensesResponse = {
   error: PostgrestError | string | null;
 };
 
+export type GroupedExpenses = {
+  [category: string]: {
+    category: string;
+    expenses: Expense[];
+  };
+};
+
 // PLAID TYPES
 export type ExchangePublicTokenProps = {
   publicToken: string;
