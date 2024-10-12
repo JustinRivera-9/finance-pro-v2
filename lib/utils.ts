@@ -1,3 +1,4 @@
+import { Expense, GroupedExpenses } from "@/types/types";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -31,4 +32,22 @@ export const formatCurrency = (value: number, rounded?: boolean) => {
       currency: "USD",
     }).format(value);
   }
+};
+
+export const groupExpenseByCategory = (expenses: Expense[]) => {
+  const groupedExpenses = expenses.reduce<GroupedExpenses>((acc, expense) => {
+    const { category } = expense;
+    if (!acc[category]) {
+      acc[category] = {
+        category,
+        expenses: [],
+      };
+    }
+    acc[category].expenses.push(expense);
+    return acc;
+  }, {});
+
+  // Convert the grouped object back to an array
+  const categorizedExpenses = Object.values(groupedExpenses);
+  return categorizedExpenses;
 };
