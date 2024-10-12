@@ -13,7 +13,6 @@ const ExpensesPage = async ({ params }: { params: { month: string } }) => {
 
       if (error) throw Error;
 
-      console.log(expenses);
       return { expenses, error: null };
     } catch (err) {
       return {
