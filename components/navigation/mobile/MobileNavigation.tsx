@@ -9,7 +9,9 @@ import { usePathname } from "next/navigation";
 const MobileNavigation = () => {
   const path = usePathname();
 
-  const currentMonth = new Date().toLocaleString("en-US", { month: "long" });
+  const currentMonth = new Date()
+    .toLocaleString("en-US", { month: "long" })
+    .toLowerCase();
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 mt-6 py-4 bg-[#313233] border-t-2 border-slate-500">
