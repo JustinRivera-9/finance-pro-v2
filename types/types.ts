@@ -34,7 +34,7 @@ export type Expense = {
   date: string;
 };
 
-export type ExpenseSectionProps = {
+export type ExpensesArray = {
   expenses: Expense[];
 };
 
