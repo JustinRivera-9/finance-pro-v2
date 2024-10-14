@@ -51,3 +51,6 @@ export const groupExpenseByCategory = (expenses: Expense[]) => {
   const categorizedExpenses = Object.values(groupedExpenses);
   return categorizedExpenses;
 };
+
+export const capitalize = (str: string): string =>
+  str.charAt(0).toUpperCase() + str.slice(1);
