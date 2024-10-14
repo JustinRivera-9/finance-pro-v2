@@ -1,7 +1,7 @@
 import ExpenseSection from "@/components/pages/spent/ExpenseSection";
 import Summary from "@/components/pages/spent/Summary";
 import { createClient } from "@/lib/supabase/server";
-import { GetExpensesResponse } from "@/types/types";
+import { CategoryData, GetExpensesResponse } from "@/types/types";
 import { getCategories } from "../../planned/actions";
 import { getExpenses } from "./actions";
 
@@ -20,7 +20,10 @@ const ExpensesPage = async ({ params }: { params: { month: string } }) => {
   return (
     expenses && (
       <>
-        <Summary expenses={expenses} categories={categories} />
+        <Summary
+          expenses={expenses}
+          categories={categories as CategoryData[]}
+        />
         <ExpenseSection expenses={expenses} month={params.month} />
       </>
     )
