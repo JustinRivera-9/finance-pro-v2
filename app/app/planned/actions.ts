@@ -1,13 +1,13 @@
 "use server";
-import { v4 as uuid } from "uuid";
-
-import { getUser } from "@/lib/supabase/actions";
 import { createClient } from "@/lib/supabase/server";
-import { revalidatePath } from "next/cache";
 import { CategoryFormData } from "@/types/types";
-const supabase = createClient();
+import { getUser } from "@/lib/supabase/actions";
+
+import { v4 as uuid } from "uuid";
+import { revalidatePath } from "next/cache";
 
 export const getCategories = async () => {
+  const supabase = createClient();
   const user_id = await getUser();
 
   let { data: categories, error } = await supabase
@@ -20,6 +20,8 @@ export const getCategories = async () => {
 };
 
 export const addCategoryAction = async (formData: FormData) => {
+  const supabase = createClient();
+
   const user_id = await getUser();
   const formFields = Object.fromEntries(formData);
 
@@ -66,6 +68,8 @@ export const addCategoryAction = async (formData: FormData) => {
 };
 
 export const deleteCategoryAction = async (id: string) => {
+  const supabase = createClient();
+
   try {
     const { error } = await supabase.from("categories").delete().eq("id", id);
     if (error) throw error;
@@ -79,6 +83,8 @@ export const deleteCategoryAction = async (id: string) => {
 };
 
 export const updateCategoryAction = async (formData: FormData) => {
+  const supabase = createClient();
+
   const formFields = Object.fromEntries(formData);
 
   const { isFixed, type } = formFields;
