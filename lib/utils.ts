@@ -1,4 +1,4 @@
-import { Expense, GroupedExpenses } from "@/types/types";
+import { Expense, GroupedExpenses, reduceArrParam } from "@/types/types";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -63,4 +63,8 @@ export const formatExpenseDate = (date: string) => {
   const year = dateString.getFullYear().toString().slice(-2);
 
   return `${month}/${day}/${year}`;
+};
+
+export const reduceArr = (arr: reduceArrParam[]): number => {
+  return arr.map((el) => Number(el.amount)).reduce((acc, cur) => acc + cur, 0);
 };
