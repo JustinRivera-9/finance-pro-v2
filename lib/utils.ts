@@ -54,3 +54,13 @@ export const groupExpenseByCategory = (expenses: Expense[]) => {
 
 export const capitalize = (str: string): string =>
   str.charAt(0).toUpperCase() + str.slice(1);
+
+export const formatExpenseDate = (date: string) => {
+  const dateString = new Date(date);
+
+  const month = dateString.getMonth() + 1;
+  const day = dateString.getDate();
+  const year = dateString.getFullYear().toString().slice(-2);
+
+  return `${month}/${day}/${year}`;
+};
