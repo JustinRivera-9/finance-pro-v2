@@ -2,35 +2,25 @@ import ExpenseSection from "@/components/pages/spent/ExpenseSection";
 import Summary from "@/components/pages/spent/Summary";
 import { createClient } from "@/lib/supabase/server";
 import { GetExpensesResponse } from "@/types/types";
+import { getCategories } from "../../planned/actions";
+import { getExpenses } from "./actions";
 
 const ExpensesPage = async ({ params }: { params: { month: string } }) => {
-  const getExpenses = async (): Promise<GetExpensesResponse> => {
-    const supabase = createClient();
-    try {
-      let { data: expenses, error } = await supabase
-        .from("expenses")
-        .select("*");
+  const [expensesData, categories] = await Promise.all([
+    getExpenses(),
+    getCategories(),
+  ]);
 
-      if (error) throw Error;
+  const { expenses, error: expenseError } = expensesData;
+  console.log(categories);
 
-      return { expenses, error: null };
-    } catch (err) {
-      return {
-        expenses: null,
-        error: "There was an error getting expenses. Please try again",
-      };
-    }
-  };
-
-  const { expenses, error } = await getExpenses();
-
-  if (error)
+  if (expenseError)
     return <div>There was an error getting expenses. Please try again</div>;
 
   return (
     expenses && (
       <>
-        <Summary />
+        <Summary expenses={expenses} categories={categories} />
         <ExpenseSection expenses={expenses} month={params.month} />
       </>
     )
