@@ -55,3 +55,8 @@ export type ExchangePublicTokenProps = {
   publicToken: string;
   user: any;
 };
+
+// UTIL TYPES
+export type reduceArrParam = {
+  amount: number;
+};
