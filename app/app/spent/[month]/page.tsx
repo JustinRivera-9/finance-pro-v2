@@ -12,7 +12,6 @@ const ExpensesPage = async ({ params }: { params: { month: string } }) => {
   ]);
 
   const { expenses, error: expenseError } = expensesData;
-  console.log(categories);
 
   if (expenseError)
     return <div>There was an error getting expenses. Please try again</div>;
