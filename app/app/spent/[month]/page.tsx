@@ -1,7 +1,6 @@
 import ExpenseSection from "@/components/pages/spent/ExpenseSection";
 import Summary from "@/components/pages/spent/Summary";
-import { createClient } from "@/lib/supabase/server";
-import { CategoryData, GetExpensesResponse } from "@/types/types";
+import { CategoryData } from "@/types/types";
 import { getCategories } from "../../planned/actions";
 import { getExpenses } from "./actions";
 
