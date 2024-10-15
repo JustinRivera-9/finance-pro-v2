@@ -34,8 +34,8 @@ const MonthFilter = ({ month }: { month: string }) => {
       onValueChange={(month) => handleMonthChange(month)}
       defaultValue={monthFilter}
     >
-      <SelectTrigger className="w-fit">
-        <SelectValue className="px-4" />
+      <SelectTrigger className="mx-auto w-2/5">
+        <SelectValue className="" />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
