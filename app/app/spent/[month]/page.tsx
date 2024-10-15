@@ -3,6 +3,7 @@ import Summary from "@/components/pages/spent/Summary";
 import { CategoryData } from "@/types/types";
 import { getCategories } from "../../planned/actions";
 import { getExpenses } from "./actions";
+import MonthFilter from "@/components/pages/spent/MonthFilter";
 
 const ExpensesPage = async ({ params }: { params: { month: string } }) => {
   const [expensesData, categories] = await Promise.all([
@@ -18,6 +19,7 @@ const ExpensesPage = async ({ params }: { params: { month: string } }) => {
   return (
     expenses && (
       <>
+        <MonthFilter month={params.month} />
         <Summary
           expenses={expenses}
           categories={categories as CategoryData[]}
