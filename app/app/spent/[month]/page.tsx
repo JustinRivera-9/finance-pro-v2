@@ -18,14 +18,15 @@ const ExpensesPage = async ({ params }: { params: { month: string } }) => {
 
   return (
     expenses && (
-      <>
+      <section className="flex flex-col gap-6">
         <MonthFilter month={params.month} />
         <Summary
+          month={params.month}
           expenses={expenses}
           categories={categories as CategoryData[]}
         />
         <ExpenseSection expenses={expenses} month={params.month} />
-      </>
+      </section>
     )
   );
 };
