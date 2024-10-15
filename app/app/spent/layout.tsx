@@ -1,4 +1,3 @@
-import MonthFilter from "@/components/pages/spent/MonthFilter";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -13,7 +12,6 @@ export default async function AppLayout({
 }) {
   return (
     <div className={`h-screen w-full flex flex-col bg-page text-light`}>
-      <MonthFilter />
       <main className="pb-20">{children}</main>
     </div>
   );
