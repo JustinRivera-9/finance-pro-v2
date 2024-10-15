@@ -9,24 +9,21 @@ type ExpenseSectionProps = {
 };
 
 const ExpenseSection = async ({ month, expenses }: ExpenseSectionProps) => {
-  const filteredExpenses = expenses.filter(
-    (expense) => expense.date.split(" ")[0] === month
-  );
+  const groupedExpenses = groupExpenseByCategory(month, expenses);
 
-  if (!filteredExpenses.length) return <NoExpenseMessage />;
-
-  const groupedExpenses = groupExpenseByCategory(filteredExpenses);
+  if (!groupedExpenses) return <NoExpenseMessage />;
 
   return (
     <ul className="flex flex-col gap-6">
-      {groupedExpenses.map((category) => (
-        <li key={category.category} className="">
-          <ExpenseCategoryGroup
-            category={category.category}
-            expenses={category.expenses}
-          />
-        </li>
-      ))}
+      {groupedExpenses &&
+        groupedExpenses.map((category) => (
+          <li key={category.category} className="">
+            <ExpenseCategoryGroup
+              category={category.category}
+              expenses={category.expenses}
+            />
+          </li>
+        ))}
     </ul>
   );
 };
