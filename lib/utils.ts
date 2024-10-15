@@ -34,18 +34,35 @@ export const formatCurrency = (value: number, rounded?: boolean) => {
   }
 };
 
-export const groupExpenseByCategory = (expenses: Expense[]) => {
-  const groupedExpenses = expenses.reduce<GroupedExpenses>((acc, expense) => {
-    const { category } = expense;
-    if (!acc[category]) {
-      acc[category] = {
-        category,
-        expenses: [],
-      };
-    }
-    acc[category].expenses.push(expense);
-    return acc;
-  }, {});
+export const filterExpenses = (month: string, expenses: Expense[]) => {
+  const filteredExpenses = expenses.filter(
+    (expense) => expense.date.split(" ")[0] === month
+  );
+
+  if (!filteredExpenses.length) return null;
+
+  return filteredExpenses;
+};
+
+export const groupExpenseByCategory = (month: string, expenses: Expense[]) => {
+  const filteredExpenses = filterExpenses(month, expenses);
+
+  if (!filteredExpenses) return null;
+
+  const groupedExpenses = filteredExpenses.reduce<GroupedExpenses>(
+    (acc, expense) => {
+      const { category } = expense;
+      if (!acc[category]) {
+        acc[category] = {
+          category,
+          expenses: [],
+        };
+      }
+      acc[category].expenses.push(expense);
+      return acc;
+    },
+    {}
+  );
 
   // Convert the grouped object back to an array
   const categorizedExpenses = Object.values(groupedExpenses);
@@ -66,5 +83,6 @@ export const formatExpenseDate = (date: string) => {
 };
 
 export const reduceArr = (arr: reduceArrParam[]): number => {
-  return arr.map((el) => Number(el.amount)).reduce((acc, cur) => acc + cur, 0);
+  if (!arr) return 0;
+  return arr?.map((el) => Number(el.amount)).reduce((acc, cur) => acc + cur, 0);
 };
