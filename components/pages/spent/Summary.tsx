@@ -1,13 +1,16 @@
-import { formatCurrency, reduceArr } from "@/lib/utils";
+import { filterExpenses, formatCurrency, reduceArr } from "@/lib/utils";
 import { CategoryData, Expense } from "@/types/types";
 
 type SummaryProps = {
   expenses: Expense[];
   categories: CategoryData[];
+  month: string;
 };
 
-const Summary = ({ expenses, categories }: SummaryProps) => {
-  const totalExpenses = reduceArr(expenses);
+const Summary = ({ expenses, categories, month }: SummaryProps) => {
+  const filteredExpenses = filterExpenses(month, expenses);
+
+  const totalExpenses = reduceArr(filteredExpenses!);
   const totalBudget = reduceArr(
     categories.filter((el) => el.type !== "income")
   );
