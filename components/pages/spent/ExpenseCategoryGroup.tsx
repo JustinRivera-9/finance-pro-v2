@@ -22,7 +22,7 @@ const ExpenseCategoryGroup = ({
       <div className="flex w-full gap-4 items-center">
         <ProgressBar expenses={expenses} />
         <button
-          className="rounded-full bg-page text-accent h-8 w-8"
+          className="rounded-full bg-page text-accent h-8 w-8 font-extrabold"
           onClick={() => setTableOpen((prev) => !prev)}
         >
           {tableOpen ? "-" : "+"}
