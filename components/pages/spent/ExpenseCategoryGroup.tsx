@@ -4,7 +4,6 @@ import CategoryHeader from "./CategoryHeader";
 import ExpenseTable from "./ExpenseTable";
 import { useState } from "react";
 import ProgressBar from "./ProgressBar";
-import { Button } from "@/components/ui/button";
 
 type ExpenseCategoryGroupProps = {
   category: string;
@@ -18,12 +17,12 @@ const ExpenseCategoryGroup = ({
   const [tableOpen, setTableOpen] = useState<boolean>(true);
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col items-start gap-2 bg-card mx-4 rounded-xl p-4">
       <CategoryHeader category={category} />
-      <div className="flex w-full justify-between px-4 gap-2">
+      <div className="flex w-full gap-4 items-center">
         <ProgressBar expenses={expenses} />
         <button
-          className="rounded-full bg-card text-accent w-8 h-8"
+          className="rounded-full bg-page text-accent h-8 w-8"
           onClick={() => setTableOpen((prev) => !prev)}
         >
           {tableOpen ? "-" : "+"}
