@@ -10,7 +10,7 @@ type ExpenseItemProps = {
 const ExpenseItem = ({ expense }: ExpenseItemProps) => {
   const { id, date, amount, description } = expense;
   return (
-    <section className="grid grid-cols-[1fr_1fr_2fr_.25fr] gap-4 py-2 pl-2 border-t border-light/30">
+    <section className="grid grid-cols-[1fr_1fr_2fr_.15fr] gap-4 py-2 pl-2 border-t border-light/30">
       <p>{formatExpenseDate(date)}</p>
       <p>{formatCurrency(amount, true)}</p>
       <p>{description}</p>
