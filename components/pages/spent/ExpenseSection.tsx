@@ -10,20 +10,18 @@ type ExpenseSectionProps = {
 
 const ExpenseSection = async ({ month, expenses }: ExpenseSectionProps) => {
   const groupedExpenses = groupExpenseByCategory(month, expenses);
-
   if (!groupedExpenses) return <NoExpenseMessage />;
 
   return (
     <ul className="flex flex-col gap-6">
-      {groupedExpenses &&
-        groupedExpenses.map((category) => (
-          <li key={category.category} className="">
-            <ExpenseCategoryGroup
-              category={category.category}
-              expenses={category.expenses}
-            />
-          </li>
-        ))}
+      {groupedExpenses.map((category) => (
+        <li key={category.category} className="">
+          <ExpenseCategoryGroup
+            category={category.category}
+            expenses={category.expenses}
+          />
+        </li>
+      ))}
     </ul>
   );
 };
