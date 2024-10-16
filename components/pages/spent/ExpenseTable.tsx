@@ -9,7 +9,7 @@ type ExpenseTableProps = {
 
 const ExpenseTable = ({ expenses }: ExpenseTableProps) => {
   return (
-    <div>
+    <div className="w-full">
       <ExpenseTableHeader />
       {expenses.map((expense) => (
         <ExpenseItem key={expense.id} expense={expense} />
