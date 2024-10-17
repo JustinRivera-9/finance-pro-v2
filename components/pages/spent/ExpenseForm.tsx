@@ -1,4 +1,4 @@
-const ExpenseForm = () => {
+const ExpenseForm = ({ category }: { category: string }) => {
   return (
     <>
       <div>ExpenseForm</div>
