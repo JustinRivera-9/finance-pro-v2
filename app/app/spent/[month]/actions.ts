@@ -1,3 +1,5 @@
+"use server";
+
 import { createClient } from "@/lib/supabase/server";
 import { GetExpensesResponse } from "@/types/types";
 
@@ -15,4 +17,18 @@ export const getExpenses = async (): Promise<GetExpensesResponse> => {
       error: "There was an error getting expenses. Please try again",
     };
   }
+};
+
+export const addExpenseAction = (formData: FormData) => {
+  const supabase = createClient();
+
+  const { category, amount, description, date } = Object.fromEntries(formData);
+  console.log(category, amount, description, date);
+};
+
+export const editExpenseAction = (formData: FormData) => {
+  const supabase = createClient();
+
+  const { category, amount, description, date } = Object.fromEntries(formData);
+  console.log(category, amount, description, date);
 };
