@@ -60,3 +60,15 @@ export const AccountPreferencesSchema = z.object({
   emailNotifications: z.boolean(),
   darkMode: z.boolean(),
 });
+
+export const ExpenseSchema = z.object({
+  description: z
+    .string()
+    .min(1, { message: "Please add an expense description" }),
+  amount: z.string().refine((val) => !isNaN(Number(val)) && Number(val) > 0, {
+    message: "Amount must be a number greater than 0",
+  }),
+  date: z.date({
+    required_error: "A date of birth is required.",
+  }),
+});
