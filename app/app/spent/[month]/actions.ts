@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { formatExpenseDate } from "@/lib/utils";
 import { GetExpensesResponse } from "@/types/types";
 
 export const getExpenses = async (): Promise<GetExpensesResponse> => {
@@ -23,7 +24,11 @@ export const addExpenseAction = (formData: FormData) => {
   const supabase = createClient();
 
   const { category, amount, description, date } = Object.fromEntries(formData);
-  console.log(category, amount, description, date);
+  console.log("Category:", category);
+  console.log("Amount:", amount);
+  console.log("Description:", description);
+  console.log("Date (raw):", date);
+  console.log("Date (formatted):", formatExpenseDate(date as string));
 };
 
 export const editExpenseAction = (formData: FormData) => {
