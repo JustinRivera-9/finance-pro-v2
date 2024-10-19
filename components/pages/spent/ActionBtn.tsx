@@ -10,9 +10,12 @@ import {
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { deleteExpenseAction } from "@/app/app/spent/[month]/actions";
+import { useToast } from "@/hooks/use-toast";
 
 const ActionBtn = ({ expense }: { expense: Expense }) => {
   const { id, date, amount, description } = expense;
+  const { toast } = useToast();
 
   const handleEdit = () => {
     console.log(id);
@@ -20,8 +23,10 @@ const ActionBtn = ({ expense }: { expense: Expense }) => {
   };
 
   const handleDelete = () => {
-    console.log(id);
-    console.log("Delete Action");
+    deleteExpenseAction(id);
+    toast({
+      title: `Successfully deleted the ${description} expense`,
+    });
   };
 
   return (
