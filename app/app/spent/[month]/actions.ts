@@ -31,7 +31,7 @@ export const getExpenses = async (): Promise<GetExpensesResponse> => {
 export const addExpenseAction = async (formData: FormData) => {
   const supabase = createClient();
   const user_id = await getUser();
-  const { category, amount, description, date } = Object.fromEntries(formData);
+  const { date } = Object.fromEntries(formData);
 
   const cleanData = {
     ...Object.fromEntries(formData),
