@@ -35,8 +35,23 @@ export const formatCurrency = (value: number, rounded?: boolean) => {
 };
 
 export const filterExpenses = (month: string, expenses: Expense[]) => {
+  const monthConversionObj: { [key: string]: string } = {
+    "01": "january",
+    "02": "february",
+    "03": "march",
+    "04": "april",
+    "05": "may",
+    "06": "june",
+    "07": "july",
+    "08": "august",
+    "09": "september",
+    "10": "october",
+    "11": "november",
+    "12": "december",
+  };
+
   const filteredExpenses = expenses.filter(
-    (expense) => expense.date.split(" ")[0] === month
+    (expense) => monthConversionObj[expense.date.split("/")[0]] === month
   );
 
   if (!filteredExpenses.length) return null;
@@ -73,13 +88,12 @@ export const capitalize = (str: string): string =>
   str.charAt(0).toUpperCase() + str.slice(1);
 
 export const formatExpenseDate = (date: string) => {
-  const dateString = new Date(date);
+  const [month, day, year] = date.split("/");
 
-  const month = dateString.getMonth() + 1;
-  const day = dateString.getDate();
-  const year = dateString.getFullYear().toString().slice(-2);
+  const formattedYear = year.slice(-2);
+  const formattedDate = [month, day, formattedYear].join("/");
 
-  return `${month}/${day}/${year}`;
+  return formattedDate;
 };
 
 export const reduceArr = (arr: reduceArrParam[]): number => {
