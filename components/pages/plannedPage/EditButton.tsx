@@ -1,6 +1,6 @@
 import EditIcon from "@mui/icons-material/Edit";
 import CategoryForm from "./addCategory/CategoryForm";
-import FormDrawer from "@/components/ui/DrawerCard";
+import FormDrawer from "@/components/ui/FormDrawer";
 import type { CategoryData } from "@/types/types";
 
 type EditButtonProps = {

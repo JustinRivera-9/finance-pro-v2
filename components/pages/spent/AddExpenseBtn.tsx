@@ -1,4 +1,4 @@
-import FormDrawer from "@/components/ui/DrawerCard";
+import FormDrawer from "@/components/ui/FormDrawer";
 import ExpenseForm from "./ExpenseForm";
 
 const TriggerLabel = () => (

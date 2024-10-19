@@ -9,21 +9,21 @@ import {
 import { type ReactNode } from "react";
 import { Separator } from "@/components/ui/separator";
 
-type DrawerCardProps = {
+type FormDrawerProps = {
   children: ReactNode;
   title?: string;
   description?: string;
   triggerLabel: string | ReactNode;
-  color: string;
+  color?: string;
 };
 
-const DrawerCard = ({
+const FormDrawer = ({
   children,
   title,
   description,
   triggerLabel,
   color,
-}: DrawerCardProps) => {
+}: FormDrawerProps) => {
   return (
     <Drawer>
       <DrawerTrigger className="" asChild>
@@ -45,4 +45,4 @@ const DrawerCard = ({
   );
 };
 
-export default DrawerCard;
+export default FormDrawer;

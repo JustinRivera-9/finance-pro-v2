@@ -1,4 +1,4 @@
-import FormDrawer from "../../../ui/DrawerCard";
+import FormDrawer from "../../../ui/FormDrawer";
 import CategoryForm from "./CategoryForm";
 
 const AddCategoryForm = () => {
