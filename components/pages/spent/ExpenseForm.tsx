@@ -48,7 +48,7 @@ const ExpenseForm = ({ category, expenseData }: ExpenseFormProps) => {
     },
   });
 
-  const { formState } = form;
+  const { formState, handleSubmit } = form;
 
   // const amountWatch = form.watch("amount");
   // const descriptionWatch = form.watch("description");
@@ -81,6 +81,11 @@ const ExpenseForm = ({ category, expenseData }: ExpenseFormProps) => {
           name="date"
           render={({ field }) => (
             <FormItem className="flex flex-col">
+              <input
+                type="hidden"
+                name={field.name}
+                value={`${format(field.value, "P")}`}
+              />
               <FormLabel>Expense Date</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
@@ -105,7 +110,11 @@ const ExpenseForm = ({ category, expenseData }: ExpenseFormProps) => {
                   <Calendar
                     mode="single"
                     selected={field.value}
-                    onSelect={field.onChange}
+                    onSelect={(selectedDate) => {
+                      field.onChange(
+                        selectedDate ? selectedDate.toISOString() : ""
+                      );
+                    }}
                     disabled={(date) =>
                       date > new Date() || date < new Date("1900-01-01")
                     }
