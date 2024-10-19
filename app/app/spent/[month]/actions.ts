@@ -1,5 +1,4 @@
 "use server";
-
 import { getUser } from "@/lib/supabase/actions";
 import { createClient } from "@/lib/supabase/server";
 import { formatExpenseDate } from "@/lib/utils";
@@ -51,9 +50,22 @@ export const addExpenseAction = async (formData: FormData) => {
   }
 };
 
-export const editExpenseAction = (formData: FormData) => {
+export const editExpenseAction = async (formData: FormData) => {
   const supabase = createClient();
 
   const { category, amount, description, date } = Object.fromEntries(formData);
   console.log(category, amount, description, date);
+};
+
+export const deleteExpenseAction = async (id: string) => {
+  const supabase = createClient();
+
+  try {
+    const { error } = await supabase.from("expenses").delete().eq("id", id);
+    if (error) throw Error;
+
+    revalidatePath("app/spent");
+  } catch (error) {
+    console.error(error);
+  }
 };
