@@ -69,3 +69,20 @@ export const deleteExpenseAction = async (id: string) => {
     console.error(error);
   }
 };
+
+export const getEditExpense = async (id: string) => {
+  const supabase = createClient();
+
+  try {
+    let { data: expenseData, error } = await supabase
+      .from("expenses")
+      .select("*")
+      .eq("id", id);
+
+    if (error) throw Error;
+
+    return expenseData;
+  } catch (err) {
+    console.error(err);
+  }
+};

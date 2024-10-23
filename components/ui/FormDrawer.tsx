@@ -13,8 +13,9 @@ type FormDrawerProps = {
   children: ReactNode;
   title?: string;
   description?: string;
-  triggerLabel: string | ReactNode;
+  triggerLabel?: string | ReactNode;
   color?: string;
+  open?: boolean;
 };
 
 const FormDrawer = ({
@@ -23,6 +24,7 @@ const FormDrawer = ({
   description,
   triggerLabel,
   color,
+  open = true,
 }: FormDrawerProps) => {
   return (
     <Drawer>
