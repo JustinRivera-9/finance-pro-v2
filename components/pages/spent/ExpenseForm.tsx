@@ -1,10 +1,7 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { format } from "date-fns";
+import { Calendar } from "@/components/ui/calendar";
 import { CalendarIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Form,
   FormControl,
@@ -13,21 +10,25 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { ExpenseSchema } from "@/schema";
-import { useToast } from "@/hooks/use-toast";
-import type { Expense } from "@/types/types";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Calendar } from "@/components/ui/calendar";
+
+import { usePathname, useRouter } from "next/navigation";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ExpenseSchema } from "@/schema";
+import { useForm } from "react-hook-form";
+import { useToast } from "@/hooks/use-toast";
+import { cn } from "@/lib/utils";
+import { format } from "date-fns";
 import {
   addExpenseAction,
   editExpenseAction,
 } from "@/app/app/spent/[month]/actions";
-import { usePathname, useRouter } from "next/navigation";
+import type { Expense } from "@/types/types";
 
 type ExpenseFormProps = {
   category?: string;
@@ -57,7 +58,6 @@ const ExpenseForm = ({ category, expenseData }: ExpenseFormProps) => {
   const path = pathname.split("/");
   path.pop();
   const url = path.join("/");
-  console.log(url);
 
   // const amountWatch = form.watch("amount");
   // const descriptionWatch = form.watch("description");
