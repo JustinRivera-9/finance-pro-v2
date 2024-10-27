@@ -33,7 +33,7 @@ const ActionBtn = ({ expense }: { expense: Expense }) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuItem>
-          <Link href={`/app/spent/october/${id}`}>
+          <Link href={`${path}/${id}`}>
             <EditIcon fontSize="small" sx={{ marginRight: "8px" }} />
           </Link>
           Edit
