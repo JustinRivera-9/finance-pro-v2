@@ -65,11 +65,11 @@ export const editExpenseAction = async (formData: FormData) => {
 
     if (error) throw Error;
 
-    revalidatePath(url);
+    revalidatePath(url as string);
   } catch (error) {
     console.error("Error in editExpenseAction");
   }
-  redirect(url);
+  redirect(url as string);
 };
 
 export const deleteExpenseAction = async (id: string) => {
