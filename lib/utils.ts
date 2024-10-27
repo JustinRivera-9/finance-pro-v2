@@ -75,7 +75,7 @@ export const groupExpenseByCategory = (
 
   // Creates an array of objects containing info for each expense category
   const groupedCategories = categories.map((category) => {
-    const categoryWithExpense = expenses.filter(
+    const categoryWithExpense = filteredExpenses.filter(
       (expense) => expense.category === category.category
     );
 
