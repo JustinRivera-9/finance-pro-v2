@@ -60,7 +60,7 @@ export const editExpenseAction = async (formData: FormData) => {
   try {
     const { error } = await supabase
       .from("expenses")
-      .update({ amount, description, date })
+      .update({ amount, description, date: formatExpenseDate(date as string) })
       .eq("id", id);
 
     if (error) throw Error;
