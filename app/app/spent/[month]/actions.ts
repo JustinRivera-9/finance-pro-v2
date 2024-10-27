@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { formatExpenseDate } from "@/lib/utils";
 import { GetExpensesResponse } from "@/types/types";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { v4 as uuid } from "uuid";
 
 export const getExpenses = async (): Promise<GetExpensesResponse> => {
@@ -52,9 +53,23 @@ export const addExpenseAction = async (formData: FormData) => {
 
 export const editExpenseAction = async (formData: FormData) => {
   const supabase = createClient();
+  const { url, amount, description, date, id } = Object.fromEntries(formData);
 
-  const { category, amount, description, date } = Object.fromEntries(formData);
-  console.log(category, amount, description, date);
+  console.log(url);
+
+  try {
+    const { error } = await supabase
+      .from("expenses")
+      .update({ amount, description, date })
+      .eq("id", id);
+
+    if (error) throw Error;
+
+    revalidatePath(url);
+  } catch (error) {
+    console.error("Error in editExpenseAction");
+  }
+  redirect(url);
 };
 
 export const deleteExpenseAction = async (id: string) => {

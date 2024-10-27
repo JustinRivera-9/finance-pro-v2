@@ -1,5 +1,4 @@
 import { Expense } from "@/types/types";
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,20 +10,14 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { deleteExpenseAction } from "@/app/app/spent/[month]/actions";
 import { useToast } from "@/hooks/use-toast";
-import { useState } from "react";
-import ExpenseForm from "./ExpenseForm";
-import FormDrawer from "@/components/ui/FormDrawer";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const ActionBtn = ({ expense }: { expense: Expense }) => {
-  const { id, date, amount, description, category } = expense;
+  const { id, description } = expense;
   const { toast } = useToast();
-  const router = useRouter();
 
-  const handleEdit = () => {
-    console.log(id);
-    router.push("app/app/spent/october/f59c4d1c-9683-4b87-90dd-967a4800376d");
-  };
+  const path = usePathname();
 
   const handleDelete = () => {
     deleteExpenseAction(id);
@@ -39,8 +32,10 @@ const ActionBtn = ({ expense }: { expense: Expense }) => {
         <MoreVertIcon />
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuItem onClick={handleEdit}>
-          <EditIcon fontSize="small" sx={{ marginRight: "8px" }} />
+        <DropdownMenuItem>
+          <Link href={`/app/spent/october/${id}`}>
+            <EditIcon fontSize="small" sx={{ marginRight: "8px" }} />
+          </Link>
           Edit
         </DropdownMenuItem>
         <DropdownMenuItem onClick={handleDelete}>
