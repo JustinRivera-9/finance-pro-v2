@@ -23,7 +23,6 @@ const ExpenseSection = async ({
     expenses,
     expenseCategories
   );
-  console.log(groupedExpenses);
 
   if (!groupedExpenses) {
     return <NoExpenseMessage />;
