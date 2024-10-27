@@ -49,7 +49,7 @@ const ExpenseForm = ({ category, expenseData }: ExpenseFormProps) => {
     defaultValues: {
       amount: amount?.toString() || "",
       description: description || "",
-      date: new Date() || date || null,
+      date: date || new Date() || null,
     },
   });
   const { formState, handleSubmit } = form;
