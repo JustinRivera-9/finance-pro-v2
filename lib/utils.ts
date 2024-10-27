@@ -1,4 +1,9 @@
-import { Expense, GroupedExpenses, reduceArrParam } from "@/types/types";
+import {
+  CategoryData,
+  Expense,
+  GroupedExpenses,
+  reduceArrParam,
+} from "@/types/types";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -59,29 +64,30 @@ export const filterExpenses = (month: string, expenses: Expense[]) => {
   return filteredExpenses;
 };
 
-export const groupExpenseByCategory = (month: string, expenses: Expense[]) => {
+export const groupExpenseByCategory = (
+  month: string,
+  expenses: Expense[],
+  categories: CategoryData[]
+) => {
+  // Returns expenses based on current month
   const filteredExpenses = filterExpenses(month, expenses);
-
   if (!filteredExpenses) return null;
 
-  const groupedExpenses = filteredExpenses.reduce<GroupedExpenses>(
-    (acc, expense) => {
-      const { category } = expense;
-      if (!acc[category]) {
-        acc[category] = {
-          category,
-          expenses: [],
-        };
-      }
-      acc[category].expenses.push(expense);
-      return acc;
-    },
-    {}
-  );
+  // Creates an array of objects containing info for each expense category
+  const groupedCategories = categories.map((category) => {
+    const categoryWithExpense = expenses.filter(
+      (expense) => expense.category === category.category
+    );
 
-  // Convert the grouped object back to an array
-  const categorizedExpenses = Object.values(groupedExpenses);
-  return categorizedExpenses;
+    return {
+      month,
+      category: category.category,
+      expenses: categoryWithExpense,
+      budget: category.amount,
+    };
+  });
+
+  return groupedCategories;
 };
 
 export const capitalize = (str: string): string =>
