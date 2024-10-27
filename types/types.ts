@@ -44,10 +44,10 @@ export type GetExpensesResponse = {
 };
 
 export type GroupedExpenses = {
-  [category: string]: {
-    category: string;
-    expenses: Expense[];
-  };
+  month: string;
+  category: string;
+  expenses: Expense[];
+  budget: number;
 };
 
 // PLAID TYPES
