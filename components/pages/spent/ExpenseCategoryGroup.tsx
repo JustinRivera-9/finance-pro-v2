@@ -18,7 +18,7 @@ const ExpenseCategoryGroup = ({ categoryData }: ExpenseCategoryGroupProps) => {
 
   return (
     <div className="flex flex-col items-start gap-2 bg-card mx-4 rounded-xl p-4">
-      <CategoryHeader category={category} />
+      <CategoryHeader category={category} budget={budget} />
       <div className="flex w-full gap-4 items-center">
         <ProgressBar expenses={expenses} budget={budget} />
         <button
