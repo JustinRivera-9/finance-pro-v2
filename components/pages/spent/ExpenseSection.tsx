@@ -1,4 +1,4 @@
-import type { Expense } from "@/types/types";
+import type { CategoryData, Expense, GroupedExpenses } from "@/types/types";
 import NoExpenseMessage from "./NoExpenseMessage";
 import { groupExpenseByCategory } from "@/lib/utils";
 import ExpenseCategoryGroup from "./ExpenseCategoryGroup";
@@ -6,20 +6,29 @@ import ExpenseCategoryGroup from "./ExpenseCategoryGroup";
 type ExpenseSectionProps = {
   month: string;
   expenses: Expense[];
+  categories: CategoryData[];
 };
 
-const ExpenseSection = async ({ month, expenses }: ExpenseSectionProps) => {
-  const groupedExpenses = groupExpenseByCategory(month, expenses);
-  if (!groupedExpenses) return <NoExpenseMessage />;
+const ExpenseSection = async ({
+  month,
+  expenses,
+  categories,
+}: ExpenseSectionProps) => {
+  const expenseCategories = categories.filter(
+    (category) => !category.isFixed && category.type === "expense"
+  );
+
+  const groupedExpenses: GroupedExpenses[] = groupExpenseByCategory(
+    month,
+    expenses,
+    expenseCategories
+  );
 
   return (
     <ul className="flex flex-col gap-6">
       {groupedExpenses.map((category) => (
         <li key={category.category} className="">
-          <ExpenseCategoryGroup
-            category={category.category}
-            expenses={category.expenses}
-          />
+          <ExpenseCategoryGroup categoryData={category} />
         </li>
       ))}
     </ul>

@@ -25,7 +25,11 @@ const ExpensesPage = async ({ params }: { params: { month: string } }) => {
           expenses={expenses}
           categories={categories as CategoryData[]}
         />
-        <ExpenseSection expenses={expenses} month={params.month} />
+        <ExpenseSection
+          expenses={expenses}
+          month={params.month}
+          categories={categories as CategoryData[]}
+        />
       </section>
     )
   );
