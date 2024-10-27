@@ -27,17 +27,21 @@ import {
   addExpenseAction,
   editExpenseAction,
 } from "@/app/app/spent/[month]/actions";
+import { usePathname, useRouter } from "next/navigation";
 
 type ExpenseFormProps = {
-  category: string;
+  category?: string;
   expenseData?: Expense;
 };
 
 const ExpenseForm = ({ category, expenseData }: ExpenseFormProps) => {
-  const { amount, date, description } = expenseData || {};
-  const isEdit = expenseData?.id ? true : false;
-
   const { toast } = useToast();
+  const pathname = usePathname();
+  const router = useRouter();
+
+  // Only for Edit scenarios
+  const { amount, date, description, id } = (expenseData?.[0] as Expense) || {};
+  const isEdit = id ? true : false;
 
   const form = useForm<z.infer<typeof ExpenseSchema>>({
     resolver: zodResolver(ExpenseSchema),
@@ -47,8 +51,13 @@ const ExpenseForm = ({ category, expenseData }: ExpenseFormProps) => {
       date: new Date() || date || null,
     },
   });
-
   const { formState, handleSubmit } = form;
+
+  // Gets month to pass in action for redirecting on submit/cancel
+  const path = pathname.split("/");
+  path.pop();
+  const url = path.join("/");
+  console.log(url);
 
   // const amountWatch = form.watch("amount");
   // const descriptionWatch = form.watch("description");
@@ -150,25 +159,40 @@ const ExpenseForm = ({ category, expenseData }: ExpenseFormProps) => {
         <input type="hidden" name="category" value={category} />
 
         {/* HIDDEN ID INPUT FOR EDITING */}
-        {isEdit && <input type="hidden" name="id" value={expenseData?.id} />}
+        {isEdit && <input type="hidden" name="id" value={id} />}
 
-        {/* DISABLE BUTTON OPTION */}
-        <Button
-          type="submit"
-          className="bg-accent text-dark"
-          disabled={!formState.isDirty}
-          onClick={() => {
-            // Need to figure out how to handle error case
-            toast({
-              title: isEdit
-                ? `Successfully updated expense`
-                : `Successfully added expense`,
-            });
-          }}
-        >
-          {isEdit ? "Update" : "Add Expense"}
-        </Button>
+        {/* HIDDEN URL INPUT FOR REDIRCTING */}
+        {isEdit && <input type="hidden" name="url" value={url} />}
 
+        <div className="flex justify-between">
+          {/* DISABLE BUTTON OPTION */}
+          <Button
+            type="submit"
+            className="bg-accent text-dark"
+            disabled={!formState.isDirty}
+            onClick={() => {
+              // Need to figure out how to handle error case
+              toast({
+                title: isEdit
+                  ? `Successfully updated expense`
+                  : `Successfully added expense`,
+              });
+            }}
+          >
+            {isEdit ? "Update" : "Add Expense"}
+          </Button>
+
+          {/* CANCEL BUTTON */}
+          {isEdit && (
+            <Button
+              variant="ghost"
+              className="text-error text-md"
+              onClick={() => router.back()}
+            >
+              Cancel
+            </Button>
+          )}
+        </div>
         {/* HIDE BUTTON OPTION */}
         {/* {formState.isDirty && (
           <Button
