@@ -8,6 +8,9 @@ type ExpenseTableProps = {
 };
 
 const ExpenseTable = ({ expenses }: ExpenseTableProps) => {
+  if (!expenses.length)
+    return <p className="text-xl py-2">Add your first expense below!</p>;
+
   return (
     <div className="w-full">
       <ExpenseTableHeader />
