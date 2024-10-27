@@ -23,10 +23,15 @@ const ExpenseSection = async ({
     expenses,
     expenseCategories
   );
+  console.log(groupedExpenses);
+
+  if (!groupedExpenses) {
+    return <NoExpenseMessage />;
+  }
 
   return (
     <ul className="flex flex-col gap-6">
-      {groupedExpenses.map((category) => (
+      {groupedExpenses?.map((category) => (
         <li key={category.category} className="">
           <ExpenseCategoryGroup categoryData={category} />
         </li>
