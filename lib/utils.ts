@@ -71,11 +71,10 @@ export const groupExpenseByCategory = (
 ) => {
   // Returns expenses based on current month
   const filteredExpenses = filterExpenses(month, expenses);
-  if (!filteredExpenses) return null;
 
   // Creates an array of objects containing info for each expense category
   const groupedCategories = categories.map((category) => {
-    const categoryWithExpense = filteredExpenses.filter(
+    const categoryWithExpense = filteredExpenses?.filter(
       (expense) => expense.category === category.category
     );
 
