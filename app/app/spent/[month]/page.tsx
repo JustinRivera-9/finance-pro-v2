@@ -4,6 +4,7 @@ import { CategoryData } from "@/types/types";
 import { getCategories } from "../../planned/actions";
 import { getExpenses } from "./actions";
 import MonthFilter from "@/components/pages/spent/MonthFilter";
+import { FixedExpenseCarousel } from "@/components/pages/spent/FixedExpenseCarousel";
 
 const ExpensesPage = async ({ params }: { params: { month: string } }) => {
   const [expensesData, categories] = await Promise.all([
@@ -25,6 +26,7 @@ const ExpensesPage = async ({ params }: { params: { month: string } }) => {
           expenses={expenses}
           categories={categories as CategoryData[]}
         />
+        <FixedExpenseCarousel categories={categories} />
         <ExpenseSection
           expenses={expenses}
           month={params.month}
