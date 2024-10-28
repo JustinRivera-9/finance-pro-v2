@@ -6,7 +6,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { formatCurrency, sortByDate } from "@/lib/utils";
+import { formatCurrency, sortFixedExpenses } from "@/lib/utils";
 import { CategoryData } from "@/types/types";
 
 type FixedExpenseCarouselProps = {
@@ -16,7 +16,7 @@ type FixedExpenseCarouselProps = {
 export function FixedExpenseCarousel({
   categories,
 }: FixedExpenseCarouselProps) {
-  const fixedExpenses = sortByDate(
+  const fixedExpenses = sortFixedExpenses(
     categories.filter((expense) => expense.isFixed)
   );
 

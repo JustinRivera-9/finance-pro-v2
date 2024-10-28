@@ -101,7 +101,7 @@ export const reduceArr = (arr: reduceArrParam[]): number => {
   return arr?.map((el) => Number(el.amount)).reduce((acc, cur) => acc + cur, 0);
 };
 
-export const sortByDate = (arr: CategoryData[]): CategoryData[] => {
+export const sortFixedExpenses = (arr: CategoryData[]): CategoryData[] => {
   const sortedArr = arr.sort((a, b) => +a.date - +b.date);
 
   return sortedArr;
