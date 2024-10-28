@@ -1,24 +1,25 @@
-import { PlannedCategories } from "@/types/types";
+import { CategoryData } from "@/types/types";
 import CategoryColumn from "./CategoryColumn";
+import { sortFixedExpenses } from "@/lib/utils";
 
 ////////// Look into refactoring - DRY
 
-type CategorySectionProps = { categories: PlannedCategories[] };
+type CategorySectionProps = { categories: CategoryData[] };
 
 const CategorySection: React.FC<CategorySectionProps> = ({ categories }) => {
-  const incomeCategory: PlannedCategories[] = categories.filter(
-    (category: PlannedCategories) => category.type === "income"
+  const incomeCategory: CategoryData[] = categories.filter(
+    (category: CategoryData) => category.type === "income"
   );
 
-  const expenseCategory: PlannedCategories[] = categories.filter(
-    (category: PlannedCategories) =>
-      category.type === "expense" && !category.isFixed
+  const expenseCategory: CategoryData[] = categories.filter(
+    (category: CategoryData) => category.type === "expense" && !category.isFixed
   );
 
-  // ADD SORT BY DATE TO SHOW EXPENSES IN ORDER
-  const fixedExpenseCategory: PlannedCategories[] = categories.filter(
-    (category: PlannedCategories) =>
-      category.type === "expense" && category.isFixed
+  const fixedExpenseCategory: CategoryData[] = sortFixedExpenses(
+    categories.filter(
+      (category: CategoryData) =>
+        category.type === "expense" && category.isFixed
+    )
   );
 
   return (
