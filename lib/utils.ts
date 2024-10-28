@@ -1,9 +1,4 @@
-import {
-  CategoryData,
-  Expense,
-  GroupedExpenses,
-  reduceArrParam,
-} from "@/types/types";
+import { CategoryData, Expense, reduceArrParam } from "@/types/types";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -104,4 +99,10 @@ export const formatExpenseDate = (date: string) => {
 export const reduceArr = (arr: reduceArrParam[]): number => {
   if (!arr) return 0;
   return arr?.map((el) => Number(el.amount)).reduce((acc, cur) => acc + cur, 0);
+};
+
+export const sortByDate = (arr: CategoryData[]): CategoryData[] => {
+  const sortedArr = arr.sort((a, b) => +a.date - +b.date);
+
+  return sortedArr;
 };
