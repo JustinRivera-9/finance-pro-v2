@@ -102,7 +102,9 @@ export const reduceArr = (arr: reduceArrParam[]): number => {
 };
 
 export const sortFixedExpenses = (arr: CategoryData[]): CategoryData[] => {
-  const sortedArr = arr.sort((a, b) => +a.date - +b.date);
+  return arr.sort((a, b) => +a.date - +b.date);
+};
 
-  return sortedArr;
+export const sortExpenses = (arr: Expense[]): Expense[] => {
+  return arr.sort((a, b) => +b.date.split("/")[1] - +a.date.split("/")[1]);
 };
