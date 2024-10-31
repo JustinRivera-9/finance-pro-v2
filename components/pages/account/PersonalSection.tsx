@@ -1,97 +1,21 @@
-"use client";
-import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormMessage,
-} from "@/components/ui/form";
-import FormCard from "@/components/ui/FormCard";
-import { Input } from "@/components/ui/input";
-import { useUser } from "@/context/UserContext";
-import { PersonalInfoFormSchema } from "@/schema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { createClient } from "@/lib/supabase/server";
+import PersonalInfoForm from "./forms/PersonalInfoForm";
 
-const PersonalSection = () => {
-  const user = useUser();
-  // SET DEFAULT VALUES TO USER OBJECT
-  // if (form field !== user object) => show update button --> means user has updated information
+const PersonalSection = async () => {
+  const supabase = createClient();
 
-  const form = useForm<z.infer<typeof PersonalInfoFormSchema>>({
-    resolver: zodResolver(PersonalInfoFormSchema),
-    defaultValues: {
-      fullName: "",
-      email: "",
-    },
-  });
+  // gets user email
+  const { data: userEmail, error: emailError } = await supabase.auth.getUser();
 
-  const { formState } = form;
+  // gets user name
+  let { data: fullName, error: nameError } = await supabase
+    .from("account")
+    .select("fullName");
 
-  const onSubmit = (values: z.infer<typeof PersonalInfoFormSchema>) => {
-    const { fullName, email } = values;
+  const name = fullName![0].fullName;
+  const email = userEmail.user!.email;
 
-    console.log(values);
-  };
-
-  return (
-    <>
-      <FormCard
-        title="Personal Information"
-        description="Update your personal details."
-      >
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="flex flex-col gap-2"
-          >
-            {/* FULL NAME INPUT */}
-            <FormField
-              control={form.control}
-              name="fullName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Full Name</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Enter full name"
-                      type="text"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* EMAIL INPUT */}
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter email" type="email" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {formState.isDirty && (
-              <Button type="submit" className="bg-accent text-dark w-1/3 mt-2">
-                Update
-              </Button>
-            )}
-          </form>
-        </Form>
-      </FormCard>
-    </>
-  );
+  return <PersonalInfoForm data={{ name, email }} />;
 };
 
 export default PersonalSection;
