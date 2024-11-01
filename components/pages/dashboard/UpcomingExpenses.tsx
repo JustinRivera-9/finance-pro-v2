@@ -1,5 +1,13 @@
+import SectionContainer from "./SectionContainer";
+import SectionTitle from "./SectionTitle";
+
 const UpcomingExpenses = () => {
-  return <div>UpcomingExpenses</div>;
+  return (
+    <SectionContainer>
+      <SectionTitle>Upcoming Expenses</SectionTitle>
+      <div>Upcoming Expenses Section</div>
+    </SectionContainer>
+  );
 };
 
 export default UpcomingExpenses;
