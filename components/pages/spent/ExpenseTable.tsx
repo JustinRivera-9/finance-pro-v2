@@ -13,8 +13,6 @@ const ExpenseTable = ({ expenses }: ExpenseTableProps) => {
     return <p className="text-xl py-2">Add your first expense below!</p>;
 
   const sortedExpenses = sortExpenses(expenses);
-  console.log("Original: ", expenses);
-  console.log("Sorted: ", sortedExpenses);
 
   return (
     <div className="w-full">
