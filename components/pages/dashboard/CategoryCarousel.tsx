@@ -9,6 +9,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import SectionContainer from "./SectionContainer";
 import SectionTitle from "./SectionTitle";
 import { formatCurrency } from "@/lib/utils";
+import { CategorySpendChart } from "./CategorySpendChart";
 
 const tempData = [
   {
@@ -51,7 +52,7 @@ const CategoryCarousel = async () => {
         <CarouselContent className="-ml-1">
           {tempData.map((category) => (
             <CarouselItem key={category.id} className="basis-1/2">
-              <div className="">
+              {/* <div className="">
                 <Card className="bg-neutral-900">
                   <CardContent className="flex flex-col gap-4 text-center aspect-square items-center justify-around ">
                     <p className="text-3xl font-semibold text-accent">
@@ -67,7 +68,8 @@ const CategoryCarousel = async () => {
                     </div>
                   </CardContent>
                 </Card>
-              </div>
+              </div> */}
+              <CategorySpendChart />
             </CarouselItem>
           ))}
         </CarouselContent>
