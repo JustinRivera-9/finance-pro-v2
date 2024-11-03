@@ -48,7 +48,6 @@ const chartConfig = {
 
 export function CategorySpendChart({ category }: CategorySpendChartProps) {
   const data = [{ ...category }];
-  console.log(data[0].fill);
 
   return (
     <ChartContainer
