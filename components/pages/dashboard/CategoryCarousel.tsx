@@ -5,11 +5,16 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { Card, CardContent } from "@/components/ui/card";
 import SectionContainer from "./SectionContainer";
 import SectionTitle from "./SectionTitle";
-import { formatCurrency } from "@/lib/utils";
 import { CategorySpendChart } from "./CategorySpendChart";
+
+// const under = "rgb(132 204 22 / 0.5)";
+// const warning = "rgb(251 189 35 / 0.5)";
+// const over = "rgb(248 114 114 / 0.7)";
+
+const calcAngle = (planned: number, spent: number): number =>
+  (spent / planned) * 360;
 
 const tempData = [
   {
@@ -44,32 +49,31 @@ const tempData = [
   },
 ];
 
+const updatedData = tempData.map((item) => {
+  const under = "rgb(132 204 22 / 0.5)";
+  const warning = "rgb(251 189 35 / 0.5)";
+  const over = "rgb(248 114 114 / 0.7)";
+
+  let percentToBudget = item.spent / item.planned;
+  let fillColor =
+    percentToBudget > 0.99 ? over : percentToBudget > 0.74 ? warning : under;
+
+  return {
+    ...item,
+    angle: calcAngle(item.planned, item.spent),
+    fill: fillColor,
+  };
+});
+
 const CategoryCarousel = async () => {
   return (
     <SectionContainer>
       <SectionTitle>Spend by Category</SectionTitle>
       <Carousel className="w-full max-w-sm overflow-hidden">
         <CarouselContent className="-ml-1">
-          {tempData.map((category) => (
+          {updatedData.map((category) => (
             <CarouselItem key={category.id} className="basis-1/2">
-              {/* <div className="">
-                <Card className="bg-neutral-900">
-                  <CardContent className="flex flex-col gap-4 text-center aspect-square items-center justify-around ">
-                    <p className="text-3xl font-semibold text-accent">
-                      {category.category}
-                    </p>
-                    <div className="flex flex-col gap-4 items-center">
-                      <p className="text-2xl font-semibold">
-                        Spent: {formatCurrency(category.spent, true)}
-                      </p>
-                      <p className="text-2xl font-semibold">
-                        Planned: {formatCurrency(category.planned, true)}
-                      </p>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div> */}
-              <CategorySpendChart />
+              <CategorySpendChart category={category} />
             </CarouselItem>
           ))}
         </CarouselContent>
