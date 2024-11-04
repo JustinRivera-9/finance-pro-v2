@@ -50,54 +50,61 @@ export function CategorySpendChart({ category }: CategorySpendChartProps) {
   const data = [{ ...category }];
 
   return (
-    <ChartContainer
-      config={chartConfig}
-      className="mx-auto aspect-square max-h-[250px]"
-    >
-      <PieChart>
-        <ChartTooltip
-          cursor={false}
-          content={<ChartTooltipContent hideLabel />}
-        />
-        <Pie
-          startAngle={90}
-          endAngle={data[0].angle + 90}
-          data={data}
-          dataKey="spent"
-          nameKey="category"
-          innerRadius={55}
-        >
-          <Label
-            content={({ viewBox }) => {
-              if (viewBox && "cx" in viewBox && "cy" in viewBox) {
-                return (
-                  <text
-                    x={viewBox.cx}
-                    y={viewBox.cy}
-                    textAnchor="middle"
-                    dominantBaseline="middle"
-                  >
-                    <tspan
+    <>
+      <ChartContainer
+        config={chartConfig}
+        className="mx-auto aspect-square max-h-[200px]"
+      >
+        <PieChart>
+          <ChartTooltip
+            cursor={false}
+            content={<ChartTooltipContent hideLabel />}
+          />
+          <Pie
+            startAngle={90}
+            endAngle={data[0].angle + 90}
+            data={data}
+            dataKey="spent"
+            nameKey="category"
+            innerRadius={55}
+          >
+            <Label
+              content={({ viewBox }) => {
+                if (viewBox && "cx" in viewBox && "cy" in viewBox) {
+                  return (
+                    <text
                       x={viewBox.cx}
                       y={viewBox.cy}
-                      className="fill-light text-lg font-semibold"
+                      textAnchor="middle"
+                      dominantBaseline="middle"
                     >
-                      {data[0].category}
-                    </tspan>
-                    <tspan
-                      x={viewBox.cx}
-                      y={(viewBox.cy || 0) + 24}
-                      className="fill-light/70 text-wrap font-bold"
-                    >
-                      {formatCurrency(data[0].planned, true)}
-                    </tspan>
-                  </text>
-                );
-              }
-            }}
-          />
-        </Pie>
-      </PieChart>
-    </ChartContainer>
+                      <tspan
+                        x={viewBox.cx}
+                        y={viewBox.cy}
+                        className="fill-light text-lg font-semibold"
+                      >
+                        {data[0].category}
+                      </tspan>
+                      <tspan
+                        x={viewBox.cx}
+                        y={(viewBox.cy || 0) + 24}
+                        className="fill-light/70 text-wrap font-bold"
+                      >
+                        {formatCurrency(data[0].planned, true)}
+                      </tspan>
+                    </text>
+                  );
+                }
+              }}
+            />
+          </Pie>
+        </PieChart>
+      </ChartContainer>
+      <CardFooter className="flex justify-center text-md">
+        <p className="font-medium leading-none text-secondary">
+          {formatCurrency(data[0].spent, true)}
+        </p>
+      </CardFooter>
+    </>
   );
 }
