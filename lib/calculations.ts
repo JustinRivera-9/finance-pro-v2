@@ -1,6 +1,5 @@
 import type { CategoryData } from "../types/types";
 
-////////// calcTotalPlannedExpenses
 export const calcTotalPlanned = (
   categories: CategoryData[],
   type: string
@@ -18,5 +17,3 @@ export const calcTotalPlanned = (
 
   return totalExpenses;
 };
-
-//////////
