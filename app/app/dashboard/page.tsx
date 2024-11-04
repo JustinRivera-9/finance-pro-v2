@@ -5,7 +5,7 @@ import UpcomingExpenses from "@/components/pages/dashboard/UpcomingExpenses";
 
 const DashboardPage = () => {
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-2">
       <BudgetChart />
       <CategoryCarousel />
       <UpcomingExpenses />
