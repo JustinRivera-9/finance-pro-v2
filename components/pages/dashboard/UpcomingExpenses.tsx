@@ -1,11 +1,16 @@
+import { getExpenses } from "@/app/app/spent/[month]/actions";
 import SectionContainer from "./SectionContainer";
 import SectionTitle from "./SectionTitle";
+import { getCategories } from "@/app/app/planned/actions";
+import { FixedExpenseCarousel } from "./FixedExpenseCarousel";
 
-const UpcomingExpenses = () => {
+const UpcomingExpenses = async () => {
+  const categories = await getCategories();
+
   return (
     <SectionContainer>
       <SectionTitle>Upcoming Expenses</SectionTitle>
-      <div>Upcoming Expenses Section</div>
+      <FixedExpenseCarousel categories={categories} />
     </SectionContainer>
   );
 };
