@@ -108,3 +108,8 @@ export const sortFixedExpenses = (arr: CategoryData[]): CategoryData[] => {
 export const sortExpenses = (arr: Expense[]): Expense[] => {
   return arr.sort((a, b) => +b.date.split("/")[1] - +a.date.split("/")[1]);
 };
+
+export const daysToFixedExpense = (
+  currentDay: number | string,
+  expenseDate: number | string
+): number => Number(expenseDate) - Number(currentDay);
