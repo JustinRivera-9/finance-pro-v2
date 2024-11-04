@@ -48,6 +48,7 @@ const chartConfig = {
 
 export function CategorySpendChart({ category }: CategorySpendChartProps) {
   const data = [{ ...category }];
+  const budgetDifference = data[0].planned - data[0].spent;
 
   return (
     <>
@@ -101,8 +102,10 @@ export function CategorySpendChart({ category }: CategorySpendChartProps) {
         </PieChart>
       </ChartContainer>
       <CardFooter className="flex justify-center text-md">
-        <p className="font-medium leading-none text-secondary">
-          {formatCurrency(data[0].spent, true)}
+        <p className="font-medium leading-none text-light">
+          {budgetDifference >= 0
+            ? `${formatCurrency(budgetDifference, true)} left`
+            : `$${Math.abs(budgetDifference)} over`}
         </p>
       </CardFooter>
     </>
