@@ -28,7 +28,7 @@ export function FixedExpenseCarousel({
   );
 
   return (
-    <Carousel className="w-full max-w-sm overflow-hidden">
+    <Carousel className="w-full max-w-sm overflow-hidden mt-4">
       <CarouselContent>
         {fixedExpenses.map((expense) => {
           const daysRemaining = daysToFixedExpense(currentDay, expense.date);
