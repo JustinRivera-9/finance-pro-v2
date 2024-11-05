@@ -1,13 +1,14 @@
+import OverviewChart from "./OverviewChart";
 import SectionContainer from "./SectionContainer";
 import SectionTitle from "./SectionTitle";
 
-const BudgetChart = () => {
+const BudgetOverview = () => {
   return (
     <SectionContainer>
       <SectionTitle>Budget Overview</SectionTitle>
-      <div>Budget Chart Area</div>
+      <OverviewChart />
     </SectionContainer>
   );
 };
 
-export default BudgetChart;
+export default BudgetOverview;
