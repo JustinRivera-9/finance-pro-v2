@@ -1,3 +1,4 @@
+import { PieChartCategory } from "@/components/pages/dashboard/CategoryCarousel";
 import { CategoryData, Expense, reduceArrParam } from "@/types/types";
 import { type ClassValue, clsx } from "clsx";
 import { format } from "date-fns";
@@ -121,6 +122,44 @@ export const calcAngle = (planned: number, spent: number): number =>
 export const getCurrentMonthAndYear = () => {
   const date = format(new Date(), "P");
   const [month, day, year] = date.split("/");
-  const formattedDate = [month, year].join("/");
+  const formattedYear = year.slice(2);
+  const formattedDate = [month, formattedYear].join("/");
   return formattedDate;
+};
+
+export const prepareBudgetOverviewPieChartData = (
+  expenses: Expense[],
+  categories: CategoryData[]
+): PieChartCategory[] => {
+  const arr = categories.reduce<PieChartCategory[]>((result, categoryItem) => {
+    // Skip the item if it is an expense and isFixed is true
+    if (
+      (categoryItem.type === "expense" && categoryItem.isFixed) ||
+      categoryItem.type === "income"
+    ) {
+      return result;
+    }
+
+    const { category, amount: plannedAmount, id } = categoryItem;
+    const categoryExpensesArr = expenses.filter((expense) => {
+      const [month, , year] = expense.date.split("/");
+      const currentMonth = getCurrentMonthAndYear();
+      const isCurrentMonth = `${month}/${year}` === currentMonth;
+
+      return expense.category === category && isCurrentMonth;
+    });
+
+    result.push({
+      category,
+      plannedAmount,
+      spentAmount: reduceArr(categoryExpensesArr),
+      id,
+    });
+
+    return result;
+  }, []);
+
+  console.log(arr);
+
+  return arr;
 };
