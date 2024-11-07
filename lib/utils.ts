@@ -113,3 +113,6 @@ export const daysToFixedExpense = (
   currentDay: number | string,
   expenseDate: number | string
 ): number => Number(expenseDate) - Number(currentDay);
+
+export const calcAngle = (planned: number, spent: number): number =>
+  (spent / planned) * 360;
