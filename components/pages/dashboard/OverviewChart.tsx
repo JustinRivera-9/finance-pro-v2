@@ -13,48 +13,9 @@ import {
 } from "@/components/ui/chart";
 import { useState } from "react";
 import SectionTitle from "./SectionTitle";
+import { pieChartColorArr } from "@/lib/constants";
 
 export const description = "A donut chart with an active sector";
-
-const randomColorArr = [
-  "#458f02",
-  "#9a02ef",
-  "#8a9add",
-  "#d3fe1d",
-  "#663521",
-  "#312073",
-  "#c283ea",
-  "#f16807",
-  "#8ae703",
-  "#46c1f1",
-  "#748eef",
-  "#19c898",
-  "#f03dac",
-  "#522db0",
-  "#2d7ea2",
-  "#837dad",
-  "#fcd696",
-  "#8d5d95",
-  "#e6e3f0",
-  "#520e4e",
-  "#c224b1",
-  "#ad4ec2",
-  "#968947",
-  "#25bc25",
-  "#87a66a",
-  "#d18ec2",
-  "#b81c9f",
-  "#733c42",
-  "#842374",
-  "#cd3497",
-  "#42b449",
-  "#488427",
-  "#5ec2f8",
-  "#4074d7",
-  "#60a41d",
-  "#e35525",
-  "#1d064e",
-];
 
 const chartConfig = {
   spent: {
@@ -77,7 +38,7 @@ export const OverviewChart = () => {
   ];
 
   const chartData = dirtyData.map((category, i) => {
-    return { ...category, fill: randomColorArr[i] };
+    return { ...category, fill: pieChartColorArr[i] };
   });
 
   const getActiveIndex = (e: any) => {
