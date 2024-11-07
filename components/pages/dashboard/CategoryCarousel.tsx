@@ -8,70 +8,66 @@ import {
 import SectionContainer from "./SectionContainer";
 import SectionTitle from "./SectionTitle";
 import { CategorySpendChart } from "./CategorySpendChart";
+import {
+  calcAngle,
+  getCurrentMonthAndYear,
+  prepareBudgetOverviewPieChartData,
+} from "@/lib/utils";
+import { getExpenses } from "@/app/app/spent/[month]/actions";
+import { getCategories } from "@/app/app/planned/actions";
 
-// const under = "rgb(132 204 22 / 0.5)";
-// const warning = "rgb(251 189 35 / 0.5)";
-// const over = "rgb(248 114 114 / 0.7)";
+export type PieChartCategory = {
+  category: string;
+  plannedAmount: number;
+  spentAmount: number;
+  id: number;
+};
 
-const calcAngle = (planned: number, spent: number): number =>
-  (spent / planned) * 360;
-
-const tempData = [
-  {
-    category: "Misc",
-    planned: 500,
-    spent: 200,
-    id: 1,
-  },
-  {
-    category: "Eating Out",
-    planned: 125,
-    spent: 175,
-    id: 2,
-  },
-  {
-    category: "Groceries",
-    planned: 225,
-    spent: 89,
-    id: 3,
-  },
-  {
-    category: "Date Night",
-    planned: 100,
-    spent: 84,
-    id: 4,
-  },
-  {
-    category: "Zoe",
-    planned: 100,
-    spent: 85,
-    id: 5,
-  },
-];
-
-const updatedData = tempData.map((item) => {
-  const under = "rgb(132 204 22 / 0.5)";
-  const warning = "rgb(251 189 35 / 0.5)";
-  const over = "rgb(248 114 114 / 0.7)";
-
-  let percentToBudget = item.spent / item.planned;
-  let fillColor =
-    percentToBudget > 0.99 ? over : percentToBudget > 0.74 ? warning : under;
-
-  return {
-    ...item,
-    angle: calcAngle(item.planned, item.spent),
-    fill: fillColor,
-  };
-});
+export type ChartData = PieChartCategory & {
+  angle: number;
+  fill: string;
+};
 
 const CategoryCarousel = async () => {
+  const [expenses, categories] = await Promise.all([
+    getExpenses(),
+    getCategories(),
+  ]);
+
+  if (expenses.error || !expenses.expenses || !categories) {
+    return <p>There was an error getting data</p>;
+  }
+
+  const preparedData = prepareBudgetOverviewPieChartData(
+    expenses.expenses,
+    categories
+  );
+
+  const chartData = preparedData.map((item: PieChartCategory) => {
+    const under = "rgb(132 204 22 / 0.5)";
+    const warning = "rgb(251 189 35 / 0.5)";
+    const over = "rgb(248 114 114 / 0.7)";
+
+    // changes color of chart. 0-75% is green and 76-100% if yellow.
+    const percentToBudget = item.spentAmount / item.plannedAmount;
+    const fillColor =
+      percentToBudget > 0.99 ? over : percentToBudget > 0.74 ? warning : under;
+
+    const chartData: ChartData = {
+      ...item,
+      angle: calcAngle(item.plannedAmount, item.spentAmount),
+      fill: fillColor,
+    };
+
+    return chartData;
+  });
+
   return (
     <SectionContainer>
       <SectionTitle>Spend by Category</SectionTitle>
       <Carousel className="w-full max-w-sm overflow-hidden">
         <CarouselContent className="-ml-1">
-          {updatedData.map((category) => (
+          {chartData.map((category) => (
             <CarouselItem key={category.id} className="basis-1/2">
               <CategorySpendChart category={category} />
             </CarouselItem>
