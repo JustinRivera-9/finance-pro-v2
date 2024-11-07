@@ -18,18 +18,12 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { formatCurrency } from "@/lib/utils";
+import { ChartData, PieChartCategory } from "./CategoryCarousel";
 
 export const description = "A donut chart";
 
 type CategorySpendChartProps = {
-  category: {
-    category: string;
-    planned: number;
-    spent: number;
-    id: number;
-    angle: number;
-    fill: string;
-  };
+  category: ChartData;
 };
 
 const chartData = [
@@ -48,7 +42,7 @@ const chartConfig = {
 
 export function CategorySpendChart({ category }: CategorySpendChartProps) {
   const data = [{ ...category }];
-  const budgetDifference = data[0].planned - data[0].spent;
+  const budgetDifference = data[0].plannedAmount - data[0].spentAmount;
 
   return (
     <>
@@ -65,7 +59,7 @@ export function CategorySpendChart({ category }: CategorySpendChartProps) {
             startAngle={90}
             endAngle={data[0].angle + 90}
             data={data}
-            dataKey="spent"
+            dataKey="spentAmount"
             nameKey="category"
             innerRadius={55}
           >
@@ -91,7 +85,7 @@ export function CategorySpendChart({ category }: CategorySpendChartProps) {
                         y={(viewBox.cy || 0) + 24}
                         className="fill-light/70 text-wrap font-bold"
                       >
-                        {formatCurrency(data[0].planned, true)}
+                        {formatCurrency(data[0].plannedAmount, true)}
                       </tspan>
                     </text>
                   );
