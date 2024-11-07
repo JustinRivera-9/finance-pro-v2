@@ -19,7 +19,6 @@ const BudgetOverview = async () => {
     categories
   );
 
-  console.log(preparedData);
   return (
     <SectionContainer>
       <OverviewChart data={preparedData} />
