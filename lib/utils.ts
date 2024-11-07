@@ -132,7 +132,6 @@ export const prepareBudgetOverviewPieChartData = (
   categories: CategoryData[]
 ): PieChartCategory[] => {
   const arr = categories.reduce<PieChartCategory[]>((result, categoryItem) => {
-    // Skip the item if it is an expense and isFixed is true
     if (
       (categoryItem.type === "expense" && categoryItem.isFixed) ||
       categoryItem.type === "income"
@@ -158,8 +157,6 @@ export const prepareBudgetOverviewPieChartData = (
 
     return result;
   }, []);
-
-  console.log(arr);
 
   return arr;
 };
