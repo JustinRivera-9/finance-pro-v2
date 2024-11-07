@@ -14,6 +14,9 @@ import {
 import { useState } from "react";
 import SectionTitle from "./SectionTitle";
 import { pieChartColorArr } from "@/lib/constants";
+import { PieChartCategory } from "./CategoryCarousel";
+import { formatCurrency, reduceArr } from "@/lib/utils";
+import { format } from "date-fns";
 
 export const description = "A donut chart with an active sector";
 
@@ -23,19 +26,12 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export const OverviewChart = () => {
+export const OverviewChart = ({ data }: { data: PieChartCategory[] }) => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
 
-  const dirtyData = [
-    { category: "Misc", spent: 243 },
-    { category: "Eating Out", spent: 476 },
-    { category: "Groceries", spent: 146 },
-    { category: "Zoe", spent: 52 },
-    { category: "Date Night", spent: 209 },
-    { category: "Auto", spent: 214 },
-    { category: "Beer", spent: 864 },
-    { category: "Testing", spent: 567 },
-  ];
+  const dirtyData = data.map((item) => {
+    return { category: item.category, amount: item.spentAmount };
+  });
 
   const chartData = dirtyData.map((category, i) => {
     return { ...category, fill: pieChartColorArr[i] };
@@ -49,8 +45,11 @@ export const OverviewChart = () => {
     setActiveIndex(activeIndex);
   };
 
+  const spentTotal = reduceArr(chartData);
+  const month = format(new Date(), "PP").split(" ")[0];
+
   return (
-    <div className="flex-1 pb-0 pt-4 bg-card rounded-xl">
+    <div className="flex-1 pb-0 pt-4 bg-card rounded-xl w-10/12">
       <SectionTitle>Budget Overview</SectionTitle>
 
       <ChartContainer
@@ -64,7 +63,7 @@ export const OverviewChart = () => {
           />
           <Pie
             data={chartData}
-            dataKey="spent"
+            dataKey="amount"
             nameKey="category"
             innerRadius={60}
             strokeWidth={5}
@@ -90,14 +89,14 @@ export const OverviewChart = () => {
                         y={viewBox.cy}
                         className="fill-accent text-2xl font-bold"
                       >
-                        $3,498
+                        {formatCurrency(spentTotal, true)}
                       </tspan>
                       <tspan
                         x={viewBox.cx}
                         y={(viewBox.cy || 0) + 24}
-                        className="fill-light text-md"
+                        className="fill-light text-lg italic"
                       >
-                        Nov
+                        {month}
                       </tspan>
                     </text>
                   );
@@ -107,12 +106,12 @@ export const OverviewChart = () => {
           </Pie>
         </PieChart>
       </ChartContainer>
-      <CardFooter className="flex-col items-start gap-2 text-sm">
+      {/* <CardFooter className="flex-col items-start gap-2 text-sm">
         <div className="flex gap-2 font-medium leading-none text-light/80">
           {`Trending up by $230 (5.2%) this month`}
           <TrendingUp className="h-4 w-4" />
         </div>
-      </CardFooter>
+      </CardFooter> */}
     </div>
   );
 };
