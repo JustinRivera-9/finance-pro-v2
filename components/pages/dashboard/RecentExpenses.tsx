@@ -7,8 +7,8 @@ import {
   sortExpenses,
 } from "@/lib/utils";
 import { getExpenses } from "@/app/app/spent/[month]/actions";
-import ExpenseItem from "../spent/ExpenseItem";
-import ExpenseTableHeader from "../spent/ExpenseTableHeader";
+import Link from "next/link";
+import KeyboardTabIcon from "@mui/icons-material/KeyboardTab";
 
 const RecentExpenses = async () => {
   // Show 10 most recent. "View All" button that links to expenses page
@@ -24,7 +24,12 @@ const RecentExpenses = async () => {
 
   return (
     <SectionContainer>
-      <SectionTitle>Recent Expenses</SectionTitle>
+      <div className="flex gap-4 justify-around items-baseline">
+        <SectionTitle>Recent Expenses</SectionTitle>
+        <Link href="spent/november" className="min-w-fit text-sm text-light/60">
+          View all <KeyboardTabIcon />
+        </Link>
+      </div>
       <div className="grid grid-cols-[1fr_0.75fr_2.5fr] min-w-[90%] gap-2 justify-between text-secondary py-2">
         <p>Date</p>
         <p>Amount</p>
