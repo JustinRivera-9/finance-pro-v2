@@ -1,5 +1,6 @@
 import { CategoryData, Expense, reduceArrParam } from "@/types/types";
 import { type ClassValue, clsx } from "clsx";
+import { format } from "date-fns";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -116,3 +117,10 @@ export const daysToFixedExpense = (
 
 export const calcAngle = (planned: number, spent: number): number =>
   (spent / planned) * 360;
+
+export const getCurrentMonthAndYear = () => {
+  const date = format(new Date(), "P");
+  const [month, day, year] = date.split("/");
+  const formattedDate = [month, year].join("/");
+  return formattedDate;
+};
