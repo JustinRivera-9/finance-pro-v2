@@ -102,7 +102,7 @@ export function CategorySpendChart({ category }: CategorySpendChartProps) {
         </PieChart>
       </ChartContainer>
       <CardFooter className="flex justify-center text-md">
-        <p className="font-medium leading-none text-light">
+        <p className="font-medium leading-none text-secondary text-lg">
           {budgetDifference >= 0
             ? `${formatCurrency(budgetDifference, true)} left`
             : `$${Math.abs(budgetDifference)} over`}

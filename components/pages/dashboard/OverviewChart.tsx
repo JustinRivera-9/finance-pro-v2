@@ -127,7 +127,7 @@ export const OverviewChart = () => {
                       <tspan
                         x={viewBox.cx}
                         y={viewBox.cy}
-                        className="fill-secondary text-2xl font-bold"
+                        className="fill-accent text-2xl font-bold"
                       >
                         $3,498
                       </tspan>
