@@ -1,5 +1,4 @@
 "use client";
-
 import { TrendingUp } from "lucide-react";
 import { Label, Pie, PieChart } from "recharts";
 
@@ -18,21 +17,13 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { formatCurrency } from "@/lib/utils";
-import { ChartData, PieChartCategory } from "./CategoryCarousel";
+import { ChartData } from "./CategoryCarousel";
 
-export const description = "A donut chart";
+export const description = "A chart showing category expenses";
 
 type CategorySpendChartProps = {
   category: ChartData;
 };
-
-const chartData = [
-  { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
-  { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
-  { browser: "firefox", visitors: 187, fill: "var(--color-firefox)" },
-  { browser: "edge", visitors: 173, fill: "var(--color-edge)" },
-  { browser: "other", visitors: 90, fill: "var(--color-other)" },
-];
 
 const chartConfig = {
   spent: {
