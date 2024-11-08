@@ -187,6 +187,15 @@ const CategoryForm = ({ categoryData }: CategoryFormProps) => {
         {/* HIDDEN ID INPUT FOR EDITING */}
         {isEdit && <input type="hidden" name="id" value={categoryData?.id} />}
 
+        {/* HIDDEN ID INPUT FOR OLD CATEGORY NAME */}
+        {isEdit && (
+          <input
+            type="hidden"
+            name="oldCategory"
+            value={categoryData?.category}
+          />
+        )}
+
         {/* DISABLE BUTTON OPTION */}
         <Button
           type="submit"
