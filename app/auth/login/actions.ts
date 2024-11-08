@@ -33,6 +33,7 @@ export async function signup(formData: FormData) {
     email: formData.get("email") as string,
     password: formData.get("password") as string,
   };
+  const fullName = formData.get("fullName") as string;
 
   const { error } = await supabase.auth.signUp(data);
 
@@ -40,6 +41,9 @@ export async function signup(formData: FormData) {
     console.log(error);
     redirect("/error");
   }
+
+  // Get user_id
+  // Add new row with name
 
   revalidatePath("/app/dashboard", "layout");
   redirect("/app/dashboard");
