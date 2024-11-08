@@ -41,57 +41,48 @@ const PersonalInfoForm = ({ data }: PersonalInfoFormProps) => {
 
   return (
     <>
-      <FormCard
-        title="Personal Information"
-        description="Update your personal details."
-      >
-        <Form {...form}>
-          <form
-            action={updatePersonalInfoAction}
-            className="flex flex-col gap-2"
-          >
-            {/* FULL NAME INPUT */}
-            <FormField
-              control={form.control}
-              name="fullName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Full Name</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Enter full name"
-                      type="text"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* EMAIL INPUT */}
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter email" type="email" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {formState.isDirty && (
-              <Button type="submit" className="bg-accent text-dark w-1/3 mt-2">
-                Update
-              </Button>
+      <Form {...form}>
+        <form
+          action={updatePersonalInfoAction}
+          className="flex flex-col gap-2 w-10/12 mx-auto"
+        >
+          {/* FULL NAME INPUT */}
+          <FormField
+            control={form.control}
+            name="fullName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Full Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter full name" type="text" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
             )}
-          </form>
-        </Form>
-      </FormCard>
+          />
+
+          {/* EMAIL INPUT */}
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter email" type="email" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {formState.isDirty && (
+            <Button type="submit" className="bg-accent text-dark w-1/3 mt-2">
+              Update
+            </Button>
+          )}
+        </form>
+      </Form>
     </>
   );
 };
