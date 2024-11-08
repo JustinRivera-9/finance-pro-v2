@@ -18,11 +18,11 @@ import { PieChartCategory } from "./CategoryCarousel";
 import { formatCurrency, reduceArr } from "@/lib/utils";
 import { format } from "date-fns";
 
-export const description = "A donut chart with an active sector";
+export const description = "A pie chart showing all category expenses";
 
 const chartConfig = {
   spent: {
-    label: "category",
+    label: "Category",
   },
 } satisfies ChartConfig;
 
