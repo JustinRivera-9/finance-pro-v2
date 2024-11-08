@@ -1,15 +1,8 @@
 "use client";
-import { TrendingUp } from "lucide-react";
 import { Label, Pie, PieChart } from "recharts";
+import { DollarSign } from "lucide-react";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { CardFooter } from "@/components/ui/card";
 import {
   ChartConfig,
   ChartContainer,
@@ -28,6 +21,7 @@ type CategorySpendChartProps = {
 const chartConfig = {
   spent: {
     label: "Spent",
+    icon: DollarSign,
   },
 } satisfies ChartConfig;
 
@@ -42,9 +36,29 @@ export function CategorySpendChart({ category }: CategorySpendChartProps) {
         className="mx-auto aspect-square max-h-[200px]"
       >
         <PieChart>
-          <ChartTooltip
+          {/* <ChartTooltip
             cursor={false}
-            content={<ChartTooltipContent hideLabel />}
+            content={<ChartTooltipContent hideLabel nameKey="spent" />}
+          /> */}
+          <ChartTooltip
+            content={
+              <ChartTooltipContent
+                hideLabel
+                formatter={(value, name) => (
+                  <div className="flex min-w-[130px] items-center text-sm text-dark">
+                    <div className="flex items-center gap-2">
+                      <DollarSign height={20} />
+                      Spent
+                    </div>
+                    <div className="ml-auto flex gap-0.5 font-mono font-medium tabular-nums text-foreground">
+                      {formatCurrency(+value, true)}
+                    </div>
+                  </div>
+                )}
+              />
+            }
+            cursor={false}
+            defaultIndex={1}
           />
           <Pie
             startAngle={90}
@@ -53,6 +67,7 @@ export function CategorySpendChart({ category }: CategorySpendChartProps) {
             dataKey="spentAmount"
             nameKey="category"
             innerRadius={55}
+            cornerRadius={10}
           >
             <Label
               content={({ viewBox }) => {
