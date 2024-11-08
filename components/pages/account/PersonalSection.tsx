@@ -21,7 +21,9 @@ const PersonalSection = async () => {
     <FormDrawer
       title="Personal Information"
       description="Update your personal details."
-      triggerLabel={<AccountOption>Update personal information</AccountOption>}
+      triggerLabel={
+        <AccountOption style="border-t">Personal information</AccountOption>
+      }
     >
       <PersonalInfoForm data={{ name, email }} />
     </FormDrawer>

@@ -8,7 +8,7 @@ const PasswordSection = () => {
     <FormDrawer
       title="Password"
       description="Update your password."
-      triggerLabel={<AccountOption>Update password</AccountOption>}
+      triggerLabel={<AccountOption>Password</AccountOption>}
     >
       <PasswordForm />
     </FormDrawer>
