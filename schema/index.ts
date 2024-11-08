@@ -72,3 +72,10 @@ export const ExpenseSchema = z.object({
     required_error: "A date of birth is required.",
   }),
 });
+
+export const LoginSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(6, {
+    message: "Password must be at least 6 characters.",
+  }),
+});
