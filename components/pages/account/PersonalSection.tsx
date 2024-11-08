@@ -1,5 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import PersonalInfoForm from "./forms/PersonalInfoForm";
+import FormDrawer from "@/components/ui/FormDrawer";
+import AccountOption from "./AccountOption";
 
 const PersonalSection = async () => {
   const supabase = createClient();
@@ -15,7 +17,15 @@ const PersonalSection = async () => {
   const name = fullName![0].fullName;
   const email = userEmail.user!.email;
 
-  return <PersonalInfoForm data={{ name, email }} />;
+  return (
+    <FormDrawer
+      title="Personal Information"
+      description="Update your personal details."
+      triggerLabel={<AccountOption>Update personal information</AccountOption>}
+    >
+      <PersonalInfoForm data={{ name, email }} />
+    </FormDrawer>
+  );
 };
 
 export default PersonalSection;
