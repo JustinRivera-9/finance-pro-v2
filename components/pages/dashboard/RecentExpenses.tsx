@@ -10,8 +10,14 @@ import { getExpenses } from "@/app/app/spent/[month]/actions";
 import Link from "next/link";
 import KeyboardTabIcon from "@mui/icons-material/KeyboardTab";
 
+const emptyExpenseMessage = (
+  <p className="px-6 mx-auto text-center text-lg">
+    Your 10 most recent expenses for this month will be shown here
+  </p>
+);
+
 const RecentExpenses = async () => {
-  // Show 10 most recent. "View All" button that links to expenses page
+  // Shows 10 most recent
   const expenses: { expenses: Expense[]; error: null | string } =
     await getExpenses();
 
@@ -24,31 +30,28 @@ const RecentExpenses = async () => {
 
   return (
     <SectionContainer>
-      <div className="flex gap-4 justify-around items-baseline">
+      <div className="flex gap-4 justify-around items-baseline py-2">
         <SectionTitle>Recent Expenses</SectionTitle>
         <Link href="spent/november" className="min-w-fit text-sm text-light/60">
           View all <KeyboardTabIcon />
         </Link>
       </div>
-      <div className="grid grid-cols-[1fr_0.75fr_2.5fr] min-w-[90%] gap-2 justify-between text-secondary py-2">
-        <p>Date</p>
-        <p>Amount</p>
-        <p>Description</p>
-      </div>
-      {sortedExpenses.map((expense, i) => {
-        if (i >= 10) return null;
+      {!sortedExpenses.length
+        ? emptyExpenseMessage
+        : sortedExpenses.map((expense, i) => {
+            if (i >= 10) return null;
 
-        return (
-          <section
-            key={expense.id}
-            className="grid grid-cols-[1fr_0.75fr_2.5fr] min-w-[90%] gap-4 py-2 pl-2 border-t border-light/30"
-          >
-            <p>{expense.date}</p>
-            <p>{formatCurrency(expense.amount, true)}</p>
-            <p className="truncate w-44">{expense.description}</p>
-          </section>
-        );
-      })}
+            return (
+              <section
+                key={expense.id}
+                className="grid grid-cols-[1fr_0.75fr_2.5fr] min-w-[90%] gap-4 py-2 pl-2 border-t border-light/30"
+              >
+                <p>{expense.date}</p>
+                <p>{formatCurrency(expense.amount, true)}</p>
+                <p className="truncate w-44">{expense.description}</p>
+              </section>
+            );
+          })}
     </SectionContainer>
   );
 };
