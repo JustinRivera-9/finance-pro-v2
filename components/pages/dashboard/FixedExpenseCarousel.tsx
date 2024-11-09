@@ -18,7 +18,7 @@ type FixedExpenseCarouselProps = {
 };
 
 const emptyExpenseMessage = (
-  <p className="text-lg px-6 text-center mx-auto py-4">
+  <p className="text-lg px-6 text-center mx-auto py-2">
     Add fixed expenses to start tracking when they are due.
   </p>
 );
