@@ -17,6 +17,12 @@ type FixedExpenseCarouselProps = {
   categories: CategoryData[];
 };
 
+const emptyExpenseMessage = (
+  <p className="text-lg px-6 text-center mx-auto py-4">
+    Add fixed expenses to start tracking when they are due.
+  </p>
+);
+
 export function FixedExpenseCarousel({
   categories,
 }: FixedExpenseCarouselProps) {
@@ -26,6 +32,10 @@ export function FixedExpenseCarousel({
   const fixedExpenses = sortFixedExpenses(
     categories.filter((expense) => expense.isFixed)
   );
+
+  console.log(fixedExpenses);
+
+  if (!fixedExpenses.length) return emptyExpenseMessage;
 
   return (
     <Carousel className="w-full max-w-sm overflow-hidden mt-4">
