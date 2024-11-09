@@ -74,7 +74,7 @@ export const OverviewChart = ({ data }: { data: PieChartCategory[] }) => {
               nameKey="category"
               innerRadius={60}
               strokeWidth={5}
-              cornerRadius={15}
+              cornerRadius={5}
               onClick={getActiveIndex}
               paddingAngle={5}
               activeIndex={activeIndex}
