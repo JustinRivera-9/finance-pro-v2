@@ -43,7 +43,7 @@ const Summary: React.FC<SummaryProps> = ({ categories }) => {
           : `Looks like you're planning to spend ${formatCurrency(
               budgetDelta,
               true
-            )} more than you're income.`}
+            )} more than your income.`}
       </p>
     </div>
   );
