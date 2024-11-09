@@ -33,8 +33,6 @@ export function FixedExpenseCarousel({
     categories.filter((expense) => expense.isFixed)
   );
 
-  console.log(fixedExpenses);
-
   if (!fixedExpenses.length) return emptyExpenseMessage;
 
   return (
