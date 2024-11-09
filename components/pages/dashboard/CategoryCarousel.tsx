@@ -28,6 +28,12 @@ export type ChartData = PieChartCategory & {
   fill: string;
 };
 
+const emptyCategoryMessage = (
+  <p className="text-lg text-center px-6 mx-auto py-2">
+    Add categories to see charts for each category.
+  </p>
+);
+
 const CategoryCarousel = async () => {
   const [expenses, categories] = await Promise.all([
     getExpenses(),
@@ -65,17 +71,21 @@ const CategoryCarousel = async () => {
   return (
     <SectionContainer>
       <SectionTitle>Spend by Category</SectionTitle>
-      <Carousel className="w-full max-w-sm overflow-hidden">
-        <CarouselContent className="-ml-1">
-          {chartData.map((category) => (
-            <CarouselItem key={category.id} className="basis-1/2">
-              <CategorySpendChart category={category} />
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
-      </Carousel>
+      {!chartData.length ? (
+        emptyCategoryMessage
+      ) : (
+        <Carousel className="w-full max-w-sm overflow-hidden">
+          <CarouselContent className="-ml-1">
+            {chartData.map((category) => (
+              <CarouselItem key={category.id} className="basis-1/2">
+                <CategorySpendChart category={category} />
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
+      )}
     </SectionContainer>
   );
 };
