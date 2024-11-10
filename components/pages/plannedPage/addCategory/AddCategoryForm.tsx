@@ -8,11 +8,10 @@ const AddCategoryForm = () => {
       description="Create a new budget category to track expenses."
       title="Add Category"
       triggerLabel={
-        <Button className="text-md" variant="secondary">
+        <p className="text-dark bg-secondary w-fit px-4 py-2 rounded-lg mx-auto font-bold">
           Add Category
-        </Button>
+        </p>
       }
-      color="accent"
     >
       <CategoryForm />
     </FormDrawer>
