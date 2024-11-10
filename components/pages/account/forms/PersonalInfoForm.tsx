@@ -18,21 +18,21 @@ import { z } from "zod";
 
 type PersonalInfoFormProps = {
   data: {
-    name: string;
+    userName: string;
     email: string | undefined;
   };
 };
 
 const PersonalInfoForm = ({ data }: PersonalInfoFormProps) => {
-  const { name, email } = data;
-
+  const { userName, email } = data;
+  console.log(userName);
   // SET DEFAULT VALUES TO USER OBJECT
   // if (form field !== user object) => show update button --> means user has updated information
 
   const form = useForm<z.infer<typeof PersonalInfoFormSchema>>({
     resolver: zodResolver(PersonalInfoFormSchema),
     defaultValues: {
-      fullName: name || "",
+      name: userName || "",
       email: email || "",
     },
   });
@@ -49,7 +49,7 @@ const PersonalInfoForm = ({ data }: PersonalInfoFormProps) => {
           {/* FULL NAME INPUT */}
           <FormField
             control={form.control}
-            name="fullName"
+            name="name"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Full Name</FormLabel>

@@ -30,7 +30,7 @@ export const ContactFormSchema = z.object({
 });
 
 export const PersonalInfoFormSchema = z.object({
-  fullName: z.string().min(3, {
+  name: z.string().min(3, {
     message: "Name must be at least 3 characters.",
   }),
   email: z.string().email(),
@@ -77,5 +77,15 @@ export const LoginSchema = z.object({
   email: z.string().email(),
   password: z.string().min(6, {
     message: "Password must be at least 6 characters.",
+  }),
+});
+
+export const SignupSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(6, {
+    message: "Password must be at least 6 characters.",
+  }),
+  name: z.string().min(3, {
+    message: "Please enter full name",
   }),
 });

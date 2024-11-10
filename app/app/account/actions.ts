@@ -9,7 +9,7 @@ export const updatePersonalInfoAction = async (formData: FormData) => {
   const user_id = await getUser();
 
   const formFields = Object.fromEntries(formData);
-  const { fullName, email } = formFields;
+  const { name, email } = formFields;
 
   const updateEmail = async () => {
     const { error: emailError } = await supabase.auth.updateUser({
@@ -19,16 +19,18 @@ export const updatePersonalInfoAction = async (formData: FormData) => {
     return emailError;
   };
 
+  console.log(name);
+
   const updateName = async () => {
     const { error: nameError } = await supabase
       .from("account")
-      .update({ fullName })
+      .update({ name })
       .eq("user_id", user_id);
 
     return nameError;
   };
 
-  Promise.all([updateEmail(), updateName()]);
+  await Promise.all([updateEmail(), updateName()]);
 
   revalidatePath("app/account");
 };
