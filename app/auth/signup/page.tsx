@@ -2,7 +2,7 @@ import SignupForm from "@/components/auth/SignupForm";
 
 const SignupPage = () => {
   return (
-    <div>
+    <div className="py-12">
       <SignupForm />
     </div>
   );
