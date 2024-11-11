@@ -60,7 +60,7 @@ export default function LoginForm() {
         <div className="flex flex-col gap-2 py-2">
           <Button className="w-full">Login</Button>
           <div>
-            Don't have an account?{" "}
+            Do not have an account?{" "}
             <Link href="signup" className="text-secondary underline">
               Sign Up
             </Link>{" "}

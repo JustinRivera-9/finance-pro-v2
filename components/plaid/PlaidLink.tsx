@@ -31,7 +31,7 @@ const PlaidLink = () => {
 
       router.push("/dashboard");
     },
-    []
+    [router]
   );
 
   const config: PlaidLinkOptions = {

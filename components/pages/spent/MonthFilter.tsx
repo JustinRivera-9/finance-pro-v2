@@ -23,7 +23,7 @@ const MonthFilter = ({ month }: { month: string }) => {
     url.push(monthFilter);
     const updatedPath = url.join("/");
     router.push(updatedPath);
-  }, [monthFilter]);
+  }, [monthFilter, pathname, router]);
 
   const handleMonthChange = (month: string) => {
     setMonthFilter(month);
