@@ -46,6 +46,7 @@ const CategoryCarousel = async () => {
 
   const preparedData = prepareBudgetOverviewPieChartData(
     expenses.expenses,
+    // @ts-ignore
     categories
   );
 

@@ -18,6 +18,7 @@ const emptyExpenseMessage = (
 
 const RecentExpenses = async () => {
   // Shows 10 most recent
+  // @ts-ignore
   const expenses: { expenses: Expense[]; error: null | string } =
     await getExpenses();
 

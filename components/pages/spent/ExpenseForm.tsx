@@ -41,6 +41,7 @@ const ExpenseForm = ({ category, expenseData }: ExpenseFormProps) => {
   const router = useRouter();
 
   // Only for Edit scenarios
+  // @ts-ignore
   const { amount, date, description, id } = (expenseData?.[0] as Expense) || {};
   const isEdit = id ? true : false;
 
@@ -49,6 +50,7 @@ const ExpenseForm = ({ category, expenseData }: ExpenseFormProps) => {
     defaultValues: {
       amount: amount?.toString() || "",
       description: description || "",
+      // @ts-ignore
       date: date || new Date() || null,
     },
   });

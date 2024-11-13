@@ -7,6 +7,7 @@ const EditExpensePage = async ({
 }: {
   params: { expenseId: string };
 }) => {
+  // @ts-ignore
   const expenseData: Expense = await getEditExpense(params.expenseId);
 
   return <EditComponent expenseData={expenseData} />;

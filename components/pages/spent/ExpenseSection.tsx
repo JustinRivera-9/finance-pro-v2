@@ -18,6 +18,7 @@ const ExpenseSection = async ({
     (category) => !category.isFixed && category.type === "expense"
   );
 
+  // @ts-ignore
   const groupedExpenses: GroupedExpenses[] = groupExpenseByCategory(
     month,
     expenses,

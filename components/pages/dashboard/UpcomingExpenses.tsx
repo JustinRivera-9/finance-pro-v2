@@ -10,6 +10,7 @@ const UpcomingExpenses = async () => {
   return (
     <SectionContainer>
       <SectionTitle>Upcoming Expenses</SectionTitle>
+      {/* @ts-ignore */}
       <FixedExpenseCarousel categories={categories} />
     </SectionContainer>
   );

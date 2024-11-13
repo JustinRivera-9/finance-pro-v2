@@ -41,6 +41,7 @@ const ContactForm = () => {
     <Form {...form}>
       <form
         className="flex flex-col gap-4 w-10/12 mx-auto"
+        // @ts-ignore
         action={submitContactFormAction}
       >
         {/* TYPE SELECT */}

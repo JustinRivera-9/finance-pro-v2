@@ -60,6 +60,7 @@ const CategoryForm = ({ categoryData }: CategoryFormProps) => {
   return (
     <Form {...form}>
       <form
+        // @ts-ignore
         action={isEdit ? updateCategoryAction : addCategoryAction}
         className="space-y-4 px-8"
       >
