@@ -1,6 +1,7 @@
 import type { CategoryData } from "@/types/types";
 import CategoryCard from "./CategoryCard";
 import EmptyMessage from "@/components/ui/EmptyMessage";
+import { formatCurrency, reduceArr } from "@/lib/utils";
 
 type CategoryColumnProps = {
   category: CategoryData[];
@@ -8,12 +9,15 @@ type CategoryColumnProps = {
 };
 
 const CategoryColumn: React.FC<CategoryColumnProps> = ({ category, title }) => {
-  const isFixed = title === "FIXED EXPENSES";
   const isEmpty = !category.length;
+  const total = reduceArr(category);
 
   return (
     <div className="flex flex-col gap-2 w-full">
-      <p className="text-accent text-2xl font-semibold">{title}</p>
+      <div className="flex w-full px-10 mx-auto justify-between items-baseline font-semibold">
+        <p className="text-accent text-2xl">{title}</p>
+        <p className="text-light/70 text-xl">{formatCurrency(total)}</p>
+      </div>
       <ul className="flex flex-col flex-wrap gap-4 justify-start mx-auto w-full px-8">
         {isEmpty ? (
           <EmptyMessage description={`Add your first ${title} catgory`} />
