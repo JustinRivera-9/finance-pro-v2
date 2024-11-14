@@ -12,7 +12,7 @@ const Summary = ({ expenses, categories, month }: SummaryProps) => {
 
   const totalExpenses = reduceArr(filteredExpenses!);
   const totalBudget = reduceArr(
-    categories.filter((el) => el.type !== "income")
+    categories.filter((el) => el.type !== "income" && !el.isFixed)
   );
   const remainingBudget = totalBudget - totalExpenses;
 
