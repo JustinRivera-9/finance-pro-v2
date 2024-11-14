@@ -76,7 +76,7 @@ export function CategorySpendChart({ category }: CategorySpendChartProps) {
                         Spent
                       </div>
                       <div className="ml-auto flex gap-0.5 font-mono font-medium tabular-nums text-foreground">
-                        {formatCurrency(+value, true)}
+                        {formatCurrency(+value)}
                       </div>
                     </div>
                   )}
@@ -131,7 +131,7 @@ export function CategorySpendChart({ category }: CategorySpendChartProps) {
         <p className="font-medium leading-none text-secondary text-lg">
           {budgetDifference >= 0
             ? `${formatCurrency(budgetDifference, true)} left`
-            : `$${Math.abs(budgetDifference)} over`}
+            : `${formatCurrency(Math.abs(budgetDifference))} over`}
         </p>
       </CardFooter>
     </>
