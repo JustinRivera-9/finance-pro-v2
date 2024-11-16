@@ -1,14 +1,11 @@
 import { Expense } from "@/types/types";
 import SectionContainer from "./SectionContainer";
 import SectionTitle from "./SectionTitle";
-import {
-  formatCurrency,
-  getCurrentMonthAndYear,
-  sortExpenses,
-} from "@/lib/utils";
+import { getCurrentMonthAndYear, sortExpenses } from "@/lib/utils";
 import { getExpenses } from "@/app/app/spent/[month]/actions";
 import Link from "next/link";
 import KeyboardTabIcon from "@mui/icons-material/KeyboardTab";
+import ReadOnlyExpenseRow from "./ReadOnlyExpenseRow";
 
 const emptyExpenseMessage = (
   <p className="px-6 mx-auto text-center text-lg">
@@ -42,16 +39,7 @@ const RecentExpenses = async () => {
         : sortedExpenses.map((expense, i) => {
             if (i >= 10) return null;
 
-            return (
-              <section
-                key={expense.id}
-                className="grid grid-cols-[1fr_0.75fr_2.5fr] min-w-[90%] gap-4 py-2 pl-2 border-t border-light/30"
-              >
-                <p>{expense.date}</p>
-                <p>{formatCurrency(expense.amount, true)}</p>
-                <p className="truncate w-44">{expense.description}</p>
-              </section>
-            );
+            return <ReadOnlyExpenseRow expense={expense} key={expense.id} />;
           })}
     </SectionContainer>
   );

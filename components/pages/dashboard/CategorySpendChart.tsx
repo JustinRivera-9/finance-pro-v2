@@ -11,15 +11,35 @@ import {
 } from "@/components/ui/chart";
 import { formatCurrency } from "@/lib/utils";
 import { ChartData } from "./CategoryCarousel";
+import { Expense } from "@/types/types";
+import { useState } from "react";
+import ExpenseDrawer from "./ExpenseDrawer";
+import ReadOnlyExpenseRow from "./ReadOnlyExpenseRow";
 
 type CategorySpendChartProps = {
   category: ChartData;
+  expenses: {
+    month: string;
+    category: string;
+    expenses: Expense[] | undefined;
+    budget: number;
+  }[];
 };
 
 type NoExpenseMessageProps = {
   category: string;
   plannedAmount: number;
 };
+
+export type SelectedCategory =
+  | {
+      month: string;
+      category: string;
+      expenses: Expense[] | undefined;
+      budget: number;
+    }
+  | null
+  | undefined;
 
 export const description = "A chart showing category expenses";
 
@@ -47,9 +67,25 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function CategorySpendChart({ category }: CategorySpendChartProps) {
+export function CategorySpendChart({
+  expenses,
+  category,
+}: CategorySpendChartProps) {
+  const [selectedCategory, setSelectedCategory] =
+    useState<SelectedCategory>(null);
+  const [showExpenses, setShowExpenses] = useState<boolean>(false);
+
   const data = [{ ...category }];
   const budgetDifference = data[0].plannedAmount - data[0].spentAmount;
+
+  const setCategory = () => {
+    const findCatgeory = expenses.find(
+      (item) => item.category === category.category
+    );
+
+    setSelectedCategory(findCatgeory);
+    setShowExpenses(true);
+  };
 
   return (
     <>
@@ -63,6 +99,7 @@ export function CategorySpendChart({ category }: CategorySpendChartProps) {
         <ChartContainer
           config={chartConfig}
           className="mx-auto aspect-square max-h-[200px]"
+          onClick={setCategory}
         >
           <PieChart>
             <ChartTooltip
@@ -134,6 +171,18 @@ export function CategorySpendChart({ category }: CategorySpendChartProps) {
             : `${formatCurrency(Math.abs(budgetDifference))} over`}
         </p>
       </CardFooter>
+      {showExpenses && (
+        <ExpenseDrawer
+          drawerOpen={showExpenses}
+          setDrawerOpen={setShowExpenses}
+          expenses={selectedCategory}
+          plannedAmount={data[0].plannedAmount}
+        >
+          {selectedCategory?.expenses!.map((item) => (
+            <ReadOnlyExpenseRow expense={item} key={item.id} drawer />
+          ))}
+        </ExpenseDrawer>
+      )}
     </>
   );
 }

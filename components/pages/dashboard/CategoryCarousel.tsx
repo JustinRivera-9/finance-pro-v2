@@ -11,10 +11,13 @@ import { CategorySpendChart } from "./CategorySpendChart";
 import {
   calcAngle,
   getCurrentMonthAndYear,
+  groupExpenseByCategory,
   prepareBudgetOverviewPieChartData,
 } from "@/lib/utils";
 import { getExpenses } from "@/app/app/spent/[month]/actions";
 import { getCategories } from "@/app/app/planned/actions";
+import { CategoryData } from "@/types/types";
+import { format } from "date-fns";
 
 export type PieChartCategory = {
   category: string;
@@ -50,6 +53,15 @@ const CategoryCarousel = async () => {
     categories
   );
 
+  const currentMonth = format(new Date(), "PPP")
+    .split(" ")[0]
+    .toLocaleLowerCase();
+  const catgeoryExpenses = groupExpenseByCategory(
+    currentMonth,
+    expenses.expenses,
+    categories as CategoryData[]
+  );
+
   const chartData = preparedData.map((item: PieChartCategory) => {
     const under = "rgb(132 204 22 / 0.5)";
     const warning = "rgb(251 189 35 / 0.5)";
@@ -79,7 +91,10 @@ const CategoryCarousel = async () => {
           <CarouselContent className="-ml-1">
             {chartData.map((category) => (
               <CarouselItem key={category.id} className="basis-1/2">
-                <CategorySpendChart category={category} />
+                <CategorySpendChart
+                  expenses={catgeoryExpenses}
+                  category={category}
+                />
               </CarouselItem>
             ))}
           </CarouselContent>
