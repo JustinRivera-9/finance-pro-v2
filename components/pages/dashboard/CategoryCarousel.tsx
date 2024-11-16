@@ -87,7 +87,12 @@ const CategoryCarousel = async () => {
       {!chartData.length ? (
         emptyCategoryMessage
       ) : (
-        <Carousel className="w-full max-w-sm overflow-hidden">
+        <Carousel
+          opts={{
+            dragFree: true,
+          }}
+          className="w-full max-w-sm overflow-hidden"
+        >
           <CarouselContent className="-ml-1">
             {chartData.map((category) => (
               <CarouselItem key={category.id} className="basis-1/2">
