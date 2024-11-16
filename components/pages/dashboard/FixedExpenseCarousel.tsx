@@ -36,7 +36,12 @@ export function FixedExpenseCarousel({
   if (!fixedExpenses.length) return emptyExpenseMessage;
 
   return (
-    <Carousel className="w-full max-w-sm overflow-hidden mt-4">
+    <Carousel
+      opts={{
+        dragFree: true,
+      }}
+      className="w-full max-w-sm overflow-hidden mt-4"
+    >
       <CarouselContent>
         {fixedExpenses.map((expense) => {
           const daysRemaining = daysToFixedExpense(currentDay, expense.date);
