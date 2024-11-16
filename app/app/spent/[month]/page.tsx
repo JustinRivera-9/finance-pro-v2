@@ -26,7 +26,6 @@ const ExpensesPage = async ({ params }: { params: { month: string } }) => {
           expenses={expenses}
           categories={categories as CategoryData[]}
         />
-        {/* <CategoryCarousel /> */}
         <ExpenseSection
           expenses={expenses}
           month={params.month}
