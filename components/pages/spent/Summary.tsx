@@ -22,9 +22,24 @@ const Summary = ({ expenses, categories, month }: SummaryProps) => {
         <p className="text-xl text-light/80">Expenses</p>
         <p className="text-2xl">{formatCurrency(totalExpenses, true)}</p>
       </div>
-      <div className="bg-card py-2 px-4 rounded-lg w-2/5">
-        <p className="text-xl text-light/80">Remaining</p>
-        <p className="text-2xl">{formatCurrency(remainingBudget, true)}</p>
+      <div
+        style={{ color: remainingBudget < 0 ? "#f87272" : "" }}
+        className="bg-card py-2 px-4 rounded-lg w-2/5"
+      >
+        <p
+          style={{
+            color: remainingBudget < 0 ? "#f87272" : "rgb(253 253 253 / 0.8)",
+          }}
+          className="text-xl"
+        >
+          {remainingBudget > 0 ? "Remaining" : "Over"}
+        </p>
+        <p
+          style={{ color: remainingBudget < 0 ? "#f87272" : "" }}
+          className="text-2xl "
+        >
+          {formatCurrency(remainingBudget, true)}
+        </p>
       </div>
     </div>
   );
