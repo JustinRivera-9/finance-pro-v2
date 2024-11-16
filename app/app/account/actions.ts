@@ -71,7 +71,7 @@ export const submitContactFormAction = async (formData: FormData) => {
       .from("contact_us")
       .insert([{ type, message, user_id }]);
 
-    if (error) throw error;
+    if (error) throw Error("Issue submitting form");
 
     return {
       success: true,
@@ -79,6 +79,7 @@ export const submitContactFormAction = async (formData: FormData) => {
     };
   } catch (error) {
     const err = error as Error;
+    console.log(err);
     return { success: false, message: err.message };
   }
 };

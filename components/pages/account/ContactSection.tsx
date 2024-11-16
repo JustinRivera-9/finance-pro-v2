@@ -1,5 +1,5 @@
 import FormDrawer from "@/components/ui/FormDrawer";
-import ContactForm from "./ContactForm";
+import ContactForm from "./forms/ContactForm";
 import AccountOption from "./AccountOption";
 
 const ContactSection = () => {
