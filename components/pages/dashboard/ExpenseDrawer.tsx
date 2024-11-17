@@ -32,7 +32,6 @@ const ExpenseDrawer = ({
   };
 
   const totalSpent = formatCurrency(reduceArr(expenses?.expenses!));
-  console.log(expenses);
   return (
     <div onClick={handleClick}>
       <Drawer open={isOpen}>
