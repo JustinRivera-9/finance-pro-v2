@@ -48,6 +48,7 @@ const ExpenseDrawer = ({
                 <p className="text-2xl">{formatCurrency(plannedAmount)}</p>
               </div>
             </DrawerTitle>
+            <DrawerDescription></DrawerDescription>
           </DrawerHeader>
           {children}
         </DrawerContent>
