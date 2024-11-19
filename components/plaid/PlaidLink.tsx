@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "../ui/button";
 import {
   usePlaidLink,
@@ -8,30 +8,40 @@ import {
 } from "react-plaid-link";
 import { useRouter } from "next/navigation";
 import { createLinkToken, exchangePublicToken } from "@/lib/plaid/userActions";
+import { ButtonLoading } from "../ui/buttonLoading";
 
-const PlaidLink = () => {
+type PlaidLinkProps = {
+  user: string;
+  variant: string;
+};
+
+const PlaidLinkTest = ({ user, variant }: PlaidLinkProps) => {
+  const hasInitialized = useRef(false);
   const router = useRouter();
   const [token, setToken] = useState("");
 
   useEffect(() => {
-    // Update user argument in createLinkToken()
-    const getLinkToken = async () => {
-      const data = await createLinkToken({});
-      setToken(data?.linkToken);
+    if (hasInitialized.current) return;
+    hasInitialized.current = true;
+
+    const fetchToken = async () => {
+      const data = await createLinkToken(user);
+      setToken(data);
     };
-    getLinkToken();
-  }, []);
+
+    fetchToken();
+  }, [user]);
 
   const onSuccess = useCallback<PlaidLinkOnSuccess>(
-    async (public_token: string, user) => {
+    async (public_token: string) => {
       await exchangePublicToken({
         publicToken: public_token,
         user,
       });
 
-      router.push("/dashboard");
+      // router.push("/");
     },
-    [router]
+    [user]
   );
 
   const config: PlaidLinkOptions = {
@@ -39,13 +49,15 @@ const PlaidLink = () => {
     onSuccess,
   };
 
-  const { open, ready } = usePlaidLink(config);
+  const { open, exit, ready, error } = usePlaidLink(config);
 
-  return (
-    <Button onClick={() => open} className="bg-info" disabled={!ready}>
+  return ready ? (
+    <Button onClick={() => open()} className="bg-accent" disabled={!ready}>
       Connect Bank
     </Button>
+  ) : (
+    <ButtonLoading />
   );
 };
 
-export default PlaidLink;
+export default PlaidLinkTest;

@@ -19,8 +19,6 @@ export const updatePersonalInfoAction = async (formData: FormData) => {
     return emailError;
   };
 
-  console.log(name);
-
   const updateName = async () => {
     const { error: nameError } = await supabase
       .from("account")

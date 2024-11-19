@@ -1,25 +1,43 @@
-import { CountryCode, type Products } from "plaid";
+import {
+  CountryCode,
+  CreditAccountSubtype,
+  DepositoryAccountSubtype,
+  LinkTokenCreateRequest,
+  type Products,
+} from "plaid";
 import { plaidClient } from "./plaid";
-import { parseStringify } from "../utils";
 import { ExchangePublicTokenProps } from "../../types/types";
 
-export const createLinkToken = async (user: any) => {
+export const createLinkToken = async (user: string) => {
+  // const tokenParams = {
+  //   user: {
+  //     client_user_id: user.userId,
+  //   },
+  //   client_name: user.name,
+  //   products: ["auth"] as Products[],
+  //   language: "en",
+  //   country_codes: ["US"] as CountryCode[],
+  // };
+
   try {
-    const tokenParams = {
-      user: {
-        client_user_id: "123456789",
+    const response = await fetch("/api/plaid/create-link-token", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-      client_name: "jman199610",
-      products: ["auth"] as Products[],
-      language: "en",
-      country_codes: ["US"] as CountryCode[],
-    };
+      body: JSON.stringify({ user }),
+    });
 
-    const response = await plaidClient.linkTokenCreate(tokenParams);
+    if (!response.ok) {
+      throw new Error("Failed to create link token");
+    }
 
-    return parseStringify({ linkToken: response.data.link_token });
-  } catch (error) {
-    console.log(error);
+    const data = await response.json();
+    const { link_token } = data;
+    return link_token;
+  } catch (err) {
+    const error = err as Error;
+    console.log(error.message);
   }
 };
 
@@ -46,7 +64,8 @@ export const exchangePublicToken = async ({
 
     // Get account data from account
     const accountData = accountsResponse.data.accounts[0];
+    console.log(`accountsData: ${accountData}`);
   } catch (error) {
-    console.log("An error occured while creating exhange token", error);
+    console.log("An error occured while creating exhange token:", error);
   }
 };
