@@ -7,7 +7,7 @@ import {
   type PlaidLinkOptions,
 } from "react-plaid-link";
 import { useRouter } from "next/navigation";
-import { createLinkToken, exchangePublicToken } from "@/lib/plaid/userActions";
+import { createLinkToken, exchangePublicToken } from "@/lib/plaid/actions";
 import { ButtonLoading } from "../ui/buttonLoading";
 
 type PlaidLinkProps = {
@@ -15,7 +15,7 @@ type PlaidLinkProps = {
   variant: string;
 };
 
-const PlaidLinkTest = ({ user, variant }: PlaidLinkProps) => {
+const ConnectAccountBtn = ({ user, variant }: PlaidLinkProps) => {
   const hasInitialized = useRef(false);
   const router = useRouter();
   const [token, setToken] = useState("");
@@ -34,12 +34,12 @@ const PlaidLinkTest = ({ user, variant }: PlaidLinkProps) => {
 
   const onSuccess = useCallback<PlaidLinkOnSuccess>(
     async (public_token: string) => {
-      await exchangePublicToken({
+      const data = await exchangePublicToken({
         publicToken: public_token,
         user,
       });
-
-      // router.push("/");
+      console.log(data);
+      router.push("/app/connected-accounts");
     },
     [user]
   );
@@ -60,4 +60,4 @@ const PlaidLinkTest = ({ user, variant }: PlaidLinkProps) => {
   );
 };
 
-export default PlaidLinkTest;
+export default ConnectAccountBtn;
