@@ -2,12 +2,10 @@ import { PlaidItemData } from "@/app/app/connected-accounts/actions";
 
 type PlaidDashboardProps = {
   item: PlaidItemData;
-  user: string;
 };
 
-const PlaidDashboard = ({ item, user }: PlaidDashboardProps) => {
-  console.log("Item: ", item);
-  console.log("User: ", user);
+const PlaidDashboard = ({ item }: PlaidDashboardProps) => {
+  console.log(item);
   return <div>Account Connected</div>;
 };
 

@@ -8,7 +8,7 @@ const page = async () => {
   const item: PlaidItemData = await getAccessToken();
 
   if (item.proUser) {
-    return <PlaidDashboard item={item} user={user} />;
+    return <PlaidDashboard item={item} />;
   } else {
     return <ConnectAccountPage user={user} />;
   }
