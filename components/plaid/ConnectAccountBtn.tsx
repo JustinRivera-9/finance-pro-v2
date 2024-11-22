@@ -34,11 +34,11 @@ const ConnectAccountBtn = ({ user, variant }: PlaidLinkProps) => {
 
   const onSuccess = useCallback<PlaidLinkOnSuccess>(
     async (public_token: string) => {
-      const data = await exchangePublicToken({
+      await exchangePublicToken({
         publicToken: public_token,
         user,
       });
-      console.log(data);
+
       router.push("/app/connected-accounts");
     },
     [user]

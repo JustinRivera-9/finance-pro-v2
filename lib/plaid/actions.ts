@@ -1,4 +1,3 @@
-import { plaidClient } from "./plaid";
 import { ExchangePublicTokenProps } from "../../types/types";
 
 export const createLinkToken = async (user: string) => {
