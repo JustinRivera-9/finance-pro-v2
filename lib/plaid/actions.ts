@@ -36,10 +36,7 @@ export const exchangePublicToken = async ({
       body: JSON.stringify({ publicToken }),
     });
 
-    const data = await response.json();
-    const { accessToken, itemId, requestId } = data;
-
-    return { accessToken, itemId, requestId };
+    if (!response.ok) throw Error;
   } catch (error) {
     console.log("An error occured while creating exhange token:", error);
   }

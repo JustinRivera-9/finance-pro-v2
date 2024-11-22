@@ -15,9 +15,15 @@ export async function POST(req: NextRequest) {
     const itemId = response.data.item_id;
     const requestId = response.data.request_id;
 
-    const error = await addAccessToken({ accessToken, itemId, requestId });
+    const error = await addAccessToken({
+      accessToken,
+      itemId,
+      requestId,
+      proUser: true,
+    });
     if (error) throw new Error("Supabase error");
-    return NextResponse.json({ accessToken, itemId, requestId });
+
+    if (!response.data.access_token) throw Error;
   } catch (error) {
     console.error("Error creating Plaid link token:", error);
     return NextResponse.json(
