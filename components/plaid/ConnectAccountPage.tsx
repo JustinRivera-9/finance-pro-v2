@@ -1,7 +1,9 @@
 import ConnectAccountBtn from "./ConnectAccountBtn";
 import { getUser } from "@/lib/supabase/actions";
 
-const ConnectAccountPage = async ({ user }: { user: string }) => {
+const ConnectAccountPage = async () => {
+  const user = (await getUser()) as string;
+
   return (
     <div className="flex flex-col items-center">
       <h1>Connect Your Bank Accounts</h1>
