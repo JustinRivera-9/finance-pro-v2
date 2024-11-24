@@ -17,7 +17,7 @@ export const addAccessToken = async (data: any) => {
   const user = await getUser();
 
   const { error } = await supabase
-    .from("plaid")
+    .from("transactions")
     .update({ ...data })
     .eq("user_id", user);
 
@@ -28,13 +28,13 @@ export const getAccessToken = async () => {
   const supabase = createClient();
   const user = await getUser();
 
-  let { data: plaid, error } = await supabase
-    .from("plaid")
+  let { data: transactions, error } = await supabase
+    .from("transactions")
     .select("*")
     .eq("user_id", user);
 
-  if (error || !plaid?.length) return error;
-  return plaid[0];
+  if (error || !transactions?.length) return error;
+  return transactions[0];
 };
 
 export const updateTransactions = async (data: TransactionData) => {
