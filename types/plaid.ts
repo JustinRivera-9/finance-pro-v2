@@ -8,7 +8,6 @@ export type PlaidItemData = {
 };
 
 export type TransactionData = {
-  itemId: string;
   added: Transaction[];
   modified: Transaction[];
   removed: RemovedTransaction[];
