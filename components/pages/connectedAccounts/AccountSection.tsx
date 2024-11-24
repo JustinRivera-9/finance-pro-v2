@@ -8,10 +8,14 @@ import {
 
 const AccountSection = ({ accounts }: { accounts: AccountBase[] }) => {
   return (
-    <Carousel>
+    <Carousel
+      opts={{
+        dragFree: true,
+      }}
+    >
       <CarouselContent className="-ml-1">
         {accounts.map((account) => (
-          <CarouselItem key={account.account_id} className="basis-1/2">
+          <CarouselItem key={account.account_id} className="basis-9/12">
             <AccountCard account={account} />
           </CarouselItem>
         ))}
