@@ -21,9 +21,11 @@ export async function POST(req: NextRequest) {
       requestId,
       proUser: true,
     });
-    if (error) throw new Error("Supabase error");
 
+    if (error) throw new Error("Supabase error");
     if (!response.data.access_token) throw Error;
+
+    return NextResponse.json({ status: 200 });
   } catch (error) {
     console.error("Error creating Plaid link token:", error);
     return NextResponse.json(
