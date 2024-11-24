@@ -1,14 +1,16 @@
 import { PlaidItemData } from "@/app/app/connected-accounts/actions";
 import { fetchTransactions } from "@/lib/plaid/actions";
+import { getUser } from "@/lib/supabase/actions";
 
 type PlaidDashboardProps = {
   item: PlaidItemData;
 };
 
 const PlaidDashboard = async ({ item }: PlaidDashboardProps) => {
-  const { accessToken } = item;
+  const user = (await getUser()) as string;
+  const { accessToken, itemId } = item;
   const { accounts, added, modified, removed, cursor } =
-    await fetchTransactions(accessToken, item.cursor);
+    await fetchTransactions(accessToken, item.cursor, itemId, user);
   /*
   ADDED DATA
 ACCOUNTS DATA
@@ -28,7 +30,6 @@ personal_finance_category.primary
 personal_finance_category_icon_url
 transaction_id
 */
-  console.log(accounts);
 
   return (
     <div>

@@ -13,4 +13,5 @@ export type TransactionData = {
   removed: RemovedTransaction[];
   cursor: string;
   accounts: AccountBase[];
+  user: string;
 };

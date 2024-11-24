@@ -1,6 +1,5 @@
 import { redirect } from "next/navigation";
 import { ExchangePublicTokenProps } from "../../types/types";
-import { revalidatePath } from "next/cache";
 
 export const createLinkToken = async (user: string) => {
   try {
@@ -47,7 +46,9 @@ export const exchangePublicToken = async ({
 
 export const fetchTransactions = async (
   accessToken: string,
-  cursor: string | null = null
+  cursor: string | null = null,
+  itemId: string,
+  user: string
 ) => {
   try {
     const response = await fetch(
@@ -57,7 +58,12 @@ export const fetchTransactions = async (
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ lastCursor: cursor, accessToken: accessToken }),
+        body: JSON.stringify({
+          lastCursor: cursor,
+          accessToken: accessToken,
+          itemId,
+          user,
+        }),
       }
     );
 

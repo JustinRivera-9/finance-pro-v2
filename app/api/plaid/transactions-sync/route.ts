@@ -9,7 +9,7 @@ import {
 } from "plaid";
 
 export async function POST(req: NextRequest) {
-  const { lastCursor, accessToken } = await req.json();
+  const { lastCursor, accessToken, itemId, user } = await req.json();
   try {
     // Provide a cursor from your database if you've previously
     // received one for the Item. Leave null if this is your
@@ -46,7 +46,14 @@ export async function POST(req: NextRequest) {
       cursor = data.next_cursor;
     }
 
-    await updateTransactions({ accounts, added, modified, removed, cursor });
+    await updateTransactions({
+      accounts,
+      added,
+      modified,
+      removed,
+      cursor,
+      user,
+    });
     // Persist cursor and updated data
     // database.applyUpdates(itemId, added, modified, removed, cursor);
     return NextResponse.json({ accounts, added, modified, removed, cursor });

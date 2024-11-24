@@ -38,5 +38,12 @@ export const getAccessToken = async () => {
 };
 
 export const updateTransactions = async (data: TransactionData) => {
-  const { added, modified, removed, cursor } = data;
+  const supabase = createClient();
+  const { accounts, added, modified, removed, cursor, user } = data;
+  const { error } = await supabase
+    .from("transactions")
+    .update({ accounts, added, modified, removed, cursor })
+    .eq("user_id", user);
+  // if (error) throw new Error("Error updating transactions table");
+  if (error) console.log("Error updating transactions table", error);
 };
