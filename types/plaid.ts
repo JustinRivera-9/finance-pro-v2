@@ -1,4 +1,4 @@
-import { RemovedTransaction, Transaction } from "plaid";
+import { AccountBase, RemovedTransaction, Transaction } from "plaid";
 
 export type PlaidItemData = {
   accessToken: string;
@@ -12,4 +12,5 @@ export type TransactionData = {
   modified: Transaction[];
   removed: RemovedTransaction[];
   cursor: string;
+  accounts: AccountBase[];
 };
