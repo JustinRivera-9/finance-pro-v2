@@ -1,6 +1,7 @@
 "use server";
 import { getUser } from "@/lib/supabase/actions";
 import { createClient } from "@/lib/supabase/server";
+import { stringify } from "@/lib/utils";
 import { TransactionData } from "@/types/plaid";
 
 export type PlaidItemData = {
@@ -37,13 +38,22 @@ export const getAccessToken = async () => {
   return transactions[0];
 };
 
-export const updateTransactions = async (data: TransactionData) => {
+export const updateTransactions = async (plaidData: TransactionData) => {
   const supabase = createClient();
-  const { accounts, added, modified, removed, cursor, user } = data;
+  const { accounts, added, modified, removed, cursor, user } = plaidData;
+
+  // Try turning data into json. Could be because it's not matching table column type?
+
   const { error } = await supabase
     .from("transactions")
-    .update({ accounts, added, modified, removed, cursor })
+    .update({
+      accounts: accounts ? JSON.stringify(accounts) : null,
+      added: added ? JSON.stringify(added) : null,
+      modified: modified ? JSON.stringify(modified) : null,
+      removed: removed ? JSON.stringify(removed) : null,
+      cursor,
+    })
     .eq("user_id", user);
-  // if (error) throw new Error("Error updating transactions table");
+
   if (error) console.log("Error updating transactions table", error);
 };
