@@ -20,7 +20,12 @@ export const fixedDateArray = () => {
 export const parse = (value: any) => JSON.parse(value);
 export const stringify = (value: any) => JSON.stringify(value);
 
-export const formatCurrency = (value: number, rounded: boolean = true) => {
+export const formatCurrency = (
+  value: number | null,
+  rounded: boolean = true
+) => {
+  if (!value) return;
+
   if (rounded) {
     const number = Math.round(+value);
 
