@@ -1,6 +1,6 @@
-import { access } from "fs";
+import { redirect } from "next/navigation";
 import { ExchangePublicTokenProps } from "../../types/types";
-import { TransactionData } from "@/types/plaid";
+import { revalidatePath } from "next/cache";
 
 export const createLinkToken = async (user: string) => {
   try {
@@ -39,6 +39,7 @@ export const exchangePublicToken = async ({
     });
 
     if (!response.ok) throw Error;
+    redirect("app/connected-accounts");
   } catch (error) {
     console.log("An error occured while creating exhange token:", error);
   }
