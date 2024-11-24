@@ -2,6 +2,7 @@ import { updateTransactions } from "@/app/app/connected-accounts/actions";
 import { plaidClient } from "@/lib/plaid/plaid";
 import { NextRequest, NextResponse } from "next/server";
 import {
+  AccountBase,
   RemovedTransaction,
   Transaction,
   TransactionsSyncRequest,
@@ -22,6 +23,7 @@ export async function POST(req: NextRequest) {
     // Removed transaction ids
     let removed: Array<RemovedTransaction> = [];
     let hasMore = true;
+    let accounts: AccountBase[] = [];
 
     // Iterate through each page of new transaction updates for item
     while (hasMore) {
@@ -36,6 +38,7 @@ export async function POST(req: NextRequest) {
       added = added.concat(data.added);
       modified = modified.concat(data.modified);
       removed = removed.concat(data.removed);
+      accounts = data.accounts;
 
       hasMore = data.has_more;
 
@@ -43,10 +46,10 @@ export async function POST(req: NextRequest) {
       cursor = data.next_cursor;
     }
 
-    await updateTransactions({ added, modified, removed, cursor });
+    await updateTransactions({ accounts, added, modified, removed, cursor });
     // Persist cursor and updated data
     // database.applyUpdates(itemId, added, modified, removed, cursor);
-    return NextResponse.json({ added, modified, removed, cursor });
+    return NextResponse.json({ accounts, added, modified, removed, cursor });
   } catch (err) {
     const error = err as Error;
     console.error("Error fetching transactions:", error);
