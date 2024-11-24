@@ -1,4 +1,6 @@
+import { access } from "fs";
 import { ExchangePublicTokenProps } from "../../types/types";
+import { TransactionData } from "@/types/plaid";
 
 export const createLinkToken = async (user: string) => {
   try {
@@ -39,5 +41,32 @@ export const exchangePublicToken = async ({
     if (!response.ok) throw Error;
   } catch (error) {
     console.log("An error occured while creating exhange token:", error);
+  }
+};
+
+export const fetchTransactions = async (
+  accessToken: string,
+  cursor: string | null = null
+) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/plaid/transactions-sync`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ lastCursor: cursor, accessToken: accessToken }),
+      }
+    );
+
+    if (!response.ok)
+      throw new Error("There was an issue fetching transaction data");
+
+    const data = response.json();
+    return data;
+  } catch (err) {
+    const error = err as Error;
+    console.log(error.message);
   }
 };
