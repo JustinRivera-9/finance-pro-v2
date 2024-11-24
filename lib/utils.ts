@@ -17,7 +17,8 @@ export const fixedDateArray = () => {
   return arr;
 };
 
-export const parseStringify = (value: any) => JSON.parse(JSON.stringify(value));
+export const parse = (value: any) => JSON.parse(value);
+export const stringify = (value: any) => JSON.stringify(value);
 
 export const formatCurrency = (value: number, rounded: boolean = true) => {
   if (rounded) {
