@@ -166,3 +166,20 @@ export const prepareBudgetOverviewPieChartData = (
 
   return arr;
 };
+
+export const capitalizePlaidCategory = (
+  input: string | undefined
+): string | undefined => {
+  const alwaysLowercase = ["and", "of", "the", "in", "on", "at", "by", "with"];
+  if (!input) return input;
+  return input
+    .toLowerCase()
+    .split("_")
+    .map((word, index) => {
+      if (alwaysLowercase.includes(word) && index !== 0) {
+        return word;
+      }
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    })
+    .join(" ");
+};
