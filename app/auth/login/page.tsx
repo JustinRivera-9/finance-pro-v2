@@ -3,7 +3,7 @@ import React from "react";
 
 const LoginPage = () => {
   return (
-    <div className="py-12">
+    <div className="py-6">
       <LoginForm />
     </div>
   );
