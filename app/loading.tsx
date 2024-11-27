@@ -1,7 +1,7 @@
 import Spinner from "@/components/ui/Spinner";
 
 const loading = () => {
-  return <Spinner size="lg" message="Loading expenses..." />;
+  return <Spinner size="lg" />;
 };
 
 export default loading;
