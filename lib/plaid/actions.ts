@@ -52,7 +52,7 @@ export const fetchTransactions = async (
 ) => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/plaid/transactions-sync`,
+      `${process.env.NEXT_PUBLIC_API_PRODUCTION_URL}/api/plaid/transactions-sync`,
       {
         method: "POST",
         headers: {
