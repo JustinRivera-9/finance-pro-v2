@@ -15,3 +15,16 @@ export type TransactionData = {
   accounts: AccountBase[];
   user: string;
 };
+
+export type ApprovedTransactionItem = {
+  account_id: string;
+  amount: number;
+  authorized_date: string | null;
+  date: string;
+  merchant_name: string | null | undefined;
+  logo_url: string | null | undefined;
+  personal_finance_category: string | undefined;
+  personal_finance_category_icon_url: string | undefined;
+  transaction_id: string;
+  name: string;
+};
