@@ -1,3 +1,5 @@
+import { CircleCheck } from "lucide-react";
+import { useState } from "react";
 import {
   capitalizePlaidCategory,
   formatCurrency,
@@ -6,9 +8,16 @@ import {
 import { format } from "date-fns";
 import Image from "next/image";
 import type { Transaction } from "plaid";
-import ConfirmTransactionBtn from "./ConfirmTransactionBtn";
+import { ApprovedTransactionItem } from "@/types/plaid";
 
-const TransactionItem = ({ data }: { data: Transaction }) => {
+type TransactionItemProps = {
+  data: Transaction;
+  addTransaction: (transaction: ApprovedTransactionItem) => void;
+};
+
+const TransactionItem = ({ data, addTransaction }: TransactionItemProps) => {
+  const [isConfirmed, setIsConfirmed] = useState<boolean>(false);
+
   const {
     account_id,
     amount,
@@ -21,6 +30,23 @@ const TransactionItem = ({ data }: { data: Transaction }) => {
     transaction_id,
     name,
   } = data;
+
+  const handleClick = () => {
+    setIsConfirmed((prev) => !prev);
+
+    addTransaction({
+      account_id,
+      amount,
+      authorized_date,
+      date,
+      merchant_name,
+      logo_url,
+      personal_finance_category: personal_finance_category?.primary,
+      personal_finance_category_icon_url,
+      transaction_id,
+      name,
+    });
+  };
 
   return (
     <>
@@ -44,7 +70,22 @@ const TransactionItem = ({ data }: { data: Transaction }) => {
             {capitalizePlaidCategory(personal_finance_category?.primary)}
           </p>
         </div>
-        <ConfirmTransactionBtn />
+        <CircleCheck
+          style={
+            isConfirmed
+              ? {
+                  color: "#262525",
+                  backgroundColor: "#84cc16",
+                  borderRadius: "9999px",
+                }
+              : {
+                  color: "#fdfdfd",
+                  backgroundColor: "#262525",
+                  borderRadius: "9999px",
+                }
+          }
+          onClick={handleClick}
+        />
       </section>
     </>
   );
