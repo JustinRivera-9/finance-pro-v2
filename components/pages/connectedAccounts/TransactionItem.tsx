@@ -1,4 +1,4 @@
-import { CircleCheck } from "lucide-react";
+import { CircleCheck, Pencil, Undo2 } from "lucide-react";
 import { useState } from "react";
 import {
   capitalizePlaidCategory,
@@ -9,6 +9,7 @@ import { format } from "date-fns";
 import Image from "next/image";
 import type { Transaction } from "plaid";
 import { ApprovedTransactionItem } from "@/types/plaid";
+import { Input } from "@/components/ui/input";
 
 type TransactionItemProps = {
   data: Transaction;
@@ -16,8 +17,6 @@ type TransactionItemProps = {
 };
 
 const TransactionItem = ({ data, addTransaction }: TransactionItemProps) => {
-  const [isConfirmed, setIsConfirmed] = useState<boolean>(false);
-
   const {
     account_id,
     amount,
@@ -30,6 +29,11 @@ const TransactionItem = ({ data, addTransaction }: TransactionItemProps) => {
     transaction_id,
     name,
   } = data;
+
+  const [isConfirmed, setIsConfirmed] = useState<boolean>(false);
+  const [userCategory, setUserCategory] = useState<string>(
+    capitalizePlaidCategory(personal_finance_category?.primary) || ""
+  );
 
   const handleClick = () => {
     setIsConfirmed((prev) => !prev);
@@ -45,7 +49,14 @@ const TransactionItem = ({ data, addTransaction }: TransactionItemProps) => {
       personal_finance_category_icon_url,
       transaction_id,
       name,
+      userCategory: userCategory || "",
     });
+  };
+
+  const handleUndo = () => {
+    setUserCategory(
+      capitalizePlaidCategory(personal_finance_category?.primary) || ""
+    );
   };
 
   return (
@@ -64,11 +75,24 @@ const TransactionItem = ({ data, addTransaction }: TransactionItemProps) => {
             {formatExpenseDate(format(authorized_date || date, "P"))}
           </p>
         </div>
-        <div className="flex flex-col truncate">
+        <div className="flex flex-col gap-2 truncate">
           <p className="text-left">{merchant_name || name}</p>
-          <p className="text-left">
-            {capitalizePlaidCategory(personal_finance_category?.primary)}
-          </p>
+          <div className="flex gap-2 items-center">
+            <Input
+              type="text"
+              className="h-fit px-1 py-1 focus-visible:border-secondary"
+              value={
+                userCategory || userCategory === ""
+                  ? userCategory
+                  : capitalizePlaidCategory(personal_finance_category?.primary)
+              }
+              onChange={(e) => setUserCategory(e.target.value)}
+            />
+            {userCategory !==
+              capitalizePlaidCategory(personal_finance_category?.primary) && (
+              <Undo2 onClick={handleUndo} />
+            )}
+          </div>
         </div>
         <CircleCheck
           style={
