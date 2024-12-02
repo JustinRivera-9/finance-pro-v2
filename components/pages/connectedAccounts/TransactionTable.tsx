@@ -4,6 +4,7 @@ import TransactionItem from "./TransactionItem";
 import { Separator } from "@/components/ui/separator";
 import { useState } from "react";
 import { ApprovedTransactionItem } from "@/types/plaid";
+import { handleConfirmTransactions } from "@/app/app/connected-accounts/actions";
 
 const TransactionTable = ({
   transactions,
@@ -41,7 +42,10 @@ const TransactionTable = ({
   return (
     <>
       {approvedTransactions.length ? (
-        <button className="fixed bottom-24 bg-secondary text-dark bg-opacity-85 font-bold px-6 py-3 rounded-full shadow-md z-50">
+        <button
+          onClick={() => handleConfirmTransactions(approvedTransactions)}
+          className="fixed bottom-24 bg-secondary text-dark bg-opacity-85 font-bold px-6 py-3 rounded-full shadow-md z-50"
+        >
           Confirm Transactions
         </button>
       ) : null}

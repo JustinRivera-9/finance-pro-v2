@@ -1,8 +1,7 @@
 "use server";
 import { getUser } from "@/lib/supabase/actions";
 import { createClient } from "@/lib/supabase/server";
-import { stringify } from "@/lib/utils";
-import { TransactionData } from "@/types/plaid";
+import { ApprovedTransactionItem, TransactionData } from "@/types/plaid";
 
 export type PlaidItemData = {
   accessToken: string;
@@ -56,4 +55,14 @@ export const updateTransactions = async (plaidData: TransactionData) => {
     .eq("user_id", user);
 
   if (error) console.log("Error updating transactions table", error);
+};
+
+export const handleConfirmTransactions = async (
+  transactions: ApprovedTransactionItem[]
+) => {
+  const supabase = createClient();
+  const user = await getUser();
+
+  console.log(transactions);
+  // Date, amount, category, name AS description, transaction_id AS id
 };
