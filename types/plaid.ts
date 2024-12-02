@@ -27,4 +27,5 @@ export type ApprovedTransactionItem = {
   personal_finance_category_icon_url: string | undefined;
   transaction_id: string;
   name: string;
+  userCategory: string;
 };
