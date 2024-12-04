@@ -1,6 +1,11 @@
 import { Undo2 } from "lucide-react";
 import { useState } from "react";
-import { formatCurrency, formatExpenseDate } from "@/lib/utils";
+import {
+  capitalizePlaidCategory,
+  formatCurrency,
+  formatExpenseDate,
+  formatPlaidDate,
+} from "@/lib/utils";
 import { format } from "date-fns";
 import Image from "next/image";
 import type { Transaction } from "plaid";
@@ -46,15 +51,19 @@ const TransactionItem = ({
     addTransaction({
       account_id,
       amount,
-      authorized_date,
-      date,
+      authorized_date: formatPlaidDate(authorized_date as string),
+      date: formatPlaidDate(date),
       merchant_name,
       logo_url,
-      personal_finance_category: personal_finance_category?.primary,
+      personal_finance_category: capitalizePlaidCategory(
+        personal_finance_category?.primary
+      ),
       personal_finance_category_icon_url,
       transaction_id,
       name,
       category: category,
+      isImported: true,
+      description: name || (merchant_name as string),
     });
   };
 
@@ -71,6 +80,8 @@ const TransactionItem = ({
       transaction_id,
       name,
       category: userCategory,
+      isImported: true,
+      description: name || (merchant_name as string),
     });
 
     setUserCategory("");
