@@ -60,8 +60,8 @@ export const updateTransactions = async (plaidData: TransactionData) => {
 export const handleConfirmTransactions = async (
   transactions: ApprovedTransactionItem[]
 ) => {
-  const supabase = createClient();
-  const user = await getUser();
+  // const supabase = createClient();
+  // const user = await getUser();
 
   console.log(transactions);
   // Date, amount, category, name AS description, transaction_id AS id
