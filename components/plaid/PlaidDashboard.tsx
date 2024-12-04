@@ -3,6 +3,7 @@ import { fetchTransactions } from "@/lib/plaid/actions";
 import { getUser } from "@/lib/supabase/actions";
 import AccountSection from "../pages/connectedAccounts/AccountSection";
 import TransactionTable from "../pages/connectedAccounts/TransactionTable";
+import { getCategories } from "@/app/app/planned/actions";
 
 type PlaidDashboardProps = {
   item: PlaidItemData;
@@ -14,6 +15,8 @@ const PlaidDashboard = async ({ item }: PlaidDashboardProps) => {
   const { accounts, added, modified, removed, cursor } =
     await fetchTransactions(accessToken, item.cursor, itemId, user);
 
+  const categories = await getCategories();
+
   return (
     <div className="flex flex-col gap-4 items-center text-center py-2 px-4">
       <div>
@@ -24,7 +27,11 @@ const PlaidDashboard = async ({ item }: PlaidDashboardProps) => {
         </h2>
       </div>
       <AccountSection accounts={accounts} />
-      <TransactionTable transactions={added} accounts={accounts} />
+      <TransactionTable
+        transactions={added}
+        accounts={accounts}
+        categories={categories as any[]}
+      />
     </div>
   );
 };
