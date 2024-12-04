@@ -1,7 +1,7 @@
 import { PieChartCategory } from "@/components/pages/dashboard/CategoryCarousel";
 import { CategoryData, Expense, reduceArrParam } from "@/types/types";
 import { type ClassValue, clsx } from "clsx";
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -182,4 +182,14 @@ export const capitalizePlaidCategory = (
       return word.charAt(0).toUpperCase() + word.slice(1);
     })
     .join(" ");
+};
+
+export const formatPlaidDate = (dateString: string) => {
+  if (!dateString) {
+    console.error("Issue formatting expense date");
+    return dateString;
+  }
+
+  const parsedDate = parseISO(dateString);
+  return format(parsedDate, "MM/dd/yy");
 };
