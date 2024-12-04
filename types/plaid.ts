@@ -28,4 +28,5 @@ export type ApprovedTransactionItem = {
   transaction_id: string;
   name: string;
   category: string;
+  isImported: boolean;
 };
