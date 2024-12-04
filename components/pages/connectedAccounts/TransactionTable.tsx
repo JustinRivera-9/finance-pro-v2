@@ -6,12 +6,17 @@ import { useState } from "react";
 import { ApprovedTransactionItem } from "@/types/plaid";
 import { handleConfirmTransactions } from "@/app/app/connected-accounts/actions";
 
-const TransactionTable = ({
-  transactions,
-}: {
+type TransactionTableProps = {
   transactions: Transaction[];
   accounts: AccountBase[];
-}) => {
+  categories: any[];
+};
+
+const TransactionTable = ({
+  transactions,
+  accounts,
+  categories,
+}: TransactionTableProps) => {
   const [approvedTransactions, setApprovedTransactions] = useState<
     ApprovedTransactionItem[]
   >([]);
@@ -22,22 +27,22 @@ const TransactionTable = ({
       item.payment_channel === "online" || item.payment_channel === "in store"
   );
 
-  const handleAddTransaction = (transaction: ApprovedTransactionItem) => {
-    setApprovedTransactions((prev) => {
-      // If transaction exists then need to remove from array. If it does not then add
-      const existingTransaction = prev.find(
-        (item) => item.transaction_id === transaction.transaction_id
-      );
+  const handleAddTransaction = (transaction: ApprovedTransactionItem) =>
+    setApprovedTransactions((prev) => [...prev, transaction]);
 
-      if (existingTransaction) {
-        return prev.filter(
-          (item) => item.transaction_id !== transaction.transaction_id
-        );
-      }
+  const handleRemoveTransaction = (transaction: ApprovedTransactionItem) =>
+    setApprovedTransactions((prev) =>
+      prev.filter((item) => item.transaction_id !== transaction.transaction_id)
+    );
 
-      return [...prev, transaction];
-    });
-  };
+  if (!categories) {
+    console.log("Error fetching categories");
+    return <h1>Error fetching categories</h1>;
+  }
+
+  const expenseCategories = categories.filter(
+    (category: any) => category.type === "expense" && !category.isFixed
+  );
 
   return (
     <>
@@ -57,6 +62,8 @@ const TransactionTable = ({
               <TransactionItem
                 data={item}
                 addTransaction={handleAddTransaction}
+                removeTransaction={handleRemoveTransaction}
+                categories={expenseCategories}
               />
               <Separator />
             </li>

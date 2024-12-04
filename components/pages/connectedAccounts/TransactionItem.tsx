@@ -1,22 +1,33 @@
-import { CircleCheck, Pencil, Undo2 } from "lucide-react";
+import { Undo2 } from "lucide-react";
 import { useState } from "react";
-import {
-  capitalizePlaidCategory,
-  formatCurrency,
-  formatExpenseDate,
-} from "@/lib/utils";
+import { formatCurrency, formatExpenseDate } from "@/lib/utils";
 import { format } from "date-fns";
 import Image from "next/image";
 import type { Transaction } from "plaid";
-import { ApprovedTransactionItem } from "@/types/plaid";
-import { Input } from "@/components/ui/input";
+import type { ApprovedTransactionItem } from "@/types/plaid";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 type TransactionItemProps = {
   data: Transaction;
   addTransaction: (transaction: ApprovedTransactionItem) => void;
+  removeTransaction: (transaction: ApprovedTransactionItem) => void;
+  categories: any[];
 };
 
-const TransactionItem = ({ data, addTransaction }: TransactionItemProps) => {
+const TransactionItem = ({
+  data,
+  addTransaction,
+  removeTransaction,
+  categories,
+}: TransactionItemProps) => {
+  const [userCategory, setUserCategory] = useState<string>("");
+
   const {
     account_id,
     amount,
@@ -30,14 +41,8 @@ const TransactionItem = ({ data, addTransaction }: TransactionItemProps) => {
     name,
   } = data;
 
-  const [isConfirmed, setIsConfirmed] = useState<boolean>(false);
-  const [userCategory, setUserCategory] = useState<string>(
-    capitalizePlaidCategory(personal_finance_category?.primary) || ""
-  );
-
-  const handleClick = () => {
-    setIsConfirmed((prev) => !prev);
-
+  const handleAdd = (category: string) => {
+    setUserCategory(category);
     addTransaction({
       account_id,
       amount,
@@ -49,19 +54,31 @@ const TransactionItem = ({ data, addTransaction }: TransactionItemProps) => {
       personal_finance_category_icon_url,
       transaction_id,
       name,
-      userCategory: userCategory || "",
+      category: category,
     });
   };
 
   const handleUndo = () => {
-    setUserCategory(
-      capitalizePlaidCategory(personal_finance_category?.primary) || ""
-    );
+    removeTransaction({
+      account_id,
+      amount,
+      authorized_date,
+      date,
+      merchant_name,
+      logo_url,
+      personal_finance_category: personal_finance_category?.primary,
+      personal_finance_category_icon_url,
+      transaction_id,
+      name,
+      category: userCategory,
+    });
+
+    setUserCategory("");
   };
 
   return (
     <>
-      <section className="grid grid-cols-[0.5fr,1fr,2fr,0.5fr] gap-4 text-sm items-center py-2">
+      <section className="grid grid-cols-[0.5fr,1fr,2fr] items-center py-2">
         <Image
           src={`${logo_url || personal_finance_category_icon_url}`}
           alt="Logo or merchant"
@@ -70,46 +87,44 @@ const TransactionItem = ({ data, addTransaction }: TransactionItemProps) => {
           className="rounded-full"
         />
         <div className="flex flex-col items-center truncate">
-          <p className="text-center">{formatCurrency(amount)}</p>
+          <p className="text-center text-lg text-secondary">
+            {formatCurrency(amount)}
+          </p>
           <p className="text-right">
             {formatExpenseDate(format(authorized_date || date, "P"))}
           </p>
         </div>
         <div className="flex flex-col gap-2 truncate">
-          <p className="text-left">{merchant_name || name}</p>
-          <div className="flex gap-2 items-center">
-            <Input
-              type="text"
-              className="h-fit px-1 py-1 focus-visible:border-secondary"
-              value={
-                userCategory || userCategory === ""
-                  ? userCategory
-                  : capitalizePlaidCategory(personal_finance_category?.primary)
-              }
-              onChange={(e) => setUserCategory(e.target.value)}
-            />
-            {userCategory !==
-              capitalizePlaidCategory(personal_finance_category?.primary) && (
-              <Undo2 onClick={handleUndo} />
-            )}
-          </div>
+          <p className="text-left font-bold truncate">
+            {merchant_name || name}
+          </p>
+          {userCategory ? (
+            <div className="flex gap-2 justify-between items-center">
+              <p className="text-lg text-light/70">{userCategory}</p>
+              <Undo2 onClick={handleUndo} size={24} />
+            </div>
+          ) : (
+            <Select onValueChange={(value) => handleAdd(value)}>
+              <SelectTrigger className="h-fit px-2 py-1">
+                <SelectValue
+                  placeholder="Assign Category"
+                  autoCapitalize="words"
+                />
+              </SelectTrigger>
+              <SelectContent>
+                {categories.map((item) => (
+                  <SelectItem
+                    key={item.id}
+                    value={item.category}
+                    autoCapitalize="words"
+                  >
+                    {item.category}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          )}
         </div>
-        <CircleCheck
-          style={
-            isConfirmed
-              ? {
-                  color: "#262525",
-                  backgroundColor: "#84cc16",
-                  borderRadius: "9999px",
-                }
-              : {
-                  color: "#fdfdfd",
-                  backgroundColor: "#262525",
-                  borderRadius: "9999px",
-                }
-          }
-          onClick={handleClick}
-        />
       </section>
     </>
   );
