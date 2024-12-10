@@ -17,8 +17,10 @@ const PricingCard = ({ data }: { data: PricingCardProps }) => {
       <ul className="flex flex-col gap-2">
         {features.map((feature, i) => (
           <li className="flex gap-2" key={i}>
-            <KeyboardArrowRightIcon className="text-secondary" />
-            <p key={i}>{feature}</p>
+            <KeyboardArrowRightIcon className="text-light" />
+            <p key={i} className="text-light/80">
+              {feature}
+            </p>
           </li>
         ))}
       </ul>
