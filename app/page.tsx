@@ -10,7 +10,7 @@ const LandingPage = () => {
   return (
     <>
       <Header />
-      <div className="flex flex-col gap-6 w-full px-6 items-center py-2">
+      <div className="flex flex-col gap-8 w-full px-6 items-center py-2">
         <HeroSection />
         <FeaturesList />
         <Benefits />
