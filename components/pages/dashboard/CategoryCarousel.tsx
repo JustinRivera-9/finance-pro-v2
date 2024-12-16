@@ -13,6 +13,7 @@ import {
   getCurrentMonthAndYear,
   groupExpenseByCategory,
   prepareBudgetOverviewPieChartData,
+  sortCategoryOverview,
 } from "@/lib/utils";
 import { getExpenses } from "@/app/app/spent/[month]/actions";
 import { getCategories } from "@/app/app/planned/actions";
@@ -56,13 +57,14 @@ const CategoryCarousel = async () => {
   const currentMonth = format(new Date(), "PPP")
     .split(" ")[0]
     .toLocaleLowerCase();
+
   const catgeoryExpenses = groupExpenseByCategory(
     currentMonth,
     expenses.expenses,
     categories as CategoryData[]
   );
 
-  const chartData = preparedData.map((item: PieChartCategory) => {
+  const rawData = preparedData.map((item: PieChartCategory) => {
     const under = "rgb(132 204 22 / 0.5)";
     const warning = "rgb(251 189 35 / 0.5)";
     const over = "rgb(248 114 114 / 0.7)";
@@ -80,6 +82,8 @@ const CategoryCarousel = async () => {
 
     return chartData;
   });
+
+  const chartData = sortCategoryOverview(rawData);
 
   return (
     <SectionContainer>
