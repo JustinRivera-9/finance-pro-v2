@@ -1,10 +1,8 @@
 "use client";
 
-import { TrendingUp } from "lucide-react";
 import { Label, Pie, PieChart, Sector } from "recharts";
 import { PieSectorDataItem } from "recharts/types/polar/Pie";
 
-import { CardFooter } from "@/components/ui/card";
 import {
   ChartConfig,
   ChartContainer,
@@ -15,7 +13,7 @@ import { useState } from "react";
 import SectionTitle from "./SectionTitle";
 import { pieChartColorArr } from "@/lib/constants";
 import { PieChartCategory } from "./CategoryCarousel";
-import { formatCurrency, reduceArr } from "@/lib/utils";
+import { formatCurrency, reduceArr, sortBudgetOverview } from "@/lib/utils";
 import { format } from "date-fns";
 
 export const description = "A pie chart showing all category expenses";
@@ -38,9 +36,11 @@ export const OverviewChart = ({ data }: { data: PieChartCategory[] }) => {
     return { category: item.category, amount: item.spentAmount };
   });
 
-  const chartData = dirtyData.map((category, i) => {
-    return { ...category, fill: pieChartColorArr[i] };
-  });
+  const chartData = sortBudgetOverview(
+    dirtyData.map((category, i) => {
+      return { ...category, fill: pieChartColorArr[i] };
+    })
+  );
 
   const getActiveIndex = (e: any) => {
     const activeIndex = chartData.findIndex(
@@ -118,12 +118,6 @@ export const OverviewChart = ({ data }: { data: PieChartCategory[] }) => {
           </PieChart>
         </ChartContainer>
       )}
-      {/* <CardFooter className="flex-col items-start gap-2 text-sm">
-        <div className="flex gap-2 font-medium leading-none text-light/80">
-          {`Trending up by $230 (5.2%) this month`}
-          <TrendingUp className="h-4 w-4" />
-        </div>
-      </CardFooter> */}
     </div>
   );
 };
