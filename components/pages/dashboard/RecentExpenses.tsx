@@ -24,7 +24,8 @@ const RecentExpenses = async () => {
     const [month, day, year] = expense.date.split("/");
     return [month, year].join("/") === currentMonth;
   });
-  const sortedExpenses: Expense[] = sortExpenses(filteredExpenses);
+
+  const sortedExpenses: Expense[] | null = sortExpenses(filteredExpenses);
 
   return (
     <SectionContainer>
@@ -34,9 +35,9 @@ const RecentExpenses = async () => {
           View all <KeyboardTabIcon />
         </Link>
       </div>
-      {!sortedExpenses.length
+      {!filteredExpenses?.length
         ? emptyExpenseMessage
-        : sortedExpenses.map((expense, i) => {
+        : sortedExpenses?.map((expense, i) => {
             if (i >= 10) return null;
 
             return <ReadOnlyExpenseRow expense={expense} key={expense.id} />;
