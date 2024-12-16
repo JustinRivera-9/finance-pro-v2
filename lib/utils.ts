@@ -1,4 +1,7 @@
-import { PieChartCategory } from "@/components/pages/dashboard/CategoryCarousel";
+import {
+  ChartData,
+  PieChartCategory,
+} from "@/components/pages/dashboard/CategoryCarousel";
 import { CategoryData, Expense, reduceArrParam } from "@/types/types";
 import { type ClassValue, clsx } from "clsx";
 import { format, parseISO } from "date-fns";
@@ -111,6 +114,16 @@ export const reduceArr = (arr: reduceArrParam[]): number => {
 
 export const sortFixedExpenses = (arr: CategoryData[]): CategoryData[] => {
   return arr.sort((a, b) => +a.date - +b.date);
+};
+
+export const sortBudgetOverview = (
+  arr: { fill: string; category: string; amount: number }[]
+) => {
+  return arr.sort((a, b) => +a.amount - +b.amount);
+};
+
+export const sortCategoryOverview = (arr: ChartData[]) => {
+  return arr.sort((a, b) => +b.angle - +a.angle);
 };
 
 export const sortExpenses = (
