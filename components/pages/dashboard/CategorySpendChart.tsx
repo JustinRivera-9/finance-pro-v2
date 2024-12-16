@@ -9,7 +9,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { formatCurrency } from "@/lib/utils";
+import { formatCurrency, sortExpenses } from "@/lib/utils";
 import { ChartData } from "./CategoryCarousel";
 import { Expense } from "@/types/types";
 import { useState } from "react";
@@ -87,6 +87,8 @@ export function CategorySpendChart({
     setShowExpenses(true);
   };
 
+  const sortedExpenses = sortExpenses(selectedCategory?.expenses);
+
   return (
     <>
       {/* If category has no expenses message will be shown */}
@@ -102,26 +104,6 @@ export function CategorySpendChart({
           onClick={setCategory}
         >
           <PieChart>
-            <ChartTooltip
-              content={
-                <ChartTooltipContent
-                  hideLabel
-                  formatter={(value, name) => (
-                    <div className="flex min-w-[130px] items-center text-sm text-dark">
-                      <div className="flex items-center gap-2">
-                        <DollarSign height={20} />
-                        Spent
-                      </div>
-                      <div className="ml-auto flex gap-0.5 font-mono font-medium tabular-nums text-foreground">
-                        {formatCurrency(+value)}
-                      </div>
-                    </div>
-                  )}
-                />
-              }
-              cursor={false}
-              defaultIndex={1}
-            />
             <Pie
               startAngle={90}
               endAngle={data[0].angle + 90}
@@ -178,7 +160,7 @@ export function CategorySpendChart({
           expenses={selectedCategory}
           plannedAmount={data[0].plannedAmount}
         >
-          {selectedCategory?.expenses!.map((item) => (
+          {sortedExpenses?.map((item) => (
             <ReadOnlyExpenseRow expense={item} key={item.id} drawer />
           ))}
         </ExpenseDrawer>
