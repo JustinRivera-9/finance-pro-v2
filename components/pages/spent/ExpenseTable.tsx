@@ -17,7 +17,7 @@ const ExpenseTable = ({ expenses }: ExpenseTableProps) => {
   return (
     <div className="w-full">
       <ExpenseTableHeader />
-      {sortedExpenses.map((expense) => (
+      {sortedExpenses?.map((expense) => (
         <ExpenseItem key={expense.id} expense={expense} />
       ))}
     </div>
