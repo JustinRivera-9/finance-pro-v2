@@ -54,8 +54,7 @@ export const OverviewChart = ({ data }: { data: PieChartCategory[] }) => {
   const month = format(new Date(), "PP").split(" ")[0];
 
   return (
-    <div className="flex-1 pb-0 pt-4 bg-card rounded-xl w-10/12 h-fit">
-      <SectionTitle>Budget Overview</SectionTitle>
+    <div className="flex-1 pb-0 pt-4 w-10/12 h-fit">
       {!spentTotal ? (
         noExpensesMessage
       ) : (
