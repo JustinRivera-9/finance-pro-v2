@@ -13,7 +13,7 @@ const AccountOption = ({
       className={`${style} flex w-full py-2 px-8 justify-between items-center border-b border-light/60`}
     >
       <p className="text-lg">{children}</p>
-      <p>{<ArrowRightAltIcon fontSize="large" />}</p>
+      <ArrowRightAltIcon fontSize="large" />
     </div>
   );
 };
