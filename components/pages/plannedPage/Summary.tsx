@@ -11,8 +11,8 @@ const Summary: React.FC<SummaryProps> = ({ categories }) => {
   const budgetDelta = Math.abs(totalIncome - totalExpenses);
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex font-semibold gap-6 text-accent justify-center">
+    <div className="flex flex-col gap-4 pt-6">
+      <div className="flex font-semibold text-accent justify-around">
         <div className="bg-card px-2 py-2 rounded-lg text-left w-2/5">
           <p className="text-lg text-light">Income</p>
           <p className="text-3xl">
@@ -21,7 +21,7 @@ const Summary: React.FC<SummaryProps> = ({ categories }) => {
               : formatCurrency(0, true)}
           </p>
         </div>
-        <div className="bg-card px-4 py-2 rounded-lg text-left w-2/5">
+        <div className="bg-card px-2 py-2 rounded-lg text-left w-2/5">
           <p className="text-lg text-light">Expenses</p>
           <p className="text-3xl">
             {totalExpenses
@@ -33,7 +33,7 @@ const Summary: React.FC<SummaryProps> = ({ categories }) => {
       <p
         className={`${
           !underBudget && "text-error"
-        } text-md w-4/5 text-center border-card border-2 mx-auto px-2 py-2 rounded-md`}
+        } text-md w-11/12 text-center border-card border-2 mx-auto px-2 py-2 rounded-md`}
       >
         {underBudget
           ? `Doing great, you're on track to save ${formatCurrency(

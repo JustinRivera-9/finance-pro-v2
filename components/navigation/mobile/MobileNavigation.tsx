@@ -1,43 +1,40 @@
 "use client";
 import Link from "next/link";
 import SpaceDashboardIcon from "@mui/icons-material/SpaceDashboard";
-import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import PaidIcon from "@mui/icons-material/Paid";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
+import ShowChartSharpIcon from "@mui/icons-material/ShowChartSharp";
+import AccountCircleSharpIcon from "@mui/icons-material/AccountCircleSharp";
 import { usePathname } from "next/navigation";
 
 const MobileNavigation = () => {
   const path = usePathname();
 
-  const currentMonth = new Date()
-    .toLocaleString("en-US", { month: "long" })
-    .toLowerCase();
-
   return (
     <nav className="fixed bottom-0 left-0 right-0 mt-6 py-4 bg-[#313233] border-t-2 border-slate-500">
       <ul className="flex justify-around">
-        <li>
+        {/* <li>
           <Link
             href="/app/dashboard"
             className={path === "/app/dashboard" ? "text-accent" : ""}
           >
             <SpaceDashboardIcon fontSize="large" />
           </Link>
-        </li>
+        </li> */}
         <li>
           <Link
-            href="/app/planned"
-            className={path.startsWith("/app/planned") ? "text-accent" : ""}
+            href={`/app/budget`}
+            className={path.startsWith("/app/budget") ? "text-accent" : ""}
           >
-            <AppRegistrationIcon fontSize="large" />
+            <PaidIcon fontSize="large" />
           </Link>
         </li>
         <li>
           <Link
-            href={`/app/spent/${currentMonth}`}
-            className={path.startsWith("/app/spent") ? "text-accent" : ""}
+            href="/app/investing"
+            className={path.startsWith("/app/investing") ? "text-accent" : ""}
           >
-            <PaidIcon fontSize="large" />
+            <ShowChartSharpIcon fontSize="large" />
           </Link>
         </li>
         <li>
@@ -48,6 +45,14 @@ const MobileNavigation = () => {
             }
           >
             <AccountBalanceIcon fontSize="large" />
+          </Link>
+        </li>
+        <li>
+          <Link
+            href="/app/account"
+            className={path.startsWith("/app/account") ? "text-accent" : ""}
+          >
+            <AccountCircleSharpIcon fontSize="large" />
           </Link>
         </li>
       </ul>

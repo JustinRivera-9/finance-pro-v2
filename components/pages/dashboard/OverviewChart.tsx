@@ -2,7 +2,6 @@
 
 import { Label, Pie, PieChart, Sector } from "recharts";
 import { PieSectorDataItem } from "recharts/types/polar/Pie";
-
 import {
   ChartConfig,
   ChartContainer,
@@ -10,11 +9,15 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { useState } from "react";
-import SectionTitle from "./SectionTitle";
 import { pieChartColorArr } from "@/lib/constants";
 import { PieChartCategory } from "./CategoryCarousel";
-import { formatCurrency, reduceArr, sortBudgetOverview } from "@/lib/utils";
-import { format } from "date-fns";
+import {
+  capitalize,
+  formatCurrency,
+  reduceArr,
+  sortBudgetOverview,
+} from "@/lib/utils";
+import { useSearchParams } from "next/navigation";
 
 export const description = "A pie chart showing all category expenses";
 
@@ -32,12 +35,17 @@ const chartConfig = {
 
 export const OverviewChart = ({ data }: { data: PieChartCategory[] }) => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
-  const dirtyData = data.map((item) => {
+
+  const searchParams = useSearchParams();
+  const month = searchParams.get("month");
+  const year = searchParams.get("year");
+
+  const rawData = data.map((item) => {
     return { category: item.category, amount: item.spentAmount };
   });
 
   const chartData = sortBudgetOverview(
-    dirtyData.map((category, i) => {
+    rawData.map((category, i) => {
       return { ...category, fill: pieChartColorArr[i] };
     })
   );
@@ -51,7 +59,7 @@ export const OverviewChart = ({ data }: { data: PieChartCategory[] }) => {
   };
 
   const spentTotal = reduceArr(chartData);
-  const month = format(new Date(), "PP").split(" ")[0];
+  // const month = format(new Date(), "PP").split(" ")[0];
 
   return (
     <div className="flex-1 pb-0 pt-4 w-10/12 h-fit">
@@ -104,9 +112,9 @@ export const OverviewChart = ({ data }: { data: PieChartCategory[] }) => {
                         <tspan
                           x={viewBox.cx}
                           y={(viewBox.cy || 0) + 24}
-                          className="fill-light text-lg italic"
+                          className="fill-light text-lg italic capitalize"
                         >
-                          {month}
+                          {capitalize(month as string)}
                         </tspan>
                       </text>
                     );

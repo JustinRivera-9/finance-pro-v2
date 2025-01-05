@@ -1,16 +1,21 @@
-import BudgetOverview from "@/components/pages/dashboard/BudgetOverview";
-import CategoryCarousel from "@/components/pages/dashboard/CategoryCarousel";
-import RecentExpenses from "@/components/pages/dashboard/RecentExpenses";
-import UpcomingExpenses from "@/components/pages/dashboard/UpcomingExpenses";
+import SpentTab from "@/components/pages/dashboard/SpentTab";
+import PlannedTab from "@/components/pages/plannedPage/PlannedTab";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const DashboardPage = () => {
   return (
-    <div className="flex flex-col gap-4">
-      <BudgetOverview />
-      <CategoryCarousel />
-      <UpcomingExpenses />
-      <RecentExpenses />
-    </div>
+    <Tabs defaultValue="spent" className="w-full px-6 pt-4">
+      <TabsList className="grid w-full grid-cols-2">
+        <TabsTrigger value="spent">Spent</TabsTrigger>
+        <TabsTrigger value="planned">Planned</TabsTrigger>
+      </TabsList>
+      <TabsContent value="spent">
+        <SpentTab />
+      </TabsContent>
+      <TabsContent value="planned">
+        <PlannedTab />
+      </TabsContent>
+    </Tabs>
   );
 };
 

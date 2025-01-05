@@ -18,7 +18,7 @@ const CategoryColumn: React.FC<CategoryColumnProps> = ({ category, title }) => {
         <p className="text-accent text-2xl">{title}</p>
         <p className="text-light/70 text-xl">{formatCurrency(total)}</p>
       </div>
-      <ul className="flex flex-col flex-wrap gap-4 justify-start mx-auto w-full px-8">
+      <ul className="flex flex-col flex-wrap gap-4 justify-start mx-auto w-full">
         {isEmpty ? (
           <EmptyMessage description={`Add your first ${title} catgory`} />
         ) : (

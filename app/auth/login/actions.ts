@@ -21,8 +21,8 @@ export async function login(formData: FormData) {
     redirect("/auth/error");
   }
 
-  revalidatePath("/app/dashboard", "layout");
-  redirect("/app/dashboard");
+  revalidatePath(`/app/budget`, "layout");
+  redirect(`/app/budget`);
 }
 
 export async function signup(userData: FormData) {
@@ -45,9 +45,8 @@ export async function signup(userData: FormData) {
 
   // Add new row in accounts table with name
   const user_id = await getUser();
-
   const { data } = await supabase.from("account").insert([{ name, user_id }]);
 
-  revalidatePath("/app/dashboard", "layout");
-  redirect("/app/dashboard");
+  revalidatePath(`/app/budget`, "layout");
+  redirect(`/app/budget`);
 }

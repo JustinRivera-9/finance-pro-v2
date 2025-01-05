@@ -11,6 +11,32 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export const monthArr = {
+  "01": "jan",
+  "02": "feb",
+  "03": "mar",
+  "04": "apr",
+  "05": "may",
+  "06": "jun",
+  "07": "jul",
+  "08": "aug",
+  "09": "sep",
+  "10": "oct",
+  "11": "nov",
+  "12": "dec",
+};
+
+export const getMonthAndYear = (monthValue: string, yearValue: string) => {
+  const year = yearValue.slice(-2);
+  for (const [key, value] of Object.entries(monthArr)) {
+    if (value === monthValue.toLowerCase()) {
+      return `${key}/${year}`;
+    }
+  }
+
+  throw new Error(`Invalid month value: ${monthValue}`);
+};
+
 export const fixedDateArray = () => {
   const arr = [];
   for (let i = 1; i < 32; i++) {
@@ -71,21 +97,21 @@ export const filterExpenses = (month: string, expenses: Expense[]) => {
 };
 
 export const groupExpenseByCategory = (
-  month: string,
+  // month: string,
   expenses: Expense[],
   categories: CategoryData[]
 ) => {
   // Returns expenses based on current month
-  const filteredExpenses = filterExpenses(month, expenses);
+  // const filteredExpenses = filterExpenses(month, expenses);
 
   // Creates an array of objects containing info for each expense category
   const groupedCategories = categories.map((category) => {
-    const categoryWithExpense = filteredExpenses?.filter(
+    const categoryWithExpense = expenses?.filter(
       (expense) => expense.category === category.category
     );
 
     return {
-      month,
+      // month,
       category: category.category,
       expenses: categoryWithExpense,
       budget: category.amount,
@@ -150,9 +176,11 @@ export const getCurrentMonthAndYear = () => {
   return formattedDate;
 };
 
-export const prepareBudgetOverviewPieChartData = (
+export const filterExpensesByMonthAndYear = (
   expenses: Expense[],
-  categories: CategoryData[]
+  categories: CategoryData[],
+  selectedMonth: string,
+  selectedYear: string
 ): PieChartCategory[] => {
   const arr = categories.reduce<PieChartCategory[]>((result, categoryItem) => {
     if (
@@ -165,8 +193,8 @@ export const prepareBudgetOverviewPieChartData = (
     const { category, amount: plannedAmount, id } = categoryItem;
     const categoryExpensesArr = expenses.filter((expense) => {
       const [month, , year] = expense.date.split("/");
-      const currentMonth = getCurrentMonthAndYear();
-      const isCurrentMonth = `${month}/${year}` === currentMonth;
+      const currentMonthYear = getMonthAndYear(selectedMonth, selectedYear);
+      const isCurrentMonth = `${month}/${year}` === currentMonthYear;
 
       return expense.category === category && isCurrentMonth;
     });
@@ -180,6 +208,8 @@ export const prepareBudgetOverviewPieChartData = (
 
     return result;
   }, []);
+
+  console.log(arr);
 
   return arr;
 };

@@ -1,3 +1,4 @@
+"use client";
 import {
   Carousel,
   CarouselContent,
@@ -10,6 +11,7 @@ import SectionTitle from "./SectionTitle";
 import { CategorySpendChart } from "./CategorySpendChart";
 import {
   calcAngle,
+  filterExpensesByMonthAndYear,
   getCurrentMonthAndYear,
   groupExpenseByCategory,
   prepareBudgetOverviewPieChartData,
@@ -17,8 +19,15 @@ import {
 } from "@/lib/utils";
 import { getExpenses } from "@/app/app/spent/[month]/actions";
 import { getCategories } from "@/app/app/planned/actions";
-import { CategoryData } from "@/types/types";
+import { CategoryData, Expense } from "@/types/types";
 import { format } from "date-fns";
+import { useSearchParams } from "next/navigation";
+import { PostgrestError } from "@supabase/supabase-js";
+
+type CategoryCarouselProps = {
+  expenses: Expense[];
+  categories: CategoryData[];
+};
 
 export type PieChartCategory = {
   category: string;
@@ -38,33 +47,24 @@ const emptyCategoryMessage = (
   </p>
 );
 
-const CategoryCarousel = async () => {
-  const [expenses, categories] = await Promise.all([
-    getExpenses(),
-    getCategories(),
-  ]);
+const CategoryCarousel = async ({
+  expenses,
+  categories,
+}: CategoryCarouselProps) => {
+  const searchParams = useSearchParams();
+  const month = searchParams.get("month");
+  const year = searchParams.get("year");
 
-  if (expenses.error || !expenses.expenses || !categories) {
-    return <p>There was an error getting data</p>;
-  }
-
-  const preparedData = prepareBudgetOverviewPieChartData(
-    expenses.expenses,
-    // @ts-ignore
-    categories
+  const filteredExpenses = filterExpensesByMonthAndYear(
+    expenses,
+    categories,
+    month!,
+    year!
   );
 
-  const currentMonth = format(new Date(), "PPP")
-    .split(" ")[0]
-    .toLocaleLowerCase();
+  const catgeoryExpenses = groupExpenseByCategory(expenses, categories);
 
-  const catgeoryExpenses = groupExpenseByCategory(
-    currentMonth,
-    expenses.expenses,
-    categories as CategoryData[]
-  );
-
-  const rawData = preparedData.map((item: PieChartCategory) => {
+  const rawData = filteredExpenses.map((item: PieChartCategory) => {
     const under = "rgb(132 204 22 / 0.5)";
     const warning = "rgb(251 189 35 / 0.5)";
     const over = "rgb(248 114 114 / 0.7)";
@@ -72,7 +72,7 @@ const CategoryCarousel = async () => {
     // changes color of chart. 0-75% is green and 76-100% if yellow.
     const percentToBudget = item.spentAmount / item.plannedAmount;
     const fillColor =
-      percentToBudget > 0.99 ? over : percentToBudget > 0.74 ? warning : under;
+      percentToBudget > 1 ? over : percentToBudget > 0.74 ? warning : under;
 
     const chartData: ChartData = {
       ...item,
@@ -84,6 +84,8 @@ const CategoryCarousel = async () => {
   });
 
   const chartData = sortCategoryOverview(rawData);
+
+  console.log(chartData);
 
   return (
     <SectionContainer>
