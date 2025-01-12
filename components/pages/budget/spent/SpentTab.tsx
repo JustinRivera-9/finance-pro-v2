@@ -1,7 +1,7 @@
-import BudgetOverview from "./BudgetOverview";
-import CategoryCarousel from "./CategoryCarousel";
-import UpcomingExpenses from "./UpcomingExpenses";
-import RecentExpenses from "./RecentExpenses";
+import BudgetOverview from "../../dashboard/BudgetOverview";
+import CategoryCarousel from "../../dashboard/CategoryCarousel";
+import UpcomingExpenses from "../../dashboard/UpcomingExpenses";
+import RecentExpenses from "../../dashboard/RecentExpenses";
 import { getCategories, getExpenses } from "@/app/app/budget/actions";
 
 const SpentTab = async () => {

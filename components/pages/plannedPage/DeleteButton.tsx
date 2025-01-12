@@ -1,8 +1,7 @@
 "use client";
-import { deleteCategoryAction } from "@/app/app/planned/actions";
 import { useToast } from "@/hooks/use-toast";
 import DeleteIcon from "@mui/icons-material/Delete";
-import type { ToastActionResults } from "@/types/types";
+import { deleteCategoryAction } from "@/app/app/budget/actions";
 
 type DeleteButtonProps = {
   id: string;

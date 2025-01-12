@@ -16,12 +16,8 @@ import {
   groupExpenseByCategory,
   sortCategoryOverview,
 } from "@/lib/utils";
-import { getExpenses } from "@/app/app/spent/[month]/actions";
-import { getCategories } from "@/app/app/planned/actions";
 import { CategoryData, Expense } from "@/types/types";
-import { format } from "date-fns";
 import { useSearchParams } from "next/navigation";
-import { PostgrestError } from "@supabase/supabase-js";
 
 type CategoryCarouselProps = {
   expenses: Expense[];
@@ -80,8 +76,6 @@ const CategoryCarousel = ({ expenses, categories }: CategoryCarouselProps) => {
   });
 
   const chartData = sortCategoryOverview(rawData);
-
-  // console.log(chartData);
 
   return (
     <SectionContainer>

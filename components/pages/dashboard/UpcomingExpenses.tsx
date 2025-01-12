@@ -1,7 +1,6 @@
-import { getExpenses } from "@/app/app/spent/[month]/actions";
 import SectionContainer from "./SectionContainer";
 import SectionTitle from "./SectionTitle";
-import { getCategories } from "@/app/app/planned/actions";
+import { getCategories } from "@/app/app/budget/actions";
 import { FixedExpenseCarousel } from "./FixedExpenseCarousel";
 
 const UpcomingExpenses = async () => {

@@ -1,5 +1,5 @@
 // import Filter from "@/components/pages/budget/Filter";
-import SpentTab from "@/components/pages/dashboard/SpentTab";
+import SpentTab from "@/components/pages/budget/spent/SpentTab";
 import PlannedTab from "@/components/pages/plannedPage/PlannedTab";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 

@@ -2,7 +2,7 @@ import { Expense } from "@/types/types";
 import SectionContainer from "./SectionContainer";
 import SectionTitle from "./SectionTitle";
 import { getCurrentMonthAndYear, sortExpenses } from "@/lib/utils";
-import { getExpenses } from "@/app/app/spent/[month]/actions";
+import { getExpenses } from "@/app/app/budget/actions";
 import Link from "next/link";
 import KeyboardTabIcon from "@mui/icons-material/KeyboardTab";
 import ReadOnlyExpenseRow from "./ReadOnlyExpenseRow";

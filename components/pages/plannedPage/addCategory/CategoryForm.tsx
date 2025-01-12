@@ -23,12 +23,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { CategorySchema } from "@/schema";
+import { useToast } from "@/hooks/use-toast";
+import { CategoryData } from "@/types/types";
 import {
   addCategoryAction,
   updateCategoryAction,
-} from "@/app/app/planned/actions";
-import { useToast } from "@/hooks/use-toast";
-import { CategoryData } from "@/types/types";
+} from "@/app/app/budget/actions";
 
 type CategoryFormProps = {
   categoryData?: CategoryData;
