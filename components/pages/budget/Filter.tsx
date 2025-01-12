@@ -38,17 +38,19 @@ const Filter = () => {
     searchParams.get("month") ||
     new Date().toLocaleString("en-US", { month: "short" }).toLowerCase();
   const getInitialYear = () =>
-    searchParams.get("year") || new Date().getFullYear().toString();
+    searchParams.get("year") || new Date().getFullYear();
 
   const [selectedMonth, setSelectedMonth] = useState<string>(getInitialMonth());
-  const [selectedYear, setSelectedYear] = useState<string>(getInitialYear());
+  const [selectedYear, setSelectedYear] = useState<string | number>(
+    getInitialYear()
+  );
 
   const createQueryString = useCallback(
-    (values: { month: string; year: string }) => {
+    (values: { month: string; year: string | number }) => {
       const params = new URLSearchParams(searchParams.toString());
 
       for (const [key, value] of Object.entries(values)) {
-        params.set(key, value);
+        params.set(key, value.toString());
       }
 
       return params.toString();
@@ -57,7 +59,7 @@ const Filter = () => {
   );
 
   const updateSearchParam = useCallback(
-    (month: string, year: string) => {
+    (month: string, year: string | number) => {
       router.push(`${pathname}?${createQueryString({ month, year })}`);
     },
     [router, pathname, createQueryString]
@@ -84,7 +86,7 @@ const Filter = () => {
         <span className="text-lg">{selectedYear}</span>
         {+selectedYear < new Date().getFullYear() && (
           <button
-            onClick={() => setSelectedYear((prev) => prev + 1)}
+            onClick={() => setSelectedYear((prev) => +prev + 1)}
             className="p-2 bg-card rounded"
           >
             &gt;
