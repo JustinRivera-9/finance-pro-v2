@@ -2,8 +2,7 @@ import BudgetOverview from "./BudgetOverview";
 import CategoryCarousel from "./CategoryCarousel";
 import UpcomingExpenses from "./UpcomingExpenses";
 import RecentExpenses from "./RecentExpenses";
-import { getExpenses } from "@/app/app/spent/[month]/actions";
-import { getCategories } from "@/app/app/planned/actions";
+import { getCategories, getExpenses } from "@/app/app/budget/actions";
 
 const SpentTab = async () => {
   const [expenses, categories] = await Promise.all([

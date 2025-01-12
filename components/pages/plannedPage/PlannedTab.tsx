@@ -2,7 +2,7 @@ import Summary from "../../../components/pages/plannedPage/Summary";
 import CategorySection from "../../../components/pages/plannedPage/CategorySection";
 import AddCategoryForm from "../../../components/pages/plannedPage/addCategory/AddCategoryForm";
 import EmptyMessage from "@/components/ui/EmptyMessage";
-import { getCategories } from "@/app/app/planned/actions";
+import { getCategories } from "@/app/app/budget/actions";
 
 const PlannedTab = async () => {
   const categories: any = await getCategories();
