@@ -6,8 +6,6 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import SectionContainer from "./SectionContainer";
-import SectionTitle from "./SectionTitle";
 import { CategorySpendChart } from "./CategorySpendChart";
 import {
   calcAngle,
@@ -18,6 +16,8 @@ import {
 } from "@/lib/utils";
 import { CategoryData, Expense } from "@/types/types";
 import { useSearchParams } from "next/navigation";
+import SectionContainer from "./SectionContainer";
+import SectionTitle from "./SectionTitle";
 
 type CategoryCarouselProps = {
   expenses: Expense[];

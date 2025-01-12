@@ -15,12 +15,10 @@ const emptyExpenseMessage = (
 
 const RecentExpenses = async () => {
   // Shows 10 most recent
-  // @ts-ignore
-  const expenses: { expenses: Expense[]; error: null | string } =
-    await getExpenses();
+  const { expenses } = await getExpenses();
 
   const currentMonth = getCurrentMonthAndYear();
-  const filteredExpenses = expenses.expenses.filter((expense) => {
+  const filteredExpenses = expenses?.filter((expense) => {
     const [month, day, year] = expense.date.split("/");
     return [month, year].join("/") === currentMonth;
   });

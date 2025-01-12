@@ -1,7 +1,7 @@
 import {
   ChartData,
   PieChartCategory,
-} from "@/components/pages/dashboard/CategoryCarousel";
+} from "@/components/pages/budget/spent/CategoryCarousel";
 import { CategoryData, Expense, reduceArrParam } from "@/types/types";
 import { type ClassValue, clsx } from "clsx";
 import { format, parseISO } from "date-fns";

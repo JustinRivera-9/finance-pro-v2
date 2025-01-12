@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
-import FormDrawer from "../../../ui/FormDrawer";
 import CategoryForm from "./CategoryForm";
+import FormDrawer from "@/components/ui/FormDrawer";
 
 const AddCategoryForm = () => {
   return (

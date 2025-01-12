@@ -1,6 +1,6 @@
 // import Filter from "@/components/pages/budget/Filter";
+import PlannedTab from "@/components/pages/budget/planned/PlannedTab";
 import SpentTab from "@/components/pages/budget/spent/SpentTab";
-import PlannedTab from "@/components/pages/plannedPage/PlannedTab";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const BudgetPage = () => {

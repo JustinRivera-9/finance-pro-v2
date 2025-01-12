@@ -1,8 +1,8 @@
-import Summary from "../../../components/pages/plannedPage/Summary";
-import CategorySection from "../../../components/pages/plannedPage/CategorySection";
-import AddCategoryForm from "../../../components/pages/plannedPage/addCategory/AddCategoryForm";
 import EmptyMessage from "@/components/ui/EmptyMessage";
 import { getCategories } from "@/app/app/budget/actions";
+import AddCategoryForm from "./addCategory/AddCategoryForm";
+import Summary from "./Summary";
+import CategorySection from "./CategorySection";
 
 const PlannedTab = async () => {
   const categories: any = await getCategories();
