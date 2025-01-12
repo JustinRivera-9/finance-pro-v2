@@ -16,7 +16,6 @@ export const getCategories = async () => {
     .select("*")
     .eq("user_id", user_id);
 
-  if (error) return error;
   return categories;
 };
 

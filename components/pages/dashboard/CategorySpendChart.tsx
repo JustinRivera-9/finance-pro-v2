@@ -19,7 +19,6 @@ import ReadOnlyExpenseRow from "./ReadOnlyExpenseRow";
 type CategorySpendChartProps = {
   category: ChartData;
   expenses: {
-    month: string;
     category: string;
     expenses: Expense[] | undefined;
     budget: number;
@@ -33,7 +32,6 @@ type NoExpenseMessageProps = {
 
 export type SelectedCategory =
   | {
-      month: string;
       category: string;
       expenses: Expense[] | undefined;
       budget: number;

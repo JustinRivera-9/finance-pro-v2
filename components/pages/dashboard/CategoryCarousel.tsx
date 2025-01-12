@@ -14,7 +14,6 @@ import {
   filterExpensesByMonthAndYear,
   getCurrentMonthAndYear,
   groupExpenseByCategory,
-  prepareBudgetOverviewPieChartData,
   sortCategoryOverview,
 } from "@/lib/utils";
 import { getExpenses } from "@/app/app/spent/[month]/actions";
@@ -47,10 +46,7 @@ const emptyCategoryMessage = (
   </p>
 );
 
-const CategoryCarousel = async ({
-  expenses,
-  categories,
-}: CategoryCarouselProps) => {
+const CategoryCarousel = ({ expenses, categories }: CategoryCarouselProps) => {
   const searchParams = useSearchParams();
   const month = searchParams.get("month");
   const year = searchParams.get("year");
@@ -85,7 +81,7 @@ const CategoryCarousel = async ({
 
   const chartData = sortCategoryOverview(rawData);
 
-  console.log(chartData);
+  // console.log(chartData);
 
   return (
     <SectionContainer>

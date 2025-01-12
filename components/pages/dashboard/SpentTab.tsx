@@ -4,7 +4,7 @@ import UpcomingExpenses from "./UpcomingExpenses";
 import RecentExpenses from "./RecentExpenses";
 import { getExpenses } from "@/app/app/spent/[month]/actions";
 import { getCategories } from "@/app/app/planned/actions";
-import { prepareBudgetOverviewPieChartData } from "@/lib/utils";
+// import { prepareBudgetOverviewPieChartData } from "@/lib/utils";
 
 const SpentTab = async () => {
   const [expenses, categories] = await Promise.all([
