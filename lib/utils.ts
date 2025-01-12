@@ -209,8 +209,6 @@ export const filterExpensesByMonthAndYear = (
     return result;
   }, []);
 
-  console.log(arr);
-
   return arr;
 };
 
