@@ -7,6 +7,8 @@ import CategorySection from "./CategorySection";
 const PlannedTab = async () => {
   const categories: any = await getCategories();
 
+  if (!categories) throw Error;
+
   if (!categories.length) {
     return (
       <section className="flex flex-col items-center text-center gap-4">
