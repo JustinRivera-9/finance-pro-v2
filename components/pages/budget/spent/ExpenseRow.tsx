@@ -1,7 +1,7 @@
 import { formatCurrency } from "@/lib/utils";
 import { Expense } from "@/types/types";
 
-const ReadOnlyExpenseRow = ({
+const ExpenseRow = ({
   expense,
   drawer,
 }: {
@@ -33,4 +33,4 @@ const ReadOnlyExpenseRow = ({
   );
 };
 
-export default ReadOnlyExpenseRow;
+export default ExpenseRow;

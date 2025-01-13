@@ -5,7 +5,7 @@ import { getCurrentMonthAndYear, sortExpenses } from "@/lib/utils";
 import { getExpenses } from "@/app/app/budget/actions";
 import Link from "next/link";
 import KeyboardTabIcon from "@mui/icons-material/KeyboardTab";
-import ReadOnlyExpenseRow from "./ReadOnlyExpenseRow";
+import ReadOnlyExpenseRow from "./ExpenseRow";
 
 const emptyExpenseMessage = (
   <p className="px-6 mx-auto text-center text-lg">

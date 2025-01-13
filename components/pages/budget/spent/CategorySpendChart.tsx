@@ -2,18 +2,13 @@
 import { Label, Pie, PieChart } from "recharts";
 import { DollarSign } from "lucide-react";
 import { CardFooter } from "@/components/ui/card";
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
+import { ChartConfig, ChartContainer } from "@/components/ui/chart";
 import { formatCurrency, sortExpenses } from "@/lib/utils";
 import { ChartData } from "./CategoryCarousel";
 import { Expense } from "@/types/types";
 import { useState } from "react";
 import ExpenseDrawer from "./ExpenseDrawer";
-import ReadOnlyExpenseRow from "./ReadOnlyExpenseRow";
+import ExpenseRow from "./ExpenseRow";
 
 type CategorySpendChartProps = {
   category: ChartData;
@@ -152,7 +147,7 @@ export function CategorySpendChart({
           plannedAmount={plannedAmount}
         >
           {sortedExpenses?.map((item) => (
-            <ReadOnlyExpenseRow expense={item} key={item.id} drawer />
+            <ExpenseRow expense={item} key={item.id} drawer />
           ))}
         </ExpenseDrawer>
       )}
