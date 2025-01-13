@@ -30,7 +30,7 @@ const RecentExpenses = async () => {
       <div className="flex gap-4 justify-around items-baseline py-2">
         <SectionTitle>Recent Expenses</SectionTitle>
         <Link href="spent/november" className="min-w-fit text-sm text-light/60">
-          View all <KeyboardTabIcon />
+          View all
         </Link>
       </div>
       {!filteredExpenses?.length
