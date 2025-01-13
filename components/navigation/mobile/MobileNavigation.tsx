@@ -23,6 +23,7 @@ const MobileNavigation = () => {
         </li> */}
         <li>
           <Link
+            key="budget"
             href={`/app/budget`}
             className={path.startsWith("/app/budget") ? "text-accent" : ""}
           >
@@ -31,6 +32,7 @@ const MobileNavigation = () => {
         </li>
         <li>
           <Link
+            key="investing"
             href="/app/investing"
             className={path.startsWith("/app/investing") ? "text-accent" : ""}
           >
@@ -39,6 +41,7 @@ const MobileNavigation = () => {
         </li>
         <li>
           <Link
+            key="connected-accounts"
             href="/app/connected-accounts"
             className={
               path.startsWith("/app/connected-accounts") ? "text-accent" : ""
@@ -49,6 +52,7 @@ const MobileNavigation = () => {
         </li>
         <li>
           <Link
+            key="account"
             href="/app/account"
             className={path.startsWith("/app/account") ? "text-accent" : ""}
           >
