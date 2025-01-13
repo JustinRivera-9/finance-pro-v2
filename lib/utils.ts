@@ -133,7 +133,7 @@ export const formatExpenseDate = (date: string) => {
   return formattedDate;
 };
 
-export const reduceArr = (arr: reduceArrParam[]): number => {
+export const reduceArr = (arr: reduceArrParam[] | undefined): number => {
   if (!arr) return 0;
   return arr?.map((el) => Number(el.amount)).reduce((acc, cur) => acc + cur, 0);
 };
