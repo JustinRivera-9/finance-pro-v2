@@ -1,7 +1,6 @@
 "use client";
 import { Label, Pie, PieChart } from "recharts";
 import { DollarSign } from "lucide-react";
-
 import { CardFooter } from "@/components/ui/card";
 import {
   ChartConfig,
@@ -18,11 +17,7 @@ import ReadOnlyExpenseRow from "./ReadOnlyExpenseRow";
 
 type CategorySpendChartProps = {
   category: ChartData;
-  expenses: {
-    category: string;
-    expenses: Expense[] | undefined;
-    budget: number;
-  }[];
+  expenses: Expense[] | undefined;
 };
 
 type NoExpenseMessageProps = {
@@ -69,43 +64,40 @@ export function CategorySpendChart({
   expenses,
   category,
 }: CategorySpendChartProps) {
-  const [selectedCategory, setSelectedCategory] =
-    useState<SelectedCategory>(null);
   const [showExpenses, setShowExpenses] = useState<boolean>(false);
 
-  const data = [{ ...category }];
-  const budgetDifference = data[0].plannedAmount - data[0].spentAmount;
+  const {
+    category: categoryName,
+    plannedAmount,
+    spentAmount,
+    id,
+    angle,
+    fill,
+  } = category;
 
-  const setCategory = () => {
-    const findCatgeory = expenses.find(
-      (item) => item.category === category.category
-    );
+  const budgetDifference = plannedAmount - spentAmount;
 
-    setSelectedCategory(findCatgeory);
-    setShowExpenses(true);
-  };
-
-  const sortedExpenses = sortExpenses(selectedCategory?.expenses);
+  const sortedExpenses = sortExpenses(expenses);
 
   return (
     <>
       {/* If category has no expenses message will be shown */}
-      {!data[0].angle ? (
+      {!category.angle ? (
         <NoExpenseMessage
-          category={data[0].category}
-          plannedAmount={data[0].plannedAmount}
+          category={categoryName}
+          plannedAmount={plannedAmount}
         />
       ) : (
         <ChartContainer
           config={chartConfig}
           className="mx-auto aspect-square max-h-[200px]"
-          onClick={setCategory}
+          onClick={() => setShowExpenses(true)}
         >
           <PieChart>
             <Pie
               startAngle={90}
-              endAngle={data[0].angle + 90}
-              data={data}
+              endAngle={angle + 90}
+              data={[{ ...category }]}
               dataKey="spentAmount"
               nameKey="category"
               innerRadius={55}
@@ -126,14 +118,14 @@ export function CategorySpendChart({
                           y={viewBox.cy}
                           className="fill-light text-lg font-semibold"
                         >
-                          {data[0].category}
+                          {categoryName}
                         </tspan>
                         <tspan
                           x={viewBox.cx}
                           y={(viewBox.cy || 0) + 24}
                           className="fill-light/70 text-wrap font-bold"
                         >
-                          {formatCurrency(data[0].plannedAmount, true)}
+                          {formatCurrency(plannedAmount, true)}
                         </tspan>
                       </text>
                     );
@@ -155,8 +147,9 @@ export function CategorySpendChart({
         <ExpenseDrawer
           drawerOpen={showExpenses}
           setDrawerOpen={setShowExpenses}
-          expenses={selectedCategory}
-          plannedAmount={data[0].plannedAmount}
+          expenses={expenses}
+          category={categoryName}
+          plannedAmount={plannedAmount}
         >
           {sortedExpenses?.map((item) => (
             <ReadOnlyExpenseRow expense={item} key={item.id} drawer />

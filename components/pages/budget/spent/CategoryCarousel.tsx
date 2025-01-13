@@ -56,6 +56,8 @@ const CategoryCarousel = ({ expenses, categories }: CategoryCarouselProps) => {
 
   const catgeoryExpenses = groupExpenseByCategory(expenses, categories);
 
+  console.log(catgeoryExpenses);
+
   const rawData = filteredExpenses.map((item: PieChartCategory) => {
     const under = "rgb(132 204 22 / 0.5)";
     const warning = "rgb(251 189 35 / 0.5)";
@@ -90,14 +92,21 @@ const CategoryCarousel = ({ expenses, categories }: CategoryCarouselProps) => {
           className="w-full max-w-sm overflow-hidden"
         >
           <CarouselContent className="-ml-1">
-            {chartData.map((category) => (
-              <CarouselItem key={category.id} className="basis-1/2">
-                <CategorySpendChart
-                  expenses={catgeoryExpenses}
-                  category={category}
-                />
-              </CarouselItem>
-            ))}
+            {chartData.map((category) => {
+              let selectedCategory = catgeoryExpenses.find(
+                (expenseCategory) =>
+                  expenseCategory.category === category.category
+              );
+
+              return (
+                <CarouselItem key={category.id} className="basis-1/2">
+                  <CategorySpendChart
+                    expenses={selectedCategory?.expenses}
+                    category={category}
+                  />
+                </CarouselItem>
+              );
+            })}
           </CarouselContent>
           <CarouselPrevious />
           <CarouselNext />
