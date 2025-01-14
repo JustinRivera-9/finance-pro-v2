@@ -56,7 +56,7 @@ const CategoryCarousel = ({ expenses, categories }: CategoryCarouselProps) => {
 
   const catgeoryExpenses = groupExpenseByCategory(expenses, categories);
 
-  console.log(catgeoryExpenses);
+  // console.log(catgeoryExpenses);
 
   const rawData = filteredExpenses.map((item: PieChartCategory) => {
     const under = "rgb(132 204 22 / 0.5)";
