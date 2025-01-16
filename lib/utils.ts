@@ -26,7 +26,7 @@ export const monthArr = {
   "12": "dec",
 };
 
-export const getMonthAndYear = (monthValue: string, yearValue: string) => {
+export const formatMonthAndYear = (monthValue: string, yearValue: string) => {
   const year = yearValue.slice(-2);
   for (const [key, value] of Object.entries(monthArr)) {
     if (value === monthValue.toLowerCase()) {
@@ -193,7 +193,7 @@ export const filterExpensesByMonthAndYear = (
     const { category, amount: plannedAmount, id } = categoryItem;
     const categoryExpensesArr = expenses.filter((expense) => {
       const [month, , year] = expense.date.split("/");
-      const currentMonthYear = getMonthAndYear(selectedMonth, selectedYear);
+      const currentMonthYear = formatMonthAndYear(selectedMonth, selectedYear);
       const isCurrentMonth = `${month}/${year}` === currentMonthYear;
 
       return expense.category === category && isCurrentMonth;
