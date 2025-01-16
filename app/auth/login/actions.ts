@@ -5,11 +5,18 @@ import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
+function getCurrentMonthAndYear() {
+  const now = new Date();
+  const month = now.toLocaleString("en-US", { month: "short" }).toLowerCase();
+  const year = now.getFullYear().toString();
+
+  return { month, year };
+}
+
+const { month, year } = getCurrentMonthAndYear();
+
 export async function login(formData: FormData) {
   const supabase = createClient();
-
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
   const data = {
     email: formData.get("email") as string,
     password: formData.get("password") as string,
@@ -22,7 +29,7 @@ export async function login(formData: FormData) {
   }
 
   revalidatePath(`/app/budget`, "layout");
-  redirect(`/app/budget`);
+  redirect(`/app/budget?month=${month}&year=${year}`);
 }
 
 export async function signup(userData: FormData) {
@@ -48,5 +55,5 @@ export async function signup(userData: FormData) {
   const { data } = await supabase.from("account").insert([{ name, user_id }]);
 
   revalidatePath(`/app/budget`, "layout");
-  redirect(`/app/budget`);
+  redirect(`/app/budget?month=${month}&year=${year}`);
 }
