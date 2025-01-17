@@ -3,7 +3,7 @@ import { fetchTransactions } from "@/lib/plaid/actions";
 import { getUser } from "@/lib/supabase/actions";
 import AccountSection from "../pages/connectedAccounts/AccountSection";
 import TransactionTable from "../pages/connectedAccounts/TransactionTable";
-import { getCategories } from "@/app/app/planned/actions";
+import { getCategories } from "@/app/app/budget/actions";
 
 type PlaidDashboardProps = {
   item: PlaidItemData;
