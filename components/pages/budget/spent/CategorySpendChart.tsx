@@ -3,12 +3,13 @@ import { Label, Pie, PieChart } from "recharts";
 import { DollarSign } from "lucide-react";
 import { CardFooter } from "@/components/ui/card";
 import { ChartConfig, ChartContainer } from "@/components/ui/chart";
-import { formatCurrency, sortExpenses } from "@/lib/utils";
+import { filterExpenseRow, formatCurrency, sortExpenses } from "@/lib/utils";
 import { ChartData } from "./CategoryCarousel";
 import { Expense } from "@/types/types";
 import { useState } from "react";
 import ExpenseDrawer from "./ExpenseDrawer";
 import ExpenseRow from "./ExpenseRow";
+import { useSearchParams } from "next/navigation";
 
 type CategorySpendChartProps = {
   category: ChartData;
@@ -61,6 +62,10 @@ export function CategorySpendChart({
 }: CategorySpendChartProps) {
   const [showExpenses, setShowExpenses] = useState<boolean>(false);
 
+  const searchParams = useSearchParams();
+  const month = searchParams.get("month");
+  const year = searchParams.get("year");
+
   const {
     category: categoryName,
     plannedAmount,
@@ -72,7 +77,15 @@ export function CategorySpendChart({
 
   const budgetDifference = plannedAmount - spentAmount;
 
-  const sortedExpenses = sortExpenses(expenses);
+  // Filter expenses to match month & year filter
+  const filteredExpenses = filterExpenseRow(
+    month!.toString(),
+    year!,
+    expenses!
+  );
+
+  // Sort expenses by date
+  const sortedExpenses = sortExpenses(filteredExpenses);
 
   return (
     <>

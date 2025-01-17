@@ -193,10 +193,13 @@ export const filterExpensesByMonthAndYear = (
     const { category, amount: plannedAmount, id } = categoryItem;
     const categoryExpensesArr = expenses.filter((expense) => {
       const [month, , year] = expense.date.split("/");
-      const currentMonthYear = formatMonthAndYear(selectedMonth, selectedYear);
-      const isCurrentMonth = `${month}/${year}` === currentMonthYear;
+      const monthAndYearString = formatMonthAndYear(
+        selectedMonth,
+        selectedYear
+      );
+      const matchesFilter = `${month}/${year}` === monthAndYearString;
 
-      return expense.category === category && isCurrentMonth;
+      return expense.category === category && matchesFilter;
     });
 
     result.push({
@@ -237,4 +240,21 @@ export const formatPlaidDate = (dateString: string) => {
 
   const parsedDate = parseISO(dateString);
   return format(parsedDate, "MM/dd/yy");
+};
+
+export const filterExpenseRow = (
+  month: string,
+  year: string,
+  expenses: Expense[]
+) => {
+  const filterDate = formatMonthAndYear(month, year);
+  const formatExpenseDate = (date: string) => {
+    const [month, _, year] = date.split("/");
+    return `${month}/${year}`;
+  };
+
+  const filteredExpenses = expenses.filter(
+    (expense) => formatExpenseDate(expense.date) === filterDate
+  );
+  return filteredExpenses;
 };
