@@ -176,11 +176,11 @@ export const getCurrentMonthAndYear = () => {
   return formattedDate;
 };
 
-export const filterExpensesByMonthAndYear = (
+// Used for budget overview chart
+export const budgetOverviewFilter = (
   expenses: Expense[],
   categories: CategoryData[],
-  selectedMonth: string,
-  selectedYear: string
+  formattedFilter: string
 ): PieChartCategory[] => {
   const arr = categories.reduce<PieChartCategory[]>((result, categoryItem) => {
     if (
@@ -191,14 +191,11 @@ export const filterExpensesByMonthAndYear = (
     }
 
     const { category, amount: plannedAmount, id } = categoryItem;
+
+    // Checks if the expense date matches the filter
     const categoryExpensesArr = expenses.filter((expense) => {
       const [month, , year] = expense.date.split("/");
-      const monthAndYearString = formatMonthAndYear(
-        selectedMonth,
-        selectedYear
-      );
-      const matchesFilter = `${month}/${year}` === monthAndYearString;
-
+      const matchesFilter = `${month}/${year}` === formattedFilter;
       return expense.category === category && matchesFilter;
     });
 
@@ -258,3 +255,5 @@ export const filterExpenseRow = (
   );
   return filteredExpenses;
 };
+
+export const expensesByParamFilter = () => {};
