@@ -10,15 +10,13 @@ import {
 } from "@/components/ui/chart";
 import { useState } from "react";
 import { pieChartColorArr } from "@/lib/constants";
-import { PieChartCategory } from "./CategoryCarousel";
 import {
   capitalize,
-  filterExpensesByMonthAndYear,
+  budgetOverviewFilter,
   formatCurrency,
   reduceArr,
   sortBudgetOverview,
 } from "@/lib/utils";
-import { useSearchParams } from "next/navigation";
 import { PostgrestError } from "@supabase/supabase-js";
 import { Expense } from "@/types/types";
 import { useParamFilters } from "@/lib/hooks";
@@ -46,16 +44,15 @@ const BudgetOverview = ({ expenses, categories }: BudgetOverviewProps) => {
   // Used for highlighting selected pie chart item
   const [activeIndex, setActiveIndex] = useState<number>(0);
 
-  // Gets month and year from search parrams for filtering
-  const { month, year } = useParamFilters();
+  // Gets month and year from search params for filtering
+  const { month, formattedFilter } = useParamFilters();
 
   // filter by current month and year
-  const budgetOverviewData = filterExpensesByMonthAndYear(
+  const budgetOverviewData = budgetOverviewFilter(
     expenses,
     // @ts-ignore
     categories,
-    month,
-    year
+    formattedFilter
   );
 
   // Assigns the correct properties for the chart
