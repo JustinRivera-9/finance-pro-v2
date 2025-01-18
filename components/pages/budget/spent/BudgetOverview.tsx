@@ -21,6 +21,7 @@ import {
 import { useSearchParams } from "next/navigation";
 import { PostgrestError } from "@supabase/supabase-js";
 import { Expense } from "@/types/types";
+import { useParamFilters } from "@/lib/hooks";
 
 export const description = "A pie chart showing all category expenses";
 
@@ -46,9 +47,7 @@ const BudgetOverview = ({ expenses, categories }: BudgetOverviewProps) => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
 
   // Gets month and year from search parrams for filtering
-  const searchParams = useSearchParams();
-  const month = searchParams.get("month");
-  const year = searchParams.get("year");
+  const { month, year } = useParamFilters();
 
   // filter by current month and year
   const budgetOverviewData = filterExpensesByMonthAndYear(
