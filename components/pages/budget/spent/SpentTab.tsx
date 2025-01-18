@@ -19,7 +19,7 @@ const SpentTab = async () => {
       <BudgetOverview expenses={expenses.expenses} categories={categories} />
       <CategoryCarousel expenses={expenses.expenses} categories={categories} />
       <UpcomingExpenses categories={categories} />
-      <RecentExpenses />
+      <RecentExpenses expenses={expenses.expenses} />
     </div>
   );
 };
