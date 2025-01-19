@@ -47,7 +47,7 @@ export const addExpenseAction = async (formData: FormData) => {
 
     if (error) throw Error;
 
-    revalidatePath("app/spent");
+    revalidatePath("app/budget");
   } catch (error) {
     console.error(error);
   }
