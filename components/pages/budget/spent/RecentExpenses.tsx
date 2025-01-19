@@ -1,11 +1,12 @@
+"use client";
+
 import { Expense } from "@/types/types";
 import SectionContainer from "./SectionContainer";
 import SectionTitle from "./SectionTitle";
-import { getCurrentMonthAndYear, sortExpenses } from "@/lib/utils";
-import { getExpenses } from "@/app/app/budget/actions";
+import { filterExpensesByMonthYear, sortExpenses } from "@/lib/utils";
 import Link from "next/link";
-import KeyboardTabIcon from "@mui/icons-material/KeyboardTab";
 import ReadOnlyExpenseRow from "./ExpenseRow";
+import { useParamFilters } from "@/lib/hooks";
 
 const emptyExpenseMessage = (
   <p className="px-6 mx-auto text-center text-lg">
@@ -13,15 +14,11 @@ const emptyExpenseMessage = (
   </p>
 );
 
-const RecentExpenses = async () => {
-  // Shows 10 most recent
-  const { expenses } = await getExpenses();
+const RecentExpenses = ({ expenses }: { expenses: Expense[] }) => {
+  const { formattedFilter } = useParamFilters();
 
-  const currentMonth = getCurrentMonthAndYear();
-  const filteredExpenses = expenses?.filter((expense) => {
-    const [month, day, year] = expense.date.split("/");
-    return [month, year].join("/") === currentMonth;
-  });
+  // Shows 10 most recent
+  const filteredExpenses = filterExpensesByMonthYear(expenses, formattedFilter);
 
   const sortedExpenses: Expense[] | null = sortExpenses(filteredExpenses);
 
