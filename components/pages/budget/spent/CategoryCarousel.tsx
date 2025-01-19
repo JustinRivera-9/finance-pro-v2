@@ -42,9 +42,11 @@ const emptyCategoryMessage = (
 
 const CategoryCarousel = ({ expenses, categories }: CategoryCarouselProps) => {
   const { formattedFilter } = useParamFilters();
-
   const filteredExpenses = filterExpensesByMonthYear(expenses, formattedFilter);
-  const categoryExpenses = groupExpenseByCategory(filteredExpenses, categories);
+  const categoryExpenses = groupExpenseByCategory(
+    filteredExpenses,
+    categories
+  ).filter((category) => !category.isFixed && category.type === "expense");
 
   // Adds chart specific properties like fill and angle
   const rawData = categoryExpenses.map((item) => {
