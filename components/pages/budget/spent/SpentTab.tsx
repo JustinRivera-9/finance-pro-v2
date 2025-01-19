@@ -15,7 +15,7 @@ const SpentTab = async () => {
   }
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-6 items-center">
       <BudgetOverview expenses={expenses.expenses} categories={categories} />
       <CategoryCarousel expenses={expenses.expenses} categories={categories} />
       <UpcomingExpenses categories={categories} />
