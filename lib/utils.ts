@@ -247,6 +247,8 @@ export const groupExpenseByCategory = (
       expenses: categoryWithExpense,
       budget: category.amount,
       id: category.id,
+      type: category.type,
+      isFixed: category.isFixed,
     };
   });
 
