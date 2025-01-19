@@ -24,18 +24,21 @@ import { useForm } from "react-hook-form";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
-import {
-  addExpenseAction,
-  editExpenseAction,
-} from "@/app/app/spent/[month]/actions";
+
 import type { Expense } from "@/types/types";
+import { addExpenseAction, editExpenseAction } from "@/app/app/budget/actions";
 
 type ExpenseFormProps = {
-  category?: string;
+  category: string;
   expenseData?: Expense;
+  setShowForm: (formOpen: boolean) => void;
 };
 
-const ExpenseForm = ({ category, expenseData }: ExpenseFormProps) => {
+const ExpenseForm = ({
+  category,
+  expenseData,
+  setShowForm,
+}: ExpenseFormProps) => {
   const { toast } = useToast();
   const pathname = usePathname();
   const router = useRouter();
@@ -157,7 +160,7 @@ const ExpenseForm = ({ category, expenseData }: ExpenseFormProps) => {
           )}
         />
 
-        {/* HIDDEN CATEGORY INPUT FOR EDITING */}
+        {/* HIDDEN CATEGORY INPUT */}
         <input type="hidden" name="category" value={category} />
 
         {/* HIDDEN ID INPUT FOR EDITING */}
@@ -166,14 +169,14 @@ const ExpenseForm = ({ category, expenseData }: ExpenseFormProps) => {
         {/* HIDDEN URL INPUT FOR REDIRCTING */}
         {isEdit && <input type="hidden" name="url" value={url} />}
 
-        <div className="flex justify-between">
+        <div className="flex gap-2">
           {/* DISABLE BUTTON OPTION */}
           <Button
             type="submit"
             className="bg-accent text-dark"
             disabled={!formState.isDirty}
             onClick={() => {
-              // Need to figure out how to handle error case
+              setShowForm(true);
               toast({
                 title: isEdit
                   ? `Successfully updated expense`
@@ -185,16 +188,15 @@ const ExpenseForm = ({ category, expenseData }: ExpenseFormProps) => {
           </Button>
 
           {/* CANCEL BUTTON */}
-          {isEdit && (
-            <Button
-              variant="ghost"
-              className="text-error text-md"
-              onClick={() => router.back()}
-            >
-              Cancel
-            </Button>
-          )}
+          <Button
+            variant="ghost"
+            className="text-error text-md"
+            onClick={() => setShowForm(false)}
+          >
+            Cancel
+          </Button>
         </div>
+
         {/* HIDE BUTTON OPTION */}
         {/* {formState.isDirty && (
           <Button
