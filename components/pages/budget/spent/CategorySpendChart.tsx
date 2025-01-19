@@ -9,6 +9,7 @@ import { Expense } from "@/types/types";
 import { useState } from "react";
 import ExpenseDrawer from "./ExpenseDrawer";
 import ExpenseRow from "./ExpenseRow";
+import CategoryDrawer from "./CategoryDrawer";
 
 type CategorySpendChartProps = {
   category: ChartData;
@@ -61,74 +62,77 @@ export function CategorySpendChart({
 }: CategorySpendChartProps) {
   const [showExpenses, setShowExpenses] = useState<boolean>(false);
 
-  const {
-    category: categoryName,
-    budget,
-    spentAmount,
-    id,
-    angle,
-    fill,
-  } = category;
+  const { category: categoryName, budget, spentAmount, angle } = category;
 
   const budgetDifference = budget - spentAmount;
 
   // Sort expenses by date
   const sortedExpenses = sortExpenses(expenses);
 
+  if (!category.angle) {
+    return <NoExpenseMessage category={categoryName} plannedAmount={budget} />;
+  }
+
   return (
     <>
-      {/* If category has no expenses message will be shown */}
-      {!category.angle ? (
-        <NoExpenseMessage category={categoryName} plannedAmount={budget} />
-      ) : (
-        <ChartContainer
-          config={chartConfig}
-          className="mx-auto aspect-square max-h-[200px]"
-          onClick={() => setShowExpenses(true)}
-        >
-          <PieChart>
-            <Pie
-              startAngle={90}
-              endAngle={angle + 90}
-              data={[{ ...category }]}
-              dataKey="spentAmount"
-              nameKey="category"
-              innerRadius={55}
-              cornerRadius={10}
-            >
-              <Label
-                content={({ viewBox }) => {
-                  if (viewBox && "cx" in viewBox && "cy" in viewBox) {
-                    return (
-                      <text
-                        x={viewBox.cx}
-                        y={viewBox.cy}
-                        textAnchor="middle"
-                        dominantBaseline="middle"
-                      >
-                        <tspan
+      <CategoryDrawer
+        category={categoryName}
+        plannedAmount={budget}
+        totalSpent={spentAmount}
+        triggerLabel={
+          <ChartContainer
+            config={chartConfig}
+            className="mx-auto aspect-square max-h-[200px]"
+            onClick={() => setShowExpenses(true)}
+          >
+            <PieChart>
+              <Pie
+                startAngle={90}
+                endAngle={angle + 90}
+                data={[{ ...category }]}
+                dataKey="spentAmount"
+                nameKey="category"
+                innerRadius={55}
+                cornerRadius={10}
+              >
+                <Label
+                  content={({ viewBox }) => {
+                    if (viewBox && "cx" in viewBox && "cy" in viewBox) {
+                      return (
+                        <text
                           x={viewBox.cx}
                           y={viewBox.cy}
-                          className="fill-light text-lg font-semibold"
+                          textAnchor="middle"
+                          dominantBaseline="middle"
                         >
-                          {categoryName}
-                        </tspan>
-                        <tspan
-                          x={viewBox.cx}
-                          y={(viewBox.cy || 0) + 24}
-                          className="fill-light/70 text-wrap font-bold"
-                        >
-                          {formatCurrency(budget, true)}
-                        </tspan>
-                      </text>
-                    );
-                  }
-                }}
-              />
-            </Pie>
-          </PieChart>
-        </ChartContainer>
-      )}
+                          <tspan
+                            x={viewBox.cx}
+                            y={viewBox.cy}
+                            className="fill-light text-lg font-semibold"
+                          >
+                            {categoryName}
+                          </tspan>
+                          <tspan
+                            x={viewBox.cx}
+                            y={(viewBox.cy || 0) + 24}
+                            className="fill-light/70 text-wrap font-bold"
+                          >
+                            {formatCurrency(budget, true)}
+                          </tspan>
+                        </text>
+                      );
+                    }
+                  }}
+                />
+              </Pie>
+            </PieChart>
+          </ChartContainer>
+        }
+      >
+        {sortedExpenses?.map((item) => (
+          <ExpenseRow expense={item} key={item.id} drawer />
+        ))}
+      </CategoryDrawer>
       <CardFooter className="flex justify-center text-md">
         <p className="font-medium leading-none text-secondary text-lg">
           {budgetDifference >= 0
@@ -136,19 +140,6 @@ export function CategorySpendChart({
             : `${formatCurrency(Math.abs(budgetDifference))} over`}
         </p>
       </CardFooter>
-      {showExpenses && (
-        <ExpenseDrawer
-          drawerOpen={showExpenses}
-          setDrawerOpen={setShowExpenses}
-          expenses={expenses}
-          category={categoryName}
-          plannedAmount={budget}
-        >
-          {sortedExpenses?.map((item) => (
-            <ExpenseRow expense={item} key={item.id} drawer />
-          ))}
-        </ExpenseDrawer>
-      )}
     </>
   );
 }
