@@ -9,31 +9,29 @@ import {
 import { CategorySpendChart } from "./CategorySpendChart";
 import {
   calcAngle,
-  filterExpensesByMonthAndYear,
-  getCurrentMonthAndYear,
+  filterExpensesByMonthYear,
   groupExpenseByCategory,
+  reduceArr,
   sortCategoryOverview,
 } from "@/lib/utils";
 import { CategoryData, Expense } from "@/types/types";
-import { useSearchParams } from "next/navigation";
 import SectionContainer from "./SectionContainer";
 import SectionTitle from "./SectionTitle";
+import { useParamFilters } from "@/lib/hooks";
 
 type CategoryCarouselProps = {
   expenses: Expense[];
   categories: CategoryData[];
 };
 
-export type PieChartCategory = {
+export type ChartData = {
   category: string;
-  plannedAmount: number;
-  spentAmount: number;
+  expenses: Expense[];
+  budget: number;
   id: number;
-};
-
-export type ChartData = PieChartCategory & {
   angle: number;
   fill: string;
+  spentAmount: number;
 };
 
 const emptyCategoryMessage = (
@@ -43,33 +41,29 @@ const emptyCategoryMessage = (
 );
 
 const CategoryCarousel = ({ expenses, categories }: CategoryCarouselProps) => {
-  const searchParams = useSearchParams();
-  const month = searchParams.get("month");
-  const year = searchParams.get("year");
+  const { formattedFilter } = useParamFilters();
 
-  const filteredExpenses = filterExpensesByMonthAndYear(
-    expenses,
-    categories,
-    month!,
-    year!
-  );
+  const filteredExpenses = filterExpensesByMonthYear(expenses, formattedFilter);
+  const categoryExpenses = groupExpenseByCategory(filteredExpenses, categories);
 
-  const categoryExpenses = groupExpenseByCategory(expenses, categories);
+  // Adds chart specific properties like fill and angle
+  const rawData = categoryExpenses.map((item) => {
+    const spentAmount = reduceArr(item.expenses);
 
-  const rawData = filteredExpenses.map((item: PieChartCategory) => {
     const under = "rgb(132 204 22 / 0.5)";
     const warning = "rgb(251 189 35 / 0.5)";
     const over = "rgb(248 114 114 / 0.7)";
 
     // changes color of chart. 0-75% is green and 76-100% if yellow.
-    const percentToBudget = item.spentAmount / item.plannedAmount;
+    const percentToBudget = spentAmount / item.budget;
     const fillColor =
       percentToBudget > 1 ? over : percentToBudget > 0.74 ? warning : under;
 
     const chartData: ChartData = {
       ...item,
-      angle: calcAngle(item.plannedAmount, item.spentAmount),
+      angle: calcAngle(item.budget, spentAmount),
       fill: fillColor,
+      spentAmount,
     };
 
     return chartData;

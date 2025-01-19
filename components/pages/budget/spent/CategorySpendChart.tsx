@@ -3,13 +3,12 @@ import { Label, Pie, PieChart } from "recharts";
 import { DollarSign } from "lucide-react";
 import { CardFooter } from "@/components/ui/card";
 import { ChartConfig, ChartContainer } from "@/components/ui/chart";
-import { filterExpenseRow, formatCurrency, sortExpenses } from "@/lib/utils";
+import { formatCurrency, sortExpenses } from "@/lib/utils";
 import { ChartData } from "./CategoryCarousel";
 import { Expense } from "@/types/types";
 import { useState } from "react";
 import ExpenseDrawer from "./ExpenseDrawer";
 import ExpenseRow from "./ExpenseRow";
-import { useSearchParams } from "next/navigation";
 
 type CategorySpendChartProps = {
   category: ChartData;
@@ -62,39 +61,25 @@ export function CategorySpendChart({
 }: CategorySpendChartProps) {
   const [showExpenses, setShowExpenses] = useState<boolean>(false);
 
-  const searchParams = useSearchParams();
-  const month = searchParams.get("month");
-  const year = searchParams.get("year");
-
   const {
     category: categoryName,
-    plannedAmount,
+    budget,
     spentAmount,
     id,
     angle,
     fill,
   } = category;
 
-  const budgetDifference = plannedAmount - spentAmount;
-
-  // Filter expenses to match month & year filter
-  const filteredExpenses = filterExpenseRow(
-    month!.toString(),
-    year!,
-    expenses!
-  );
+  const budgetDifference = budget - spentAmount;
 
   // Sort expenses by date
-  const sortedExpenses = sortExpenses(filteredExpenses);
+  const sortedExpenses = sortExpenses(expenses);
 
   return (
     <>
       {/* If category has no expenses message will be shown */}
       {!category.angle ? (
-        <NoExpenseMessage
-          category={categoryName}
-          plannedAmount={plannedAmount}
-        />
+        <NoExpenseMessage category={categoryName} plannedAmount={budget} />
       ) : (
         <ChartContainer
           config={chartConfig}
@@ -133,7 +118,7 @@ export function CategorySpendChart({
                           y={(viewBox.cy || 0) + 24}
                           className="fill-light/70 text-wrap font-bold"
                         >
-                          {formatCurrency(plannedAmount, true)}
+                          {formatCurrency(budget, true)}
                         </tspan>
                       </text>
                     );
@@ -157,7 +142,7 @@ export function CategorySpendChart({
           setDrawerOpen={setShowExpenses}
           expenses={expenses}
           category={categoryName}
-          plannedAmount={plannedAmount}
+          plannedAmount={budget}
         >
           {sortedExpenses?.map((item) => (
             <ExpenseRow expense={item} key={item.id} drawer />
