@@ -12,7 +12,7 @@ import { Separator } from "@/components/ui/separator";
 import { formatCurrency } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
-import ExpenseForm from "../../spent/ExpenseForm";
+import ExpenseForm from "./ExpenseForm";
 
 type CategoryDrawerProps = {
   children?: ReactNode;
