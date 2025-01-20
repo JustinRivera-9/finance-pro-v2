@@ -5,7 +5,7 @@ import SectionContainer from "./SectionContainer";
 import SectionTitle from "./SectionTitle";
 import { filterExpensesByMonthYear, sortExpenses } from "@/lib/utils";
 import Link from "next/link";
-import ReadOnlyExpenseRow from "./ExpenseRow";
+import ExpenseRow from "./ExpenseRow";
 import { useParamFilters } from "@/lib/hooks";
 
 const emptyExpenseMessage = (
@@ -34,8 +34,7 @@ const RecentExpenses = ({ expenses }: { expenses: Expense[] }) => {
         ? emptyExpenseMessage
         : sortedExpenses?.map((expense, i) => {
             if (i >= 10) return null;
-
-            return <ReadOnlyExpenseRow expense={expense} key={expense.id} />;
+            return <ExpenseRow expense={expense} key={expense.id} readOnly />;
           })}
     </SectionContainer>
   );
