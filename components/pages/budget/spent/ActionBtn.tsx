@@ -8,10 +8,10 @@ import {
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { deleteExpenseAction } from "@/app/app/spent/[month]/actions";
 import { useToast } from "@/hooks/use-toast";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { deleteExpenseAction } from "@/app/app/budget/actions";
 
 const ActionBtn = ({ expense }: { expense: Expense }) => {
   const { id, description } = expense;
