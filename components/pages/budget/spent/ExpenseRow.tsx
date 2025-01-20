@@ -1,22 +1,23 @@
 import { formatCurrency } from "@/lib/utils";
 import { Expense } from "@/types/types";
+import ActionBtn from "./ActionBtn";
 
 const ExpenseRow = ({
   expense,
-  drawer,
+  readOnly,
 }: {
   expense: Expense;
-  drawer?: boolean;
+  readOnly?: boolean;
 }) => {
-  if (drawer) {
+  if (readOnly) {
     return (
       <section
         key={expense.id}
-        className="grid grid-cols-[1fr_0.75fr_2.5fr] min-w-[90%] mx-auto gap-4 py-2 pl-2 border-t border-light/30"
+        className="grid grid-cols-[1fr_0.75fr_2.5fr] py-3 border-t border-light/30"
       >
-        <p className="text-secondary">{expense.date}</p>
+        <p>{expense.date}</p>
         <p>{formatCurrency(expense.amount, true)}</p>
-        <p className="truncate w-44">{expense.description}</p>
+        <p className="truncate w-48">{expense.description}</p>
       </section>
     );
   }
@@ -24,11 +25,12 @@ const ExpenseRow = ({
   return (
     <section
       key={expense.id}
-      className="grid grid-cols-[1fr_0.75fr_2.5fr] min-w-[90%] gap-4 py-2 pl-2 border-t border-light/30"
+      className="grid grid-cols-[1fr_0.75fr_2.5fr_0.25fr] py-3 px-4 border-t border-light/30"
     >
       <p>{expense.date}</p>
       <p>{formatCurrency(expense.amount, true)}</p>
-      <p className="truncate w-44">{expense.description}</p>
+      <p className="truncate w-48">{expense.description}</p>
+      <ActionBtn expense={expense} />
     </section>
   );
 };
