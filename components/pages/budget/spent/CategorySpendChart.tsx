@@ -7,7 +7,6 @@ import { formatCurrency, sortExpenses } from "@/lib/utils";
 import { ChartData } from "./CategoryCarousel";
 import { Expense } from "@/types/types";
 import { useState } from "react";
-import ExpenseDrawer from "./ExpenseDrawer";
 import ExpenseRow from "./ExpenseRow";
 import CategoryDrawer from "./CategoryDrawer";
 
@@ -60,10 +59,7 @@ export function CategorySpendChart({
   expenses,
   category,
 }: CategorySpendChartProps) {
-  const [showExpenses, setShowExpenses] = useState<boolean>(false);
-
   const { category: categoryName, budget, spentAmount, angle } = category;
-
   const budgetDifference = budget - spentAmount;
 
   // Sort expenses by date
@@ -79,11 +75,11 @@ export function CategorySpendChart({
         category={categoryName}
         plannedAmount={budget}
         totalSpent={spentAmount}
+        expenses={sortedExpenses}
         triggerLabel={
           <ChartContainer
             config={chartConfig}
             className="mx-auto aspect-square max-h-[200px]"
-            onClick={() => setShowExpenses(true)}
           >
             <PieChart>
               <Pie
@@ -128,11 +124,7 @@ export function CategorySpendChart({
             </PieChart>
           </ChartContainer>
         }
-      >
-        {sortedExpenses?.map((item) => (
-          <ExpenseRow expense={item} key={item.id} drawer />
-        ))}
-      </CategoryDrawer>
+      />
       <CardFooter className="flex justify-center text-md">
         <p className="font-medium leading-none text-secondary text-lg">
           {budgetDifference >= 0

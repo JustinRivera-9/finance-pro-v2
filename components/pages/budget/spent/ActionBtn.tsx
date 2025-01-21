@@ -9,15 +9,16 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useToast } from "@/hooks/use-toast";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { deleteExpenseAction } from "@/app/app/budget/actions";
 
-const ActionBtn = ({ expense }: { expense: Expense }) => {
+type ActionBtnProps = {
+  expense: Expense;
+  expenseToEdit: (expense: Expense) => void;
+};
+
+const ActionBtn = ({ expense, expenseToEdit }: ActionBtnProps) => {
   const { id, description } = expense;
   const { toast } = useToast();
-
-  const path = usePathname();
 
   const handleDelete = () => {
     deleteExpenseAction(id);
@@ -26,16 +27,18 @@ const ActionBtn = ({ expense }: { expense: Expense }) => {
     });
   };
 
+  const handleEdit = (expense: Expense) => {
+    expenseToEdit(expense);
+  };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
         <MoreVertIcon />
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuItem>
-          <Link href={`${path}/${id}`}>
-            <EditIcon fontSize="small" sx={{ marginRight: "8px" }} />
-          </Link>
+        <DropdownMenuItem onClick={() => handleEdit(expense)}>
+          <EditIcon fontSize="small" sx={{ marginRight: "8px" }} />
           Edit
         </DropdownMenuItem>
         <DropdownMenuItem onClick={handleDelete}>

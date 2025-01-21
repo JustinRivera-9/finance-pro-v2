@@ -5,10 +5,16 @@ import ActionBtn from "./ActionBtn";
 const ExpenseRow = ({
   expense,
   readOnly,
+  setExpenseToEdit,
 }: {
   expense: Expense;
   readOnly?: boolean;
+  setExpenseToEdit?: (expense: Expense) => void;
 }) => {
+  const handleEditExpense = (expense: Expense) => {
+    setExpenseToEdit?.(expense);
+  };
+
   if (readOnly) {
     return (
       <section
@@ -30,7 +36,7 @@ const ExpenseRow = ({
       <p>{expense.date}</p>
       <p>{formatCurrency(expense.amount, true)}</p>
       <p className="truncate w-48">{expense.description}</p>
-      <ActionBtn expense={expense} />
+      <ActionBtn expense={expense} expenseToEdit={handleEditExpense} />
     </section>
   );
 };

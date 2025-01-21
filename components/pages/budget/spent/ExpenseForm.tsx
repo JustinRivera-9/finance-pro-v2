@@ -16,7 +16,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-import { usePathname, useRouter } from "next/navigation";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ExpenseSchema } from "@/schema";
@@ -30,7 +29,7 @@ import { addExpenseAction, editExpenseAction } from "@/app/app/budget/actions";
 
 type ExpenseFormProps = {
   category: string;
-  expenseData?: Expense;
+  expenseData?: Expense | null;
   setShowForm: (formOpen: boolean) => void;
 };
 
@@ -40,13 +39,12 @@ const ExpenseForm = ({
   setShowForm,
 }: ExpenseFormProps) => {
   const { toast } = useToast();
-  const pathname = usePathname();
-  const router = useRouter();
 
   // Only for Edit scenarios
-  // @ts-ignore
-  const { amount, date, description, id } = (expenseData?.[0] as Expense) || {};
+  const { amount, date, description, id } = expenseData || {};
   const isEdit = id ? true : false;
+
+  console.log(isEdit);
 
   const form = useForm<z.infer<typeof ExpenseSchema>>({
     resolver: zodResolver(ExpenseSchema),
@@ -58,11 +56,6 @@ const ExpenseForm = ({
     },
   });
   const { formState, handleSubmit } = form;
-
-  // Gets month to pass in action for redirecting on submit/cancel
-  const path = pathname.split("/");
-  path.pop();
-  const url = path.join("/");
 
   // const amountWatch = form.watch("amount");
   // const descriptionWatch = form.watch("description");
@@ -165,9 +158,6 @@ const ExpenseForm = ({
 
         {/* HIDDEN ID INPUT FOR EDITING */}
         {isEdit && <input type="hidden" name="id" value={id} />}
-
-        {/* HIDDEN URL INPUT FOR REDIRCTING */}
-        {isEdit && <input type="hidden" name="url" value={url} />}
 
         <div className="flex gap-2">
           {/* DISABLE BUTTON OPTION */}
