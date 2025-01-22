@@ -4,7 +4,6 @@ import { createClient } from "@/lib/supabase/server";
 import { formatExpenseDate } from "@/lib/utils";
 import { GetExpensesResponse } from "@/types/types";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { v4 as uuid } from "uuid";
 import { CategoryFormData } from "@/types/types";
 
@@ -47,7 +46,7 @@ export const addExpenseAction = async (formData: FormData) => {
 
     if (error) throw Error;
 
-    revalidatePath("app/budget");
+    revalidatePath("/app/budget");
   } catch (error) {
     console.error(error);
   }
@@ -55,9 +54,7 @@ export const addExpenseAction = async (formData: FormData) => {
 
 export const editExpenseAction = async (formData: FormData) => {
   const supabase = createClient();
-  const { url, amount, description, date, id } = Object.fromEntries(formData);
-
-  console.log(url);
+  const { amount, description, date, id } = Object.fromEntries(formData);
 
   try {
     const { error } = await supabase
@@ -67,11 +64,10 @@ export const editExpenseAction = async (formData: FormData) => {
 
     if (error) throw Error;
 
-    revalidatePath(url as string);
+    revalidatePath("/app/budget");
   } catch (error) {
     console.error("Error in editExpenseAction");
   }
-  redirect(url as string);
 };
 
 export const deleteExpenseAction = async (id: string) => {
@@ -84,23 +80,6 @@ export const deleteExpenseAction = async (id: string) => {
     revalidatePath("app/spent");
   } catch (error) {
     console.error(error);
-  }
-};
-
-export const getEditExpense = async (id: string) => {
-  const supabase = createClient();
-
-  try {
-    let { data: expenseData, error } = await supabase
-      .from("expenses")
-      .select("*")
-      .eq("id", id);
-
-    if (error) throw Error;
-
-    return expenseData;
-  } catch (err) {
-    console.error(err);
   }
 };
 
