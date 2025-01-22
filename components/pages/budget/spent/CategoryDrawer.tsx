@@ -40,9 +40,6 @@ const CategoryDrawer = ({
     setShowForm((prev) => !prev);
   };
 
-  console.log("showForm: ", showForm);
-  console.log("expenseToEdit: ", expenseToEdit);
-
   // Expense form content
   if (showForm && !expenseToEdit) {
     return (
