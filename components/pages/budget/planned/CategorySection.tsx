@@ -6,7 +6,7 @@ import { sortFixedExpenses } from "@/lib/utils";
 
 type CategorySectionProps = { categories: CategoryData[] };
 
-const CategorySection: React.FC<CategorySectionProps> = ({ categories }) => {
+const CategorySection = ({ categories }: CategorySectionProps) => {
   const incomeCategory: CategoryData[] = categories.filter(
     (category: CategoryData) => category.type === "income"
   );
@@ -24,8 +24,8 @@ const CategorySection: React.FC<CategorySectionProps> = ({ categories }) => {
 
   return (
     <div className="flex flex-col items-center text-center gap-6">
-      <CategoryColumn category={expenseCategory} title="Expenses" />
       <CategoryColumn category={incomeCategory} title="Income" />
+      <CategoryColumn category={expenseCategory} title="Expenses" />
       <CategoryColumn category={fixedExpenseCategory} title="Fixed Expenses" />
     </div>
   );
