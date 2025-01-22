@@ -1,6 +1,7 @@
 import {
   Drawer,
   DrawerContent,
+  DrawerDescription,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
@@ -28,14 +29,22 @@ const CategoryDrawer = ({
   triggerLabel,
   expenses,
 }: CategoryDrawerProps) => {
+  // Add new expense state/handler
   const [showForm, setShowForm] = useState<boolean>(false);
-  const handleClick = () => setShowForm((prev) => !prev);
+  const handleNewExpense = () => setShowForm((prev) => !prev);
 
+  // Edit expense state/handler
   const [expenseToEdit, setExpenseToEdit] = useState<Expense | null>(null);
-  const handleSetExpense = (expense: Expense) => setExpenseToEdit(expense);
+  const handleEditExpense = (expense: Expense) => {
+    setExpenseToEdit(expense);
+    setShowForm((prev) => !prev);
+  };
+
+  console.log("showForm: ", showForm);
+  console.log("expenseToEdit: ", expenseToEdit);
 
   // Expense form content
-  if (showForm) {
+  if (showForm && !expenseToEdit) {
     return (
       <Drawer>
         <DrawerTrigger asChild>{triggerLabel}</DrawerTrigger>
@@ -44,6 +53,7 @@ const CategoryDrawer = ({
             <DrawerTitle className="flex justify-around items-center font-semibold text-center">
               <p className="text-2xl">Add {category} Expense</p>
             </DrawerTitle>
+            <DrawerDescription></DrawerDescription>
           </DrawerHeader>
           <ExpenseForm category={category} setShowForm={setShowForm} />
         </DrawerContent>
@@ -52,20 +62,22 @@ const CategoryDrawer = ({
   }
 
   // Edit expense form
-  if (expenseToEdit) {
+  if (showForm && expenseToEdit) {
     return (
       <Drawer>
         <DrawerTrigger asChild>{triggerLabel}</DrawerTrigger>
         <DrawerContent className="border-dark pt-2 pb-6 h-[65%] z-50">
           <DrawerHeader className="text-light mx-auto w-full">
             <DrawerTitle className="flex justify-around items-center font-semibold text-center">
-              <p className="text-2xl">Add {category} Expense</p>
+              <p className="text-2xl">Update {category} Expense</p>
             </DrawerTitle>
+            <DrawerDescription></DrawerDescription>
           </DrawerHeader>
           <ExpenseForm
             category={category}
             setShowForm={setShowForm}
             expenseData={expenseToEdit}
+            setExpenseData={setExpenseToEdit}
           />
         </DrawerContent>
       </Drawer>
@@ -89,17 +101,18 @@ const CategoryDrawer = ({
               <p className="text-2xl">{formatCurrency(plannedAmount)}</p>
             </div>
           </DrawerTitle>
+          <DrawerDescription></DrawerDescription>
         </DrawerHeader>
         <ScrollArea className="w-full mb-2">
           {expenses?.map((item) => (
             <ExpenseRow
               expense={item}
               key={item.id}
-              setExpenseToEdit={handleSetExpense}
+              setExpenseToEdit={handleEditExpense}
             />
           ))}
         </ScrollArea>
-        <Button className="w-1/2 mx-auto mt-3" onClick={handleClick}>
+        <Button className="w-1/2 mx-auto mt-3" onClick={handleNewExpense}>
           New Expense
         </Button>
       </DrawerContent>

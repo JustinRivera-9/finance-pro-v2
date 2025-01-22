@@ -31,20 +31,20 @@ type ExpenseFormProps = {
   category: string;
   expenseData?: Expense | null;
   setShowForm: (formOpen: boolean) => void;
+  setExpenseData?: (expenseData: null) => void;
 };
 
 const ExpenseForm = ({
   category,
   expenseData,
   setShowForm,
+  setExpenseData,
 }: ExpenseFormProps) => {
   const { toast } = useToast();
 
   // Only for Edit scenarios
   const { amount, date, description, id } = expenseData || {};
   const isEdit = id ? true : false;
-
-  console.log(isEdit);
 
   const form = useForm<z.infer<typeof ExpenseSchema>>({
     resolver: zodResolver(ExpenseSchema),
@@ -166,7 +166,8 @@ const ExpenseForm = ({
             className="bg-accent text-dark"
             disabled={!formState.isDirty}
             onClick={() => {
-              setShowForm(true);
+              setShowForm(false);
+              setExpenseData?.(null);
               toast({
                 title: isEdit
                   ? `Successfully updated expense`
@@ -181,7 +182,10 @@ const ExpenseForm = ({
           <Button
             variant="ghost"
             className="text-error text-md"
-            onClick={() => setShowForm(false)}
+            onClick={() => {
+              setShowForm(false);
+              setExpenseData?.(null);
+            }}
           >
             Cancel
           </Button>
