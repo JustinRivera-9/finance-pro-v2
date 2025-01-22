@@ -65,6 +65,15 @@ const ExpenseForm = ({
     <Form {...form}>
       <form
         action={isEdit ? editExpenseAction : addExpenseAction}
+        onSubmit={() => () => {
+          setShowForm(false);
+          setExpenseData?.(null);
+          toast({
+            title: isEdit
+              ? `Successfully updated expense`
+              : `Successfully added expense`,
+          });
+        }}
         className="space-y-4 px-8"
       >
         {/* AMOUNT INPUT */}
@@ -165,15 +174,6 @@ const ExpenseForm = ({
             type="submit"
             className="bg-accent text-dark"
             disabled={!formState.isDirty}
-            onClick={() => {
-              setShowForm(false);
-              setExpenseData?.(null);
-              toast({
-                title: isEdit
-                  ? `Successfully updated expense`
-                  : `Successfully added expense`,
-              });
-            }}
           >
             {isEdit ? "Update" : "Add Expense"}
           </Button>
