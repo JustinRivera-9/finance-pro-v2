@@ -36,16 +36,23 @@ const NoExpenseMessage = ({
   category,
   plannedAmount,
 }: NoExpenseMessageProps) => (
-  <div className="flex items-center justify-center py-[22px]">
-    <div className="pt-4 relative flex flex-col items-center justify-center w-[130px] h-[130px] rounded-full border-8 border-light/50">
-      <p className=" text-light text-md font-semibold text-center truncate w-24">
-        {category}
-      </p>
-      <p className=" text-light/70 text-wrap font-bold text-center text-xs">
-        {formatCurrency(plannedAmount)}
-      </p>
-    </div>
-  </div>
+  <CategoryDrawer
+    category={category}
+    plannedAmount={plannedAmount}
+    totalSpent={0}
+    triggerLabel={
+      <div className="flex items-center justify-center py-[22px]">
+        <div className="pt-4 relative flex flex-col items-center justify-center w-[130px] h-[130px] rounded-full border-8 border-light/50">
+          <p className=" text-light text-md font-semibold text-center truncate w-24">
+            {category}
+          </p>
+          <p className=" text-light/70 text-wrap font-bold text-center text-xs">
+            {formatCurrency(plannedAmount)}
+          </p>
+        </div>
+      </div>
+    }
+  />
 );
 
 const chartConfig = {
@@ -86,6 +93,18 @@ export function CategorySpendChart({
                 startAngle={90}
                 endAngle={angle + 90}
                 data={[{ ...category }]}
+                // data={
+                //   spentAmount
+                //     ? [{ ...category }]
+                //     : [
+                //         {
+                //           ...category,
+                //           spentAmount: 1,
+                //           fill: "rgb(253 253 253 / 0.5)",
+                //           angle: 100,
+                //         },
+                //       ]
+                // }
                 dataKey="spentAmount"
                 nameKey="category"
                 innerRadius={55}
