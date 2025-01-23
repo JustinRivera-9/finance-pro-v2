@@ -1,5 +1,5 @@
 import SpentTab from "@/components/pages/budget/spent/SpentTab";
-import PlannedTab from "@/components/pages/plannedPage/PlannedTab";
+import PlannedTab from "@/components/pages/budget/planned/PlannedTab";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const DashboardPage = () => {
