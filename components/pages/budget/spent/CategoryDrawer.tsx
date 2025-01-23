@@ -19,8 +19,12 @@ type CategoryDrawerProps = {
   totalSpent: number;
   plannedAmount: number;
   category: string;
-  expenses: Expense[] | null;
+  expenses?: Expense[] | null;
 };
+
+const noExpenseMessage = (
+  <p className="mx-auto text-lg">Add your first expense below!</p>
+);
 
 const CategoryDrawer = ({
   category,
@@ -90,7 +94,7 @@ const CategoryDrawer = ({
           <DrawerTitle className="flex justify-around items-center font-semibold text-center">
             <div className="flex flex-col">
               <p className="text-lg text-light/50">Spent</p>
-              <p className="text-2xl">{formatCurrency(totalSpent)}</p>
+              <p className="text-2xl">{formatCurrency(totalSpent) || "$0"}</p>
             </div>
             <p className="text-2xl text-accent">{category}</p>
             <div className="flex flex-col item">
@@ -100,6 +104,7 @@ const CategoryDrawer = ({
           </DrawerTitle>
           <DrawerDescription></DrawerDescription>
         </DrawerHeader>
+        {!totalSpent && noExpenseMessage}
         <ScrollArea className="w-full mb-2">
           {expenses?.map((item) => (
             <ExpenseRow
