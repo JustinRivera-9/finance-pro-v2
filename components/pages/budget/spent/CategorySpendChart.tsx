@@ -6,8 +6,6 @@ import { ChartConfig, ChartContainer } from "@/components/ui/chart";
 import { formatCurrency, sortExpenses } from "@/lib/utils";
 import { ChartData } from "./CategoryCarousel";
 import { Expense } from "@/types/types";
-import { useState } from "react";
-import ExpenseRow from "./ExpenseRow";
 import CategoryDrawer from "./CategoryDrawer";
 
 type CategorySpendChartProps = {
@@ -41,9 +39,9 @@ const NoExpenseMessage = ({
     plannedAmount={plannedAmount}
     totalSpent={0}
     triggerLabel={
-      <div className="flex items-center justify-center py-[22px]">
-        <div className="pt-4 relative flex flex-col items-center justify-center w-[130px] h-[130px] rounded-full border-8 border-light/50">
-          <p className=" text-light text-md font-semibold text-center truncate w-24">
+      <div className="flex items-center justify-center py-[17px]">
+        <div className="pt-3 relative flex flex-col gap-2 items-center justify-center w-[115px] h-[115px] rounded-full border-[6px] border-light/50">
+          <p className=" text-light text-sm font-semibold text-center truncate w-20">
             {category}
           </p>
           <p className=" text-light/70 text-wrap font-bold text-center text-xs">
@@ -93,21 +91,9 @@ export function CategorySpendChart({
                 startAngle={90}
                 endAngle={angle + 90}
                 data={[{ ...category }]}
-                // data={
-                //   spentAmount
-                //     ? [{ ...category }]
-                //     : [
-                //         {
-                //           ...category,
-                //           spentAmount: 1,
-                //           fill: "rgb(253 253 253 / 0.5)",
-                //           angle: 100,
-                //         },
-                //       ]
-                // }
                 dataKey="spentAmount"
                 nameKey="category"
-                innerRadius={55}
+                innerRadius={49}
                 cornerRadius={10}
               >
                 <Label
@@ -118,12 +104,12 @@ export function CategorySpendChart({
                           x={viewBox.cx}
                           y={viewBox.cy}
                           textAnchor="middle"
-                          dominantBaseline="middle"
+                          dominantBaseline="top"
                         >
                           <tspan
                             x={viewBox.cx}
                             y={viewBox.cy}
-                            className="fill-light text-lg font-semibold"
+                            className="fill-light text-md font-semibold"
                           >
                             {categoryName}
                           </tspan>
@@ -145,7 +131,7 @@ export function CategorySpendChart({
         }
       />
       <CardFooter className="flex justify-center text-md">
-        <p className="font-medium leading-none text-secondary text-lg">
+        <p className="font-medium leading-none text-light/70 text-md">
           {budgetDifference >= 0
             ? `${formatCurrency(budgetDifference, true)} left`
             : `${formatCurrency(Math.abs(budgetDifference))} over`}
