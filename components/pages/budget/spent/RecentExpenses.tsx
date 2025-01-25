@@ -4,7 +4,6 @@ import { Expense } from "@/types/types";
 import SectionContainer from "./SectionContainer";
 import SectionTitle from "./SectionTitle";
 import { filterExpensesByMonthYear, sortExpenses } from "@/lib/utils";
-import Link from "next/link";
 import ExpenseRow from "./ExpenseRow";
 import { useParamFilters } from "@/lib/hooks";
 
@@ -26,9 +25,6 @@ const RecentExpenses = ({ expenses }: { expenses: Expense[] }) => {
     <SectionContainer>
       <div className="flex gap-4 justify-around items-baseline py-2">
         <SectionTitle>Recent Expenses</SectionTitle>
-        <Link href="spent/november" className="min-w-fit text-sm text-light/60">
-          View all
-        </Link>
       </div>
       {!filteredExpenses?.length
         ? emptyExpenseMessage
