@@ -19,13 +19,6 @@ const PlaidDashboard = async ({ item }: PlaidDashboardProps) => {
 
   return (
     <div className="flex flex-col gap-4 items-center text-center py-2 px-4">
-      <div>
-        <h1 className="text-accent text-2xl font-bold">Connected Accounts</h1>
-        <h2 className="text-light/60 text-md">
-          Manage your connected accounts and approve pending transactions to add
-          to budget
-        </h2>
-      </div>
       <AccountSection accounts={accounts} />
       <TransactionTable
         transactions={added}
