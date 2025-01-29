@@ -16,8 +16,15 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "../ui/button";
 import BackBtn from "./BackBtn";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../ui/card";
 
-export default function LoginForm() {
+export default function LoginFormV2() {
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -27,51 +34,67 @@ export default function LoginForm() {
   });
 
   return (
-    <div>
+    <>
       <BackBtn />
-      <Form {...form}>
-        <form action={login} className="flex flex-col gap-4 w-10/12 mx-auto">
-          {/* EMAIL INPUT */}
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input placeholder="Enter email" type="email" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+      <Card className="bg-neutral-700">
+        <CardHeader>
+          <CardTitle className="text-2xl text-light">Welcome Back</CardTitle>
+          <CardDescription>Login to your Finance Pro account</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Form {...form}>
+            <form action={login} className="flex flex-col gap-6 mx-auto">
+              {/* EMAIL INPUT */}
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Enter email"
+                        type="email"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-          {/* PASSWORD INPUT */}
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Password</FormLabel>
-                <FormControl>
-                  <Input placeholder="******" type="password" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <div className="flex flex-col gap-2 py-2">
-            <Button className="w-full">Login</Button>
-            <div>
-              Do not have an account?{" "}
-              <Link href="signup" className="text-secondary underline">
-                Sign Up
-              </Link>{" "}
-              here
-            </div>
-          </div>
-        </form>
-      </Form>
-    </div>
+              {/* PASSWORD INPUT */}
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <div className="flex items-center justify-between">
+                      <FormLabel>Password</FormLabel>
+                      <p className="text-sm text-light/70">Forgot password?</p>
+                    </div>
+                    <FormControl>
+                      <Input placeholder="******" type="password" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* LOGIN AND SIGN UP BUTTONS */}
+              <div className="flex flex-col gap-2 py-2 items-center">
+                <Button className="w-full">Login</Button>
+                <div className="text-sm text-light/70">
+                  Do not have an account?{" "}
+                  <Link href="signup" className="text-secondary underline">
+                    Sign Up
+                  </Link>
+                </div>
+              </div>
+            </form>
+          </Form>
+        </CardContent>
+      </Card>
+    </>
   );
 }

@@ -9,7 +9,7 @@ const BackBtn = () => {
   return (
     <button
       onClick={() => router.push("/")}
-      className="pl-6 pb-4 text-secondary"
+      className="pl-2 pb-4 text-secondary"
     >
       <ArrowLeft size={30} />
     </button>
