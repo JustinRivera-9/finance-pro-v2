@@ -3,8 +3,10 @@ import React from "react";
 
 const LoginPage = () => {
   return (
-    <div className="py-6">
-      <LoginForm />
+    <div className="flex min-h-svh w-full items-center justify-center p-6 bg-dark">
+      <div className="w-full max-w-sm">
+        <LoginForm />
+      </div>
     </div>
   );
 };
