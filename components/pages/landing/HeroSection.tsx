@@ -12,15 +12,15 @@ const HeroSection = () => {
         <Image
           alt="hero section background"
           src="/features/dollar-icon-1.png"
-          width={125}
-          height={125}
+          width={100}
+          height={100}
         />
       </div>
       <p className="text-lg pb-4">
         Simplified budget tracking, bank integration, and investment monitoring
         for goal-focused management
       </p>
-      <SignupBtn />
+      {/* <SignupBtn /> */}
     </div>
   );
 };

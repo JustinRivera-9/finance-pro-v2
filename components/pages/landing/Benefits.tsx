@@ -18,7 +18,8 @@ const Benefits = () => {
         allowing you to live with confidence and make informed financial
         decisions.
       </h2> */}
-      <ul className="flex flex-col gap-2 pt-4">
+      <ul className="flex flex-col text-left gap-4 pt-4">
+        {/* <ul className="grid grid-cols- gap-2 pt-4"> */}
         <li className="flex gap-4">
           <Box size={24} className="text-secondary" />
           Build a secure financial future

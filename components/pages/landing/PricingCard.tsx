@@ -11,8 +11,8 @@ const PricingCard = ({ data }: { data: PricingCardProps }) => {
   return (
     <div className="flex flex-col gap-2 p-2 border border-light rounded-lg">
       <div className="flex px-2 justify-between items-center">
-        <p className="text-xl text-light">{title}</p>
-        <p className="text-2xl text-accent">{price}</p>
+        <p className="text-light">{title}</p>
+        <p className="text-xl text-accent">{price}</p>
       </div>
       <ul className="flex flex-col gap-2">
         {features.map((feature, i) => (
