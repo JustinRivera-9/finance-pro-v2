@@ -43,7 +43,7 @@ export default function LoginFormV2() {
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form action={login} className="flex flex-col gap-6 mx-auto">
+            <form action={login} className="flex flex-col gap-4 mx-auto">
               {/* EMAIL INPUT */}
               <FormField
                 control={form.control}
