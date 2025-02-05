@@ -1,4 +1,7 @@
-import { updateTransactions } from "@/app/app/connected-accounts/actions";
+import {
+  updateAccounts,
+  updateTransactions,
+} from "@/app/app/connected-accounts/actions";
 import { plaidClient } from "@/lib/plaid/plaid";
 import { NextRequest, NextResponse } from "next/server";
 import {
@@ -9,13 +12,10 @@ import {
 } from "plaid";
 
 export async function POST(req: NextRequest) {
-  const { lastCursor, accessToken, itemId, user } = await req.json();
+  const { transaction_cursor, access_token, item_id, user } = await req.json();
   try {
-    // Provide a cursor from your database if you've previously
-    // received one for the Item. Leave null if this is your
-    // first sync call for this Item. The first request will
-    // return a cursor.
-    let cursor = lastCursor;
+    // 1) Fetch the most recent cursor from the database
+    let cursor = transaction_cursor;
 
     // New transaction updates since "cursor"
     let added: Array<Transaction> = [];
@@ -25,10 +25,10 @@ export async function POST(req: NextRequest) {
     let hasMore = true;
     let accounts: AccountBase[] = [];
 
-    // Iterate through each page of new transaction updates for item
+    // 2) Fetch all the transactions since the last cursor
     while (hasMore) {
       const request: TransactionsSyncRequest = {
-        access_token: accessToken,
+        access_token,
         cursor,
       };
       const response = await plaidClient.transactionsSync(request);
@@ -42,20 +42,24 @@ export async function POST(req: NextRequest) {
 
       hasMore = data.has_more;
 
-      // Update cursor to the next cursor
+      // 6) Save the most recent cursor
       cursor = data.next_cursor;
     }
 
-    await updateTransactions({
-      accounts,
-      added,
-      modified,
-      removed,
-      cursor,
-      user,
-    });
-    // Persist cursor and updated data
-    // database.applyUpdates(itemId, added, modified, removed, cursor);
+    // 3) Add new transactions to the database
+    // await updateTransactions({
+    //   accounts,
+    //   added,
+    //   modified,
+    //   removed,
+    //   cursor,
+    //   user,
+    // });
+
+    ////////////////////////////////////////////////////////////////
+    // 4) Update any modified transactions
+    // 5) Do something with removed transactions
+
     return NextResponse.json({ accounts, added, modified, removed, cursor });
   } catch (err) {
     const error = err as Error;

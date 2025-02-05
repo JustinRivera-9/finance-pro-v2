@@ -10,12 +10,7 @@ import { useRouter } from "next/navigation";
 import { createLinkToken, exchangePublicToken } from "@/lib/plaid/actions";
 import { ButtonLoading } from "../ui/buttonLoading";
 
-type PlaidLinkProps = {
-  user: string;
-  variant: string;
-};
-
-const ConnectAccountBtn = ({ user, variant }: PlaidLinkProps) => {
+const ConnectAccountBtn = ({ user }: { user: string }) => {
   const hasInitialized = useRef(false);
   const router = useRouter();
   const [token, setToken] = useState("");

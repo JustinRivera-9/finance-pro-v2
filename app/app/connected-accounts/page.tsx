@@ -1,14 +1,17 @@
-import { getAccessToken, PlaidItemData } from "./actions";
+import { getItems } from "./actions";
 import ConnectAccountPage from "@/components/plaid/ConnectAccountPage";
 import PlaidDashboard from "@/components/plaid/PlaidDashboard";
+import { getUser } from "@/lib/supabase/actions";
+import { PlaidItemData } from "@/types/plaid";
 
 const page = async () => {
-  const item: PlaidItemData = await getAccessToken();
+  const user = await getUser();
+  const item: PlaidItemData = await getItems(user || "");
 
-  if (item.proUser) {
-    return <PlaidDashboard item={item} />;
+  if (item?.item_id) {
+    return <PlaidDashboard user={user || ""} item={item} />;
   } else {
-    return <ConnectAccountPage />;
+    return <ConnectAccountPage user={user || ""} />;
   }
 };
 

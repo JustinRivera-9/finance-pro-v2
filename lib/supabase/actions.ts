@@ -5,9 +5,16 @@ import { createClient } from "./server";
 export const getUser = async () => {
   const supabase = createClient();
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  try {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
-  return user?.id;
+    if (!user?.id) throw Error("There was a problem getting user ID");
+
+    return user.id;
+  } catch (err) {
+    const error = err as Error;
+    console.log(error.message);
+  }
 };

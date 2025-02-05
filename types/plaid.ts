@@ -1,12 +1,5 @@
 import { AccountBase, RemovedTransaction, Transaction } from "plaid";
 
-export type PlaidItemData = {
-  accessToken: string;
-  itemId: string;
-  requestId: string;
-  proUser: boolean;
-};
-
 export type TransactionData = {
   added: Transaction[];
   modified: Transaction[];
@@ -28,6 +21,29 @@ export type ApprovedTransactionItem = {
   transaction_id: string;
   name: string;
   category: string;
-  isImported: boolean;
+  isApproved: boolean;
   description: string;
+};
+
+export type PlaidItemData = {
+  item_id: string;
+  created_at: string | Date;
+  user_id: string;
+  access_token: string;
+  transaction_cursor: string;
+  is_active: boolean;
+};
+
+export type AddItemParams = {
+  access_token: string;
+  item_id: string;
+  user_id: string;
+};
+
+export type SyncTransactionsData = {
+  added: Transaction[];
+  modified: Transaction[];
+  removed: RemovedTransaction[];
+  cursor: string;
+  accounts: AccountBase[];
 };

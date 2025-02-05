@@ -62,7 +62,7 @@ const TransactionItem = ({
       transaction_id,
       name,
       category: category,
-      isImported: true,
+      isApproved: true,
       description: name || (merchant_name as string),
     });
   };
@@ -80,7 +80,7 @@ const TransactionItem = ({
       transaction_id,
       name,
       category: userCategory,
-      isImported: true,
+      isApproved: false,
       description: name || (merchant_name as string),
     });
 

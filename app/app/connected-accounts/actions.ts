@@ -1,60 +1,131 @@
 "use server";
 import { getUser } from "@/lib/supabase/actions";
 import { createClient } from "@/lib/supabase/server";
-import { ApprovedTransactionItem, TransactionData } from "@/types/plaid";
+import {
+  AddItemParams,
+  ApprovedTransactionItem,
+  TransactionData,
+} from "@/types/plaid";
+import { AccountBase } from "plaid";
 
-export type PlaidItemData = {
-  accessToken: string;
-  itemId: string;
-  requestId: string;
-  proUser: boolean;
-  cursor: string;
-  transactions: any[];
+// Used to know if a bank has already been connected. If true -> renders dashboard / If false -> connect bank flow
+export const getItems = async (user: string) => {
+  const supabase = createClient();
+  try {
+    let { data: items, error } = await supabase
+      .from("items")
+      .select("*")
+      .eq("user_id", user);
+
+    if (error) throw Error("Error getting item from DB");
+
+    if (!items?.length) return null;
+
+    return items[0];
+  } catch (err) {
+    const error = err as Error;
+    console.log(error.message);
+  }
 };
 
-export const addAccessToken = async (data: any) => {
+// Updates 'items' table with data
+export const addItem = async (itemData: AddItemParams) => {
   const supabase = createClient();
-  const user = await getUser();
-
   const { error } = await supabase
-    .from("transactions")
-    .update({ ...data })
-    .eq("user_id", user);
+    .from("items")
+    .insert([{ ...itemData, is_active: true }]);
 
   if (error) return error.message;
+  return null;
 };
 
-export const getAccessToken = async () => {
+// Updates 'accounts' table in database when /api/transactions-sync is called
+export const updateAccounts = async (
+  accountData: AccountBase[],
+  item_id: string
+) => {
   const supabase = createClient();
-  const user = await getUser();
 
-  let { data: transactions, error } = await supabase
-    .from("transactions")
-    .select("*")
-    .eq("user_id", user);
+  try {
+    const { error } = await supabase.from("accounts").upsert(
+      accountData.map((account: AccountBase) => {
+        const { account_id, name, balances, type, subtype } = account;
+        return {
+          account_id,
+          name,
+          balances,
+          type,
+          subtype,
+          item_id,
+        };
+      })
+    );
 
-  if (error || !transactions?.length) return error;
-  return transactions[0];
+    if (error)
+      throw Error(
+        `Failed to update row in accounts table. Error message: ${error.message}`
+      );
+  } catch (err) {
+    const error = err as Error;
+    console.log(error.message);
+  }
+};
+
+// Updates 'item' table with next transaction cursor
+export const updateTransactionCursor = async (
+  transaction_cursor: string,
+  item_id: string
+) => {
+  const supabase = createClient();
+
+  try {
+    const { data, error } = await supabase
+      .from("items")
+      .update({ transaction_cursor })
+      .eq("item_id", item_id)
+      .select();
+
+    if (error)
+      throw Error(
+        `Failed to update transaction_cursor in 'items' table. Error message: ${error.message}`
+      );
+  } catch (err) {
+    const error = err as Error;
+    console.log(error.message);
+  }
 };
 
 export const updateTransactions = async (plaidData: TransactionData) => {
   const supabase = createClient();
   const { accounts, added, modified, removed, cursor, user } = plaidData;
 
-  // Try turning data into json. Could be because it's not matching table column type?
+  // console.log("Added: ", added);
+  // console.log("Accounts: ", accounts);
+  // console.log("User: ", user);
+  // console.log("Cursor: ", cursor);
+  // console.log("Modified: ", modified);
+  // console.log("Removed: ", removed);
 
-  const { error } = await supabase
-    .from("transactions")
-    .update({
-      accounts: accounts ? JSON.stringify(accounts) : null,
-      added: added ? JSON.stringify(added) : null,
-      modified: modified ? JSON.stringify(modified) : null,
-      removed: removed ? JSON.stringify(removed) : null,
-      cursor,
-    })
-    .eq("user_id", user);
+  try {
+    const { data, error } = await supabase
+      .from("transactions")
+      .update({
+        accounts: JSON.stringify(accounts),
+        added: JSON.stringify(added),
+        modified: JSON.stringify(modified),
+        removed: JSON.stringify(removed),
+        cursor,
+      })
+      .eq("user_id", user)
+      .select();
 
-  if (error) console.log("Error updating transactions table", error);
+    // console.log("Existing transaction:", data, plaidData.user);
+
+    if (error) throw Error("Problem updating item information");
+  } catch (err) {
+    const error = err as Error;
+    console.log(error.message);
+  }
 };
 
 export const handleConfirmTransactions = async (
