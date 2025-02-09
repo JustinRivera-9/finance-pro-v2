@@ -1,6 +1,6 @@
 import {
+  syncTransactionsToDatabase,
   updateAccounts,
-  updateTransactions,
 } from "@/app/app/connected-accounts/actions";
 import { plaidClient } from "@/lib/plaid/plaid";
 import { NextRequest, NextResponse } from "next/server";
@@ -14,16 +14,16 @@ import {
 export async function POST(req: NextRequest) {
   const { transaction_cursor, access_token, item_id, user } = await req.json();
   try {
-    // 1) Fetch the most recent cursor from the database
     let cursor = transaction_cursor;
+    // let cursor = "";
 
     // New transaction updates since "cursor"
-    let added: Array<Transaction> = [];
-    let modified: Array<Transaction> = [];
+    let added: Transaction[] = [];
+    let modified: Transaction[] = [];
     // Removed transaction ids
-    let removed: Array<RemovedTransaction> = [];
-    let hasMore = true;
+    let removed: RemovedTransaction[] = [];
     let accounts: AccountBase[] = [];
+    let hasMore = true;
 
     // 2) Fetch all the transactions since the last cursor
     while (hasMore) {
@@ -34,33 +34,27 @@ export async function POST(req: NextRequest) {
       const response = await plaidClient.transactionsSync(request);
       const data = response.data;
 
-      // Add this page of results
       added = added.concat(data.added);
       modified = modified.concat(data.modified);
       removed = removed.concat(data.removed);
       accounts = data.accounts;
-
       hasMore = data.has_more;
-
-      // 6) Save the most recent cursor
       cursor = data.next_cursor;
     }
 
-    // 3) Add new transactions to the database
-    // await updateTransactions({
-    //   accounts,
-    //   added,
-    //   modified,
-    //   removed,
-    //   cursor,
-    //   user,
-    // });
+    updateAccounts(accounts, item_id);
 
-    ////////////////////////////////////////////////////////////////
-    // 4) Update any modified transactions
-    // 5) Do something with removed transactions
+    // Adds transactions to the database
+    await syncTransactionsToDatabase({
+      accounts,
+      added,
+      modified,
+      removed,
+      cursor,
+      user,
+    });
 
-    return NextResponse.json({ accounts, added, modified, removed, cursor });
+    return NextResponse.json({ cursor });
   } catch (err) {
     const error = err as Error;
     console.error("Error fetching transactions:", error);
