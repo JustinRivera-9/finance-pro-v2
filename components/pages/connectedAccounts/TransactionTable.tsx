@@ -1,5 +1,5 @@
 "use client";
-import type { AccountBase, Transaction } from "plaid";
+import type { AccountBase } from "plaid";
 import TransactionItem from "./TransactionItem";
 import { Separator } from "@/components/ui/separator";
 import { useState } from "react";
@@ -7,7 +7,7 @@ import { ApprovedTransactionItem } from "@/types/plaid";
 import { handleConfirmTransactions } from "@/app/app/connected-accounts/actions";
 
 type TransactionTableProps = {
-  transactions: Transaction[];
+  transactions: ApprovedTransactionItem[];
   accounts: AccountBase[];
   categories: any[];
 };

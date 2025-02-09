@@ -10,6 +10,7 @@ export type TransactionData = {
 };
 
 export type ApprovedTransactionItem = {
+  user_id?: string;
   account_id: string;
   amount: number;
   authorized_date: string | null;
@@ -20,9 +21,10 @@ export type ApprovedTransactionItem = {
   personal_finance_category_icon_url: string | undefined;
   transaction_id: string;
   name: string;
-  category: string;
-  isApproved: boolean;
+  category?: string;
+  isApproved?: boolean;
   description: string;
+  payment_channel: string;
 };
 
 export type PlaidItemData = {
@@ -38,12 +40,4 @@ export type AddItemParams = {
   access_token: string;
   item_id: string;
   user_id: string;
-};
-
-export type SyncTransactionsData = {
-  added: Transaction[];
-  modified: Transaction[];
-  removed: RemovedTransaction[];
-  cursor: string;
-  accounts: AccountBase[];
 };

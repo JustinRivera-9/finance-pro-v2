@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/select";
 
 type TransactionItemProps = {
-  data: Transaction;
+  data: ApprovedTransactionItem;
   addTransaction: (transaction: ApprovedTransactionItem) => void;
   removeTransaction: (transaction: ApprovedTransactionItem) => void;
   categories: any[];
@@ -44,6 +44,7 @@ const TransactionItem = ({
     personal_finance_category_icon_url,
     transaction_id,
     name,
+    payment_channel,
   } = data;
 
   const handleAdd = (category: string) => {
@@ -56,14 +57,14 @@ const TransactionItem = ({
       merchant_name,
       logo_url,
       personal_finance_category: capitalizePlaidCategory(
-        personal_finance_category?.primary
+        personal_finance_category
       ),
       personal_finance_category_icon_url,
       transaction_id,
       name,
       category: category,
-      isApproved: true,
       description: name || (merchant_name as string),
+      payment_channel,
     });
   };
 
@@ -75,13 +76,13 @@ const TransactionItem = ({
       date,
       merchant_name,
       logo_url,
-      personal_finance_category: personal_finance_category?.primary,
+      personal_finance_category: personal_finance_category,
       personal_finance_category_icon_url,
       transaction_id,
       name,
       category: userCategory,
-      isApproved: false,
       description: name || (merchant_name as string),
+      payment_channel,
     });
 
     setUserCategory("");
