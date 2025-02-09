@@ -52,7 +52,7 @@ export async function signup(userData: FormData) {
 
   // Add new row in accounts table with name
   const user_id = await getUser();
-  const { data } = await supabase.from("account").insert([{ name, user_id }]);
+  const { data } = await supabase.from("settings").insert([{ name, user_id }]);
 
   revalidatePath(`/app/budget`, "layout");
   redirect(`/app/budget?month=${month}&year=${year}`);

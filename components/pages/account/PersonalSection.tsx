@@ -13,7 +13,7 @@ const PersonalSection = async () => {
 
   // gets user name
   let { data: name, error: nameError } = await supabase
-    .from("account")
+    .from("settings")
     .select("name")
     .eq("user_id", user_id);
 
