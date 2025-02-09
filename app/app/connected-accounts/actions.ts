@@ -161,6 +161,7 @@ export const syncTransactionsToDatabase = async (
         name: modifiedExpense.name,
         description:
           modifiedExpense.name || (modifiedExpense.merchant_name as string),
+        payment_channel: modifiedExpense.payment_channel,
       };
     })
     .filter(Boolean);
