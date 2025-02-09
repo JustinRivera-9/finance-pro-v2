@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
       client_name: "Finance Pro",
       products: ["transactions"] as Products[],
       transactions: {
-        days_requested: 365,
+        days_requested: 60,
       },
       country_codes: ["US"] as CountryCode[],
       language: "en",
