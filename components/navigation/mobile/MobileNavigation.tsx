@@ -53,7 +53,7 @@ const MobileNavigation = () => {
         <li>
           <Link
             key="account"
-            href="/app/account"
+            href="/app/settings"
             className={path.startsWith("/app/settings") ? "text-accent" : ""}
           >
             <AccountCircleSharpIcon fontSize="large" />
