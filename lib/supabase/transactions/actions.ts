@@ -47,6 +47,7 @@ export const updateTransactions = async (
             name: transaction.name,
             description:
               transaction.name || (transaction.merchant_name as string),
+            payment_channel: transaction.payment_channel,
           };
         })
       )
