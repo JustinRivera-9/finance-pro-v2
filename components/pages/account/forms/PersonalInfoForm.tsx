@@ -1,5 +1,5 @@
 "use client";
-import { updatePersonalInfoAction } from "@/app/app/account/actions";
+import { updatePersonalInfoAction } from "@/app/app/settings/actions";
 import { Button } from "@/components/ui/button";
 import {
   Form,

@@ -14,7 +14,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { AccountPreferencesSchema } from "@/schema";
 import { useUser } from "@/context/UserContext";
-import { updatePreferencesAction } from "@/app/app/account/actions";
+import { updatePreferencesAction } from "@/app/app/settings/actions";
 
 const PreferenceForm = () => {
   const user = useUser();

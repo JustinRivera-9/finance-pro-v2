@@ -1,6 +1,6 @@
 "use client";
 
-import { logoutUser } from "@/app/app/account/actions";
+import { logoutUser } from "@/app/app/settings/actions";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import LogoutIcon from "@mui/icons-material/Logout";

@@ -1,5 +1,5 @@
 "use client";
-import { submitContactFormAction } from "@/app/app/account/actions";
+import { submitContactFormAction } from "@/app/app/settings/actions";
 import { Button } from "@/components/ui/button";
 import {
   Form,
