@@ -1,6 +1,12 @@
 "use server";
 import { getUser } from "@/lib/supabase/actions";
+import { getExpenses, updateExpenses } from "@/lib/supabase/expenses/actions";
 import { createClient } from "@/lib/supabase/server";
+import {
+  getTransactions,
+  updateTransactions,
+} from "@/lib/supabase/transactions/actions";
+import { capitalizePlaidCategory, formatPlaidDate } from "@/lib/utils";
 import {
   AddItemParams,
   ApprovedTransactionItem,
@@ -95,37 +101,104 @@ export const updateTransactionCursor = async (
   }
 };
 
-export const updateTransactions = async (plaidData: TransactionData) => {
-  const supabase = createClient();
-  const { accounts, added, modified, removed, cursor, user } = plaidData;
+// Addes/Updates transactions to 'transactions' database table
+export const syncTransactionsToDatabase = async (
+  plaidData: TransactionData
+) => {
+  const { added, modified, removed, user } = plaidData;
 
-  // console.log("Added: ", added);
-  // console.log("Accounts: ", accounts);
-  // console.log("User: ", user);
-  // console.log("Cursor: ", cursor);
-  // console.log("Modified: ", modified);
-  // console.log("Removed: ", removed);
+  ////////// DATA FLOW
+  // 1) On page load transaction data is fetched
+  // 2) User selects transactions to be confirmed
+  // 3) When confirmed, transactions get added to the expenses table
+  // ?? What happens when a confirmed transaction is modified --> need to check expenses for modified transactions when syncing transactions
+  // -- Will be expensive to fetch expenses and sort through them to see if there is a match and then to update expenses.
 
-  try {
-    const { data, error } = await supabase
-      .from("transactions")
-      .update({
-        accounts: JSON.stringify(accounts),
-        added: JSON.stringify(added),
-        modified: JSON.stringify(modified),
-        removed: JSON.stringify(removed),
-        cursor,
-      })
-      .eq("user_id", user)
-      .select();
+  ////////// 1) Use Promise.all() to fetch existing expenses and existing transactions
+  const [expenses, existingTransactions] = await Promise.all([
+    getExpenses(user),
+    getTransactions(user),
+  ]);
 
-    // console.log("Existing transaction:", data, plaidData.user);
+  ////////// 2) Compare removed transactions to existing transactions and expenses.
+  const transactionsAfterRemoved = existingTransactions?.filter(
+    (transaction) => {
+      const isRemoved = removed?.some(
+        (item) => item?.transaction_id === transaction.transaction_id
+      );
+      if (!isRemoved) {
+        return true;
+      } else {
+        return;
+      }
+    }
+  );
 
-    if (error) throw Error("Problem updating item information");
-  } catch (err) {
-    const error = err as Error;
-    console.log(error.message);
-  }
+  ////////// 3) Compare existing expenses to modified transactions. Should contain an array of updated expenses
+  const updatedExpensesArr: ApprovedTransactionItem[] | undefined = expenses
+    ?.map((expense) => {
+      const modifiedExpense = modified?.find(
+        (modifiedTransaction) =>
+          modifiedTransaction.transaction_id === expense.transaction_id
+      );
+      if (!modifiedExpense) return null;
+      return {
+        ...expense,
+        account_id: modifiedExpense.account_id,
+        amount: modifiedExpense.amount,
+        authorized_date: formatPlaidDate(
+          modifiedExpense.authorized_date as string
+        ),
+        date: formatPlaidDate(modifiedExpense.date),
+        merchant_name: modifiedExpense.merchant_name,
+        logo_url: modifiedExpense.logo_url,
+        personal_finance_category: capitalizePlaidCategory(
+          modifiedExpense.personal_finance_category?.primary
+        ),
+        personal_finance_category_icon_url:
+          modifiedExpense.personal_finance_category_icon_url,
+        transaction_id: modifiedExpense.transaction_id,
+        name: modifiedExpense.name,
+        description:
+          modifiedExpense.name || (modifiedExpense.merchant_name as string),
+      };
+    })
+    .filter(Boolean);
+  // Remove any matching expenses from transactions
+
+  ////////// 4) Compare modified transactions to existing transactions. Should contain an array of updated transactions
+  const modifiedTransactions = transactionsAfterRemoved
+    ?.map((transaction) => {
+      const modifiedTransaction = modified?.find(
+        (modifiedTransaction) =>
+          modifiedTransaction.transaction_id === transaction.transaction_id
+      );
+
+      if (!modifiedTransaction) return null;
+      return modifiedTransaction;
+    })
+    .filter(Boolean);
+
+  ////////// 5) Replace any added transactions with the modified transactions if exists
+  const updatedTransactionsArr = added?.map((transaction) => {
+    const modifiedTransaction = modifiedTransactions?.find(
+      (modifiedTransaction) =>
+        modifiedTransaction?.transaction_id === transaction.transaction_id
+    );
+
+    if (!modifiedTransaction) return transaction;
+    return modifiedTransaction;
+  });
+
+  ////////// 6) Use Promise.all() to updated expenses and transactions table
+  ////////// 6a) Upsert data to database. This should update or insert transaction based on whether it is existing
+  const [updatedExpenses, updatedTransactions] = await Promise.all([
+    updateExpenses(updatedExpensesArr!, user),
+    updateTransactions(updatedTransactionsArr, user),
+  ]);
+
+  return updatedTransactions;
+  ////////// 7) Return updatedTranscations[] to be used on client
 };
 
 export const handleConfirmTransactions = async (
@@ -139,6 +212,8 @@ export const handleConfirmTransactions = async (
       return { ...transaction, user_id: user };
     })
   );
+
+  // remove from transactions
 
   if (error) console.log("Error adding bank transactions.");
 };
