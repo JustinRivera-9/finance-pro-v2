@@ -45,6 +45,23 @@ export const addItem = async (itemData: AddItemParams) => {
   return null;
 };
 
+export const getAccounts = async (user: string) => {
+  const supabase = createClient();
+  try {
+    let { data: accounts, error } = await supabase
+      .from("accounts")
+      .select("*")
+      .eq("user_id", user);
+
+    if (error) throw Error("Error getting accounts from DB");
+
+    return accounts;
+  } catch (err) {
+    const error = err as Error;
+    console.log(error.message);
+  }
+};
+
 // Updates 'accounts' table in database when /api/transactions-sync is called
 export const updateAccounts = async (
   accountData: AccountBase[],
@@ -53,24 +70,29 @@ export const updateAccounts = async (
   const supabase = createClient();
 
   try {
-    const { error } = await supabase.from("accounts").upsert(
-      accountData.map((account: AccountBase) => {
-        const { account_id, name, balances, type, subtype } = account;
-        return {
-          account_id,
-          name,
-          balances,
-          type,
-          subtype,
-          item_id,
-        };
-      })
-    );
+    const { data, error } = await supabase
+      .from("accounts")
+      .upsert(
+        accountData.map((account: AccountBase) => {
+          const { account_id, name, balances, type, subtype } = account;
+          return {
+            account_id,
+            name,
+            balances,
+            type,
+            subtype,
+            item_id,
+          };
+        })
+      )
+      .select();
 
     if (error)
       throw Error(
         `Failed to update row in accounts table. Error message: ${error.message}`
       );
+
+    return data;
   } catch (err) {
     const error = err as Error;
     console.log(error.message);
