@@ -65,7 +65,8 @@ export const getAccounts = async (user: string) => {
 // Updates 'accounts' table in database when /api/transactions-sync is called
 export const updateAccounts = async (
   accountData: AccountBase[],
-  item_id: string
+  item_id: string,
+  user: string
 ) => {
   const supabase = createClient();
 
@@ -76,6 +77,7 @@ export const updateAccounts = async (
         accountData.map((account: AccountBase) => {
           const { account_id, name, balances, type, subtype } = account;
           return {
+            user_id: user,
             account_id,
             name,
             balances,

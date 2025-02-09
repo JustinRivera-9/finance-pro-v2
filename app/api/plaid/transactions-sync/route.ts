@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
       cursor = data.next_cursor;
     }
 
-    updateAccounts(accounts, item_id);
+    updateAccounts(accounts, item_id, user);
 
     // Adds transactions to the database
     await syncTransactionsToDatabase({
