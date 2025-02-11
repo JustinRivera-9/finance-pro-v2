@@ -118,7 +118,7 @@ export function CategorySpendChart({
                             y={(viewBox.cy || 0) + 24}
                             className="fill-light/70 text-wrap font-bold"
                           >
-                            {formatCurrency(budget, true)}
+                            {formatCurrency(spentAmount, true)}
                           </tspan>
                         </text>
                       );
