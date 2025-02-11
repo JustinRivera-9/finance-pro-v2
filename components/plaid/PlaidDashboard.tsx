@@ -31,7 +31,7 @@ const PlaidDashboard = async ({ item, user }: PlaidDashboardProps) => {
   ]);
 
   return (
-    <div className="flex flex-col gap-4 items-center text-center py-2 px-4">
+    <div className="h-screen w-full px-4 gap-4 flex flex-col bg-page text-light">
       <AccountSection accounts={accounts as AccountBase[]} />
       <TransactionTable
         transactions={transactions as ApprovedTransactionItem[]}

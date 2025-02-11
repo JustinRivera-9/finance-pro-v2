@@ -55,7 +55,9 @@ const TransactionTable = ({
         </button>
       ) : null}
       <div className="flex flex-col gap-2">
-        <h1 className="text-2xl text-accent">Transactions Pending</h1>
+        <h1 className="text-2xl text-accent text-center">
+          Transactions Pending
+        </h1>
         <ul className="flex flex-col gap-2">
           {nonBankTransactions.map((item) => (
             <li className="flex flex-col gap-2" key={item.transaction_id}>

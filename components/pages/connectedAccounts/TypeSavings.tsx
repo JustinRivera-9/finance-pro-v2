@@ -7,7 +7,7 @@ const TypeSavings = ({ account }: { account: AccountBase }) => {
 
   return (
     <section className="flex flex-col gap-2 bg-card py-2 px-4 rounded-2xl">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col items-start justify-between">
         <p className="text-lg">{name}</p>
         <p className="text-xs text-secondary">{subtype}</p>
       </div>

@@ -9,7 +9,7 @@ import {
 const AccountSection = ({ accounts }: { accounts: AccountBase[] }) => {
   return (
     <>
-      <h1 className="text-2xl text-accent">Connected Accounts</h1>
+      <h1 className="text-2xl text-center text-accent">Connected Accounts</h1>
       <Carousel
         opts={{
           dragFree: true,
@@ -17,7 +17,7 @@ const AccountSection = ({ accounts }: { accounts: AccountBase[] }) => {
       >
         <CarouselContent className="-ml-1">
           {accounts.map((account) => (
-            <CarouselItem key={account.account_id} className="basis-9/12">
+            <CarouselItem key={account.account_id} className="basis-2/3">
               <AccountCard account={account} />
             </CarouselItem>
           ))}
