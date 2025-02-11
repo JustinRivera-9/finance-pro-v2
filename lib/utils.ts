@@ -1,4 +1,5 @@
 import { ChartData } from "@/components/pages/budget/spent/CategoryCarousel";
+import { ApprovedTransactionItem } from "@/types/plaid";
 import { CategoryData, Expense, reduceArrParam } from "@/types/types";
 import { type ClassValue, clsx } from "clsx";
 import { format, parseISO } from "date-fns";
@@ -218,6 +219,17 @@ export const sortExpenses = (
   if (!arr) return null;
 
   return arr?.sort((a, b) => +b.date.split("/")[1] - +a.date.split("/")[1]);
+};
+
+export const sortPlaidTransactions = (
+  transactions: ApprovedTransactionItem[]
+): ApprovedTransactionItem[] => {
+  return transactions.sort((a, b) => {
+    const [aYear, aMonth, aDay] = a.date.split("-").map(Number);
+    const [bYear, bMonth, bDay] = b.date.split("-").map(Number);
+
+    return aMonth - bMonth || bDay - aDay;
+  });
 };
 
 ////////// FILTER FUNCTIONS //////////
