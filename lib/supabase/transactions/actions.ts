@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { capitalizePlaidCategory } from "@/lib/utils";
+import { ApprovedTransactionItem } from "@/types/plaid";
 import { Transaction } from "plaid";
 
 export const getTransactions = async (user: string) => {
@@ -58,6 +59,30 @@ export const updateTransactions = async (
         `There was an issue updating transactions. Error message: ${error.message}`
       );
     return data;
+  } catch (err) {
+    const error = err as Error;
+    console.log(error.message);
+  }
+};
+
+export const removeTransactionsAfterConfirming = async (
+  transactions: ApprovedTransactionItem[]
+) => {
+  try {
+    const supabase = createClient();
+
+    const { error } = await supabase
+      .from("transactions")
+      .delete()
+      .in(
+        "transaction_id",
+        transactions.map((item) => item.transaction_id)
+      );
+
+    if (error)
+      throw Error(
+        `Error removing bank transactions from 'transactions' table. Error message: ${error.message}`
+      );
   } catch (err) {
     const error = err as Error;
     console.log(error.message);
