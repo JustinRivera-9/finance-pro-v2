@@ -24,7 +24,8 @@ const TransactionTable = ({
   // filters out bank related transactions i.e. credit card payments, income, etc.
   const nonBankTransactions = transactions.filter(
     (item) =>
-      item.payment_channel === "online" || item.payment_channel === "in store"
+      item.personal_finance_category?.toLowerCase() !== "loan payments" ||
+      item.personal_finance_category?.toLowerCase() !== "income"
   );
 
   const handleAddTransaction = (transaction: ApprovedTransactionItem) =>
@@ -46,14 +47,14 @@ const TransactionTable = ({
 
   return (
     <>
-      {approvedTransactions.length ? (
+      {approvedTransactions.length > 0 && (
         <button
           onClick={() => handleConfirmTransactions(approvedTransactions)}
-          className="fixed bottom-24 bg-secondary text-dark bg-opacity-85 font-bold px-6 py-3 rounded-full shadow-md z-50"
+          className="fixed bottom-24 left-1/2 -translate-x-1/2 bg-secondary text-dark bg-opacity-90 font-bold px-4 py-3 rounded-full shadow-md z-50"
         >
           Confirm Transactions
         </button>
-      ) : null}
+      )}
       <div className="flex flex-col gap-2">
         <h1 className="text-2xl text-accent text-center">
           Transactions Pending
