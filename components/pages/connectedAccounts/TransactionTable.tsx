@@ -5,6 +5,7 @@ import { Separator } from "@/components/ui/separator";
 import { useState } from "react";
 import { ApprovedTransactionItem } from "@/types/plaid";
 import { handleConfirmTransactions } from "@/app/app/connected-accounts/actions";
+import { sortPlaidTransactions } from "@/lib/utils";
 
 type TransactionTableProps = {
   transactions: ApprovedTransactionItem[];
@@ -22,10 +23,13 @@ const TransactionTable = ({
   >([]);
 
   // filters out bank related transactions i.e. credit card payments, income, etc.
-  const nonBankTransactions = transactions.filter(
-    (item) =>
-      item.personal_finance_category?.toLowerCase() !== "loan payments" ||
-      item.personal_finance_category?.toLowerCase() !== "income"
+  const nonBankTransactions = sortPlaidTransactions(
+    transactions.filter(
+      (item) =>
+        item.personal_finance_category?.toLowerCase() !== "loan payments" ||
+        item.personal_finance_category?.toLowerCase() !== "income" ||
+        +item.amount > 1
+    )
   );
 
   const handleAddTransaction = (transaction: ApprovedTransactionItem) =>
@@ -35,6 +39,11 @@ const TransactionTable = ({
     setApprovedTransactions((prev) =>
       prev.filter((item) => item.transaction_id !== transaction.transaction_id)
     );
+
+  const confirmTransactions = () => {
+    handleConfirmTransactions(approvedTransactions);
+    setApprovedTransactions([]);
+  };
 
   if (!categories) {
     console.log("Error fetching categories");
@@ -49,7 +58,7 @@ const TransactionTable = ({
     <>
       {approvedTransactions.length > 0 && (
         <button
-          onClick={() => handleConfirmTransactions(approvedTransactions)}
+          onClick={confirmTransactions}
           className="fixed bottom-24 left-1/2 -translate-x-1/2 bg-secondary text-dark bg-opacity-90 font-bold px-4 py-3 rounded-full shadow-md z-50"
         >
           Confirm Transactions
@@ -60,7 +69,7 @@ const TransactionTable = ({
           Transactions Pending
         </h1>
         <ul className="flex flex-col gap-2">
-          {nonBankTransactions.map((item) => (
+          {nonBankTransactions!.map((item) => (
             <li className="flex flex-col gap-2" key={item.transaction_id}>
               <TransactionItem
                 data={item}
