@@ -1,9 +1,14 @@
 "use server";
 import { getUser } from "@/lib/supabase/actions";
-import { getExpenses, updateExpenses } from "@/lib/supabase/expenses/actions";
+import {
+  getExpenses,
+  updateExpenses,
+  updateExpensesWithConfirmedTransactions,
+} from "@/lib/supabase/expenses/actions";
 import { createClient } from "@/lib/supabase/server";
 import {
   getTransactions,
+  removeTransactionsAfterConfirming,
   updateTransactions,
 } from "@/lib/supabase/transactions/actions";
 import { capitalizePlaidCategory, formatPlaidDate } from "@/lib/utils";
@@ -12,6 +17,7 @@ import {
   ApprovedTransactionItem,
   TransactionData,
 } from "@/types/plaid";
+import { revalidatePath } from "next/cache";
 import { AccountBase } from "plaid";
 
 // Used to know if a bank has already been connected. If true -> renders dashboard / If false -> connect bank flow
@@ -226,19 +232,23 @@ export const syncTransactionsToDatabase = async (
   ////////// 7) Return updatedTranscations[] to be used on client
 };
 
+// Adds confirmed transactions from connected accounts to expenses
 export const handleConfirmTransactions = async (
   transactions: ApprovedTransactionItem[]
 ) => {
-  const supabase = createClient();
   const user = await getUser();
 
-  const { error } = await supabase.from("expenses").insert(
-    transactions.map((transaction) => {
-      return { ...transaction, user_id: user };
-    })
-  );
+  try {
+    const [addedTransactions, removedTransactions] = await Promise.all([
+      updateExpensesWithConfirmedTransactions(transactions, user!),
+      removeTransactionsAfterConfirming(transactions),
+    ]);
+
+    revalidatePath("/app/connected-accounts");
+  } catch (err) {
+    const error = err as Error;
+    console.log(error.message);
+  }
 
   // remove from transactions
-
-  if (error) console.log("Error adding bank transactions.");
 };
