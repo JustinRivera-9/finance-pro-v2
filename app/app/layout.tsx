@@ -4,6 +4,7 @@ import Header from "@/components/navigation/mobile/Header";
 import MobileNavigation from "@/components/navigation/mobile/MobileNavigation";
 import { getUser } from "@/lib/supabase/actions";
 import { UserProvider } from "@/context/UserContext";
+import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "MyFi | Dashboard",
@@ -16,6 +17,7 @@ export default async function AppLayout({
   children: React.ReactNode;
 }) {
   const user = await getUser();
+  if (!user) redirect("/");
 
   return (
     <UserProvider value={`${user}`}>
