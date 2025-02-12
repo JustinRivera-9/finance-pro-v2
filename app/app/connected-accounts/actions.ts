@@ -21,8 +21,10 @@ import { revalidatePath } from "next/cache";
 import { AccountBase } from "plaid";
 
 // Used to know if a bank has already been connected. If true -> renders dashboard / If false -> connect bank flow
-export const getItems = async (user: string) => {
+// export const getItems = async (user: string) => {
+export const getItems = async () => {
   const supabase = createClient();
+  const user = await getUser(); // added
   try {
     let { data: items, error } = await supabase
       .from("items")
