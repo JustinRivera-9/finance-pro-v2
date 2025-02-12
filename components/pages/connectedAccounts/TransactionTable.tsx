@@ -6,6 +6,7 @@ import { useState } from "react";
 import { ApprovedTransactionItem } from "@/types/plaid";
 import { handleConfirmTransactions } from "@/app/app/connected-accounts/actions";
 import { sortPlaidTransactions } from "@/lib/utils";
+import Spinner from "@/components/ui/Spinner";
 
 type TransactionTableProps = {
   transactions: ApprovedTransactionItem[];
@@ -21,6 +22,7 @@ const TransactionTable = ({
   const [approvedTransactions, setApprovedTransactions] = useState<
     ApprovedTransactionItem[]
   >([]);
+  const [isLoading, setisLoading] = useState<boolean>(false);
 
   // filters out bank related transactions i.e. credit card payments, income, etc.
   const nonBankTransactions = sortPlaidTransactions(
@@ -40,9 +42,11 @@ const TransactionTable = ({
       prev.filter((item) => item.transaction_id !== transaction.transaction_id)
     );
 
-  const confirmTransactions = () => {
-    handleConfirmTransactions(approvedTransactions);
+  const confirmTransactions = async () => {
+    setisLoading(true);
+    await handleConfirmTransactions(approvedTransactions);
     setApprovedTransactions([]);
+    setisLoading(false);
   };
 
   if (!categories) {
@@ -59,9 +63,17 @@ const TransactionTable = ({
       {approvedTransactions.length > 0 && (
         <button
           onClick={confirmTransactions}
-          className="fixed bottom-24 left-1/2 -translate-x-1/2 bg-secondary text-dark bg-opacity-90 font-bold px-4 py-3 rounded-full shadow-md z-50"
+          className="fixed bottom-24 left-1/2 -translate-x-1/2 bg-secondary text-dark bg-opacity-90 font-bold w-3/5 py-3 rounded-full shadow-md z-50"
         >
-          Confirm Transactions
+          {isLoading ? (
+            <Spinner
+              size="md"
+              message="Adding transactions"
+              orientation="horizontal"
+            />
+          ) : (
+            "Confirm Transactions"
+          )}
         </button>
       )}
       <div className="flex flex-col gap-2">
