@@ -11,8 +11,8 @@ export const getUser = async () => {
       error,
     } = await supabase.auth.getUser();
 
-    if (!user?.id) throw Error("There was a problem getting user ID");
     console.log("Error:", error);
+    if (!user?.id) throw Error("There was a problem getting user ID");
     return user.id;
   } catch (err) {
     const error = err as Error;
