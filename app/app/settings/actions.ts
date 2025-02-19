@@ -21,7 +21,7 @@ export const updatePersonalInfoAction = async (formData: FormData) => {
 
   const updateName = async () => {
     const { error: nameError } = await supabase
-      .from("account")
+      .from("settings")
       .update({ name })
       .eq("user_id", user_id);
 
