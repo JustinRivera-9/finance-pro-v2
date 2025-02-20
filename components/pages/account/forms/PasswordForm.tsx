@@ -42,7 +42,7 @@ const PasswordForm = () => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-2 w-10/12 mx-auto"
+        className="flex flex-col gap-2 w-10/12 mx-auto pb-4"
       >
         {/* CURRENT PASSWORD FIELD */}
         <FormField

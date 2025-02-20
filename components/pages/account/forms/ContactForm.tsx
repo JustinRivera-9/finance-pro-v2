@@ -40,7 +40,7 @@ const ContactForm = () => {
   return (
     <Form {...form}>
       <form
-        className="flex flex-col gap-4 w-10/12 mx-auto"
+        className="flex flex-col gap-4 w-10/12 mx-auto pb-4"
         // @ts-ignore
         action={submitContactFormAction}
       >
@@ -85,7 +85,7 @@ const ContactForm = () => {
             <FormItem>
               <FormControl>
                 <Textarea
-                  placeholder="Let us know how we are doing or help improve the experience by reporting bugs and ideas for feature imporovements!"
+                  placeholder="Let us know how we are doing or help improve the experience!"
                   className="resize-none"
                   {...field}
                 />

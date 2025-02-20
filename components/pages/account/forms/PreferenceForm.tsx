@@ -34,7 +34,7 @@ const PreferenceForm = () => {
     <Form {...form}>
       <form
         action={updatePreferencesAction}
-        className="flex flex-col gap-4 w-10/12 mx-auto"
+        className="flex flex-col gap-4 w-10/12 mx-auto pb-4"
       >
         {/* EMAIL NOTIFICATIONS SWITCH */}
         <FormField

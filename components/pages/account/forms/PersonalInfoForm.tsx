@@ -44,7 +44,7 @@ const PersonalInfoForm = ({ data }: PersonalInfoFormProps) => {
       <Form {...form}>
         <form
           action={updatePersonalInfoAction}
-          className="flex flex-col gap-2 w-10/12 mx-auto"
+          className="flex flex-col gap-2 w-10/12 mx-auto pb-4"
         >
           {/* FULL NAME INPUT */}
           <FormField
