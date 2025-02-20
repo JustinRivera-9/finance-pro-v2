@@ -6,6 +6,7 @@ import { getAccounts, getItems } from "@/app/app/connected-accounts/actions";
 import { getUser } from "@/lib/supabase/actions";
 import ManageAccountButton from "./ManageAccountButton";
 import { Button } from "@/components/ui/button";
+import ConnectAccountBtn from "@/components/plaid/ConnectAccountBtn";
 
 const ManageAccountSection = async () => {
   // Fetch array of items and access tokens for each item
@@ -14,6 +15,21 @@ const ManageAccountSection = async () => {
     getItems(user!),
     getAccounts(user!),
   ]);
+
+  if (items?.access_token || !accounts?.length) {
+    return (
+      <FormDrawer
+        title="Manage Connected Accounts"
+        description="Add or remove connected accounts."
+        triggerLabel={<AccountOption>Manage Connected Accounts</AccountOption>}
+      >
+        <div className="flex flex-col gap-4 items-center py-2">
+          <p className="text-lg">Connect your first bank account below!</p>
+          <ConnectAccountBtn user={user!} />
+        </div>
+      </FormDrawer>
+    );
+  }
 
   return (
     <FormDrawer
