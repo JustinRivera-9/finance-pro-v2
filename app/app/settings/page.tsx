@@ -5,6 +5,7 @@ import LogoutButton from "@/components/pages/account/LogoutButton";
 import PasswordSection from "@/components/pages/account/PasswordSection";
 import PreferenceSection from "@/components/pages/account/PreferenceSection";
 import ContactSection from "@/components/pages/account/ContactSection";
+import ManageAccountSection from "@/components/pages/account/ManageAccountSection";
 
 const AccountPage = () => {
   return (
@@ -12,6 +13,7 @@ const AccountPage = () => {
       <div className="flex flex-col">
         <PersonalSection />
         <PasswordSection />
+        <ManageAccountSection />
         <PreferenceSection />
         <ContactSection />
         <UpgradeAccount />
