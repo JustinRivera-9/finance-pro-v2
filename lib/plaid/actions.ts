@@ -52,8 +52,8 @@ export const syncTransactions = async (
 ) => {
   try {
     const response = await fetch(
-      // `https://finance-pro-eight.vercel.app/api/plaid/transactions-sync`,
-      `http://localhost:3000/api/plaid/transactions-sync`,
+      `https://finance-pro-eight.vercel.app/api/plaid/transactions-sync`,
+      // `http://localhost:3000/api/plaid/transactions-sync`,
       {
         method: "POST",
         headers: {
