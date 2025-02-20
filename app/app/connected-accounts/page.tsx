@@ -1,18 +1,17 @@
 import { getItems } from "./actions";
 import ConnectAccountPage from "@/components/plaid/ConnectAccountPage";
 import PlaidDashboard from "@/components/plaid/PlaidDashboard";
-// import { getUser } from "@/lib/supabase/actions";
+import { getUser } from "@/lib/supabase/actions";
 import { PlaidItemData } from "@/types/plaid";
 
 const page = async () => {
-  // const user = await getUser();
-  // const item: PlaidItemData = await getItems(user);
-  const item: PlaidItemData = await getItems();
+  const user = await getUser();
+  const item: PlaidItemData = await getItems(user || "");
 
   if (item?.item_id) {
-    return <PlaidDashboard user={item.user_id} item={item} />;
+    return <PlaidDashboard user={user || ""} item={item} />;
   } else {
-    return <ConnectAccountPage user={item.user_id} />;
+    return <ConnectAccountPage user={user || ""} />;
   }
 };
 

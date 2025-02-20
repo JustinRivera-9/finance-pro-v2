@@ -1,5 +1,4 @@
 import ConnectAccountBtn from "./ConnectAccountBtn";
-import { getUser } from "@/lib/supabase/actions";
 
 const ConnectAccountPage = async ({ user }: { user: string }) => {
   return (
